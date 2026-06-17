@@ -55,7 +55,8 @@ class AdminPanelProvider extends PanelProvider
             ]);
 
         if ($settings) {
-            $panel->brandName(ucfirst($settings->app_name));
+            $env = ucfirst(app()->environment());
+            $panel->brandName(ucfirst($settings->app_name) . " (Admin | {$env})");
         }
 
         return $panel;

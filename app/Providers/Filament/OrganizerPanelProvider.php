@@ -62,7 +62,7 @@ class OrganizerPanelProvider extends PanelProvider
             ]);
 
         if ($settings) {
-            $panel->brandName(ucfirst($settings->app_name));
+            $panel->brandName(ucfirst($settings->app_name) . ' (Organizer)');
         }
 
         return $panel;
