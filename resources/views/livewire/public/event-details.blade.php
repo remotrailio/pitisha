@@ -3,19 +3,19 @@
         <section class="bg-white min-h-[70vh] flex items-center overflow-hidden">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-10 lg:py-0">
                 <div class="flex flex-col lg:flex-row items-start justify-between gap-10 lg:gap-16 min-h-[70vh] pt-0 lg:pt-20">
-                    <div class="w-full lg:w-2/5 flex flex-col gap-6 text-gray-900 order-2 lg:order-1 pb-10 lg:pb-0 pt-10">
-                        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight text-gray-900">{{ $event->title }}</h1>
+                    <div class="w-full lg:w-2/5 flex flex-col gap-6 text-slate-900 order-2 lg:order-1 pb-10 lg:pb-0 pt-10">
+                        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight text-slate-900">{{ $event->title }}</h1>
 
                         @if ($event->excerpt)
-                            <p class="text-sm sm:text-base text-gray-500 leading-relaxed">{{ $event->excerpt }}</p>
+                            <p class="text-sm sm:text-base text-slate-500 leading-relaxed">{{ $event->excerpt }}</p>
                         @endif
 
                         <div class="flex flex-col gap-3">
-                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                            <div class="flex items-center gap-2 text-sm text-slate-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round"
-                                    class="lucide lucide-calendar h-4 w-4 text-amber-600 flex-shrink-0">
+                                    class="lucide lucide-calendar h-4 w-4 text-blue-600 shrink-0">
                                     <path d="M8 2v4"></path>
                                     <path d="M16 2v4"></path>
                                     <rect width="18" height="18" x="3" y="4" rx="2"></rect>
@@ -34,11 +34,11 @@
                                 </span>
                             </div>
 
-                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                            <div class="flex items-center gap-2 text-sm text-slate-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round"
-                                    class="lucide lucide-map-pin h-4 w-4 text-amber-600 flex-shrink-0">
+                                    class="lucide lucide-map-pin h-4 w-4 text-blue-600 shrink-0">
                                     <path
                                         d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0">
                                     </path>
@@ -55,26 +55,27 @@
 
                             @if ($event->category)
                                 <a href="{{ route('events.index', ['category' => $event->category->slug]) }}"
-                                    class="inline-flex items-center rounded-full bg-amber-50 border border-amber-200 px-3 py-1 text-xs font-semibold text-amber-700 hover:bg-amber-100 transition-colors w-fit">
+                                    class="inline-flex items-center rounded-full bg-indigo-50 border border-indigo-100 px-3 py-1 text-xs font-semibold text-blue-700 hover:bg-indigo-100 transition-colors w-fit">
                                     {{ $event->category->name }}
                                 </a>
                             @endif
                         </div>
 
-                        <div class="flex flex-col sm:flex-row gap-3 pt-1">
-                            <button data-slot="button"
-                                class="inline-flex items-center justify-center gap-2 whitespace-nowrap disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-10 rounded-md px-6 has-[&gt;svg]:px-4 flex-1 bg-amber-500 hover:bg-amber-400 text-white font-bold text-base shadow-lg shadow-amber-500/25 transition-all duration-200 hover:-translate-y-0.5">Book
-                                Tickets<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        <div class="pt-1">
+                            <a href="#tickets"
+                                class="inline-flex items-center justify-center gap-2 w-full h-11 rounded-xl px-6 bg-blue-600 hover:bg-violet-500 text-white font-bold text-base shadow-lg shadow-blue-600/25 transition-all duration-200 hover:-translate-y-0.5">
+                                Book Tickets
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round"
-                                    class="lucide lucide-arrow-right h-4 w-4 ml-2">
+                                    class="lucide lucide-arrow-right h-4 w-4">
                                     <path d="M5 12h14"></path>
                                     <path d="m12 5 7 7-7 7"></path>
                                 </svg>
-                            </button>
+                            </a>
                         </div>
                         
-                        <div class="pt-1 border-t border-gray-100">
+                        <div class="pt-1 border-t border-slate-200">
                             @php
                                 $shareUrl = urlencode(url()->current());
                                 $shareTitle = urlencode('Check out this event: ' . $event->title);
@@ -189,13 +190,6 @@
                     <span class="text-slate-600 line-clamp-1">{{ $event->title }}</span>
                 </nav>
 
-                {{-- Title --}}
-                <h1 class="text-3xl font-extrabold text-slate-900 sm:text-4xl">{{ $event->title }}</h1>
-
-                @if ($event->excerpt)
-                    <p class="mt-3 text-lg text-slate-600">{{ $event->excerpt }}</p>
-                @endif
-
                 {{-- Meta badges --}}
                 @if ($event->is_online)
                     <div class="mt-6 flex flex-wrap gap-3">
@@ -238,7 +232,7 @@
             </div>
 
             {{-- Ticket sidebar --}}
-            <div class="mt-10 lg:mt-0">
+            <div id="tickets" class="mt-10 lg:mt-0">
                 <div class="sticky top-6">
                     @livewire('public.ticket-selector', ['event' => $event], key($event->id))
                 </div>

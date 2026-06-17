@@ -30,7 +30,7 @@
 
     @stack('schema-org')
 </head>
-<body class="min-h-screen bg-slate-50 font-sans text-slate-900 antialiased flex flex-col">
+<body class="min-h-screen bg-white font-sans text-slate-900 antialiased flex flex-col">
 
     <nav class="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/90 backdrop-blur-md shadow-sm"
          x-data="{ open: false }"

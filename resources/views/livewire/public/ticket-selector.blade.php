@@ -59,7 +59,7 @@
     </div>
 
     @if($hasSelection)
-    <div class="border-t border-slate-100 bg-slate-50 px-5 py-4 space-y-2 rounded-b-2xl">
+    <div class="border-t border-slate-100 bg-white px-5 py-4 space-y-2 rounded-b-2xl">
         <div class="flex justify-between text-sm text-slate-600">
             <span>Subtotal</span>
             <span>{{ $currency }} {{ number_format($subtotal, 2) }}</span>

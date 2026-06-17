@@ -67,7 +67,7 @@
 
     {{-- Processing --}}
     @elseif($state === 'processing')
-        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-8 text-center">
+        <div class="rounded-2xl border border-slate-200 bg-white p-8 text-center">
             <svg class="mx-auto mb-4 h-16 w-16 animate-pulse text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                       d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -98,7 +98,7 @@
                         </div>
                     @endforeach
                 </div>
-                <div class="space-y-2 rounded-b-2xl bg-slate-50 px-6 py-4">
+                <div class="space-y-2 rounded-b-2xl bg-white px-6 py-4">
                     <div class="flex items-center justify-between text-sm text-slate-600">
                         <span>Subtotal</span>
                         <span>{{ $currency }} {{ number_format($subtotal, 2) }}</span>

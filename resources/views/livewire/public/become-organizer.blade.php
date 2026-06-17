@@ -53,7 +53,7 @@
     </section>
 
     {{-- Why section --}}
-    <section class="py-16 bg-slate-50">
+    <section class="py-16 bg-white">
         <div class="mx-auto max-w-7xl px-4">
             <div class="text-center mb-12">
                 <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Why Organizers Choose {{ $__settings->app_name }}</h2>
@@ -164,7 +164,7 @@
     </section>
 
     {{-- CTA / Signup --}}
-    <section id="signup" class="py-20 bg-slate-50">
+    <section id="signup" class="py-20 bg-white">
         <div class="mx-auto max-w-7xl px-4">
             <div class="bg-white rounded-2xl border border-slate-200 shadow-xl shadow-slate-200/60 max-w-2xl mx-auto p-8">
                 <div class="text-center mb-8">
