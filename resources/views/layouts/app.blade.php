@@ -37,20 +37,40 @@
          x-init="$watch('open', v => document.body.classList.toggle('overflow-hidden', v))"
          @keydown.escape.window="open = false">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="flex h-16 items-center justify-between">
+            <div class="flex h-16 items-center gap-4">
 
-                <div class="flex items-center">
-                    <a href="{{ route('home') }}" class="flex items-center gap-2">
-                        @if($__settings->logo_url)
-                            <img src="{{ $__settings->logo_url }}" alt="{{ $__settings->app_name }}" class="h-8 w-auto">
-                        @else
-                            <span class="text-xl font-bold tracking-tight text-blue-600">{{ $__settings->app_name }}</span>
-                        @endif
-                    </a>
+                {{-- Logo --}}
+                <a href="{{ route('home') }}" class="flex items-center gap-2 shrink-0">
+                    @if($__settings->logo_url)
+                        <img src="{{ $__settings->logo_url }}" alt="{{ $__settings->app_name }}" class="h-8 w-auto">
+                    @else
+                        <div class="h-8 w-8 rounded-lg bg-blue-600 flex items-center justify-center shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ticket h-4 w-4 text-white">
+                                <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"></path>
+                                <path d="M13 5v2"></path><path d="M13 17v2"></path><path d="M13 11v2"></path>
+                            </svg>
+                        </div>
+                        <span class="text-xl font-bold tracking-tight text-slate-900">{{ $__settings->app_name }}</span>
+                    @endif
+                </a>
 
-                    <div class="hidden items-center gap-6 sm:flex ml-8">
-                        <a href="{{ route('events.index') }}" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Browse Events</a>
+                {{-- Centered search (md+) --}}
+                <div class="hidden md:flex flex-1 justify-center px-4">
+                    <form action="{{ route('events.index') }}" method="GET" class="relative w-full max-w-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none">
+                            <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path>
+                        </svg>
+                        <input type="search" name="q" value="{{ request('q') }}" placeholder="Search events, experiences, safaris..."
+                            class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-full text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 hover:border-slate-300 transition-all duration-150">
+                    </form>
+                </div>
 
+                {{-- Right: nav links + auth --}}
+                <div class="flex items-center gap-3 shrink-0 ml-auto md:ml-0">
+
+                    {{-- Nav links (lg+) --}}
+                    <nav class="hidden lg:flex items-center gap-5 mr-2">
+                        <a href="{{ route('events.index') }}" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Browse</a>
                         @auth
                             @if(auth()->user()->isOrganizer())
                                 <a href="{{ url('/organizer') }}" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Dashboard</a>
@@ -58,15 +78,13 @@
                                 <a href="{{ url('/admin') }}" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Admin</a>
                             @else
                                 <a href="{{ route('my.tickets') }}" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">My Tickets</a>
-                                <a href="{{ route('organizers.become') }}" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Become an Organizer</a>
+                                <a href="{{ route('organizers.become') }}" class="text-sm font-medium text-blue-600 hover:text-violet-500 transition-colors">Host an Event</a>
                             @endif
                         @else
-                            <a href="{{ route('organizers.become') }}" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Become an Organizer</a>
+                            <a href="{{ route('organizers.become') }}" class="text-sm font-medium text-blue-600 hover:text-violet-500 transition-colors">Host an Event</a>
                         @endauth
-                    </div>
-                </div>
+                    </nav>
 
-                <div class="flex items-center gap-3">
                     @auth
                         @if(!auth()->user()->isOrganizer() && !auth()->user()->isAdmin())
                         <a href="{{ route('events.index') }}"
@@ -181,6 +199,11 @@
             </div>
 
             <div class="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+                <form action="{{ route('events.index') }}" method="GET" class="relative mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+                    <input type="search" name="q" value="{{ request('q') }}" placeholder="Search events..." class="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-full text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all">
+                </form>
+
                 <a href="{{ route('events.index') }}" @click="open = false" class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors">Browse Events</a>
                 @auth
                     @if(auth()->user()->isOrganizer())
