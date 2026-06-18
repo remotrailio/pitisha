@@ -46,13 +46,12 @@
     @endif
 
     {{-- Become an Organizer CTA --}}
-    @auth
+    {{-- @auth
         @if (auth()->user()->isOrganizer() || auth()->user()->isAdmin())
-            {{-- already an organizer/admin, skip --}}
         @else
             @include('livewire.public.partials.organizer-cta')
         @endif
     @else
         @include('livewire.public.partials.organizer-cta')
-    @endauth
+    @endauth --}}
 </div>
