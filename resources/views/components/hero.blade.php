@@ -1,37 +1,324 @@
-<section class="relative py-24 md:py-32" style="background-image: linear-gradient(rgba(0,0,0,0.50), rgba(0,0,0,0.50)), url('https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=1600'); background-size: cover; background-position: center;">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="mx-auto max-w-3xl text-center text-white">
-            <h1 class="mb-6 font-heading text-4xl font-bold tracking-tight md:text-6xl">
-                Discover Amazing Events &amp; Experiences in Kenya
-            </h1>
+@if(empty($featured))
+    <section class="relative py-24 md:py-32"
+        style="background-image: linear-gradient(rgba(0,0,0,0.50), rgba(0,0,0,0.50)), url('https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=1600'); background-size: cover; background-position: center;">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="mx-auto max-w-3xl text-center text-white">
+                <h1 class="mb-6 font-heading text-4xl font-bold tracking-tight md:text-6xl">
+                    Discover Amazing Events &amp; Experiences in Kenya
+                </h1>
 
-            <p class="mb-8 text-xl text-white/90 md:text-2xl">
-                From safaris to music festivals, explore the best events and create unforgettable memories
-            </p>
+                <p class="mb-8 text-xl text-white/90 md:text-2xl">
+                    From safaris to music festivals, explore the best events and create unforgettable memories
+                </p>
 
-            <div class="relative mx-auto mb-6">
-                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                    <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <circle cx="11" cy="11" r="8" />
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.3-4.3" />
-                    </svg>
+                <div class="relative mx-auto mb-6">
+                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+                        <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="8" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.3-4.3" />
+                        </svg>
+                    </div>
+                    <form action="{{ route('events.index') }}" method="GET">
+                        <input type="search" name="q" placeholder="Search events, experiences, safaris..."
+                            class="flex w-full rounded-xl border border-slate-200 bg-white px-3 pl-12 h-12 text-base text-slate-900 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all">
+                    </form>
                 </div>
-                <form action="{{ route('events.index') }}" method="GET">
-                    <input type="search" name="q" placeholder="Search events, experiences, safaris..."
-                        class="flex w-full rounded-xl border border-slate-200 bg-white px-3 pl-12 h-12 text-base text-slate-900 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all">
-                </form>
+
+                @if ($heroCategories->isNotEmpty())
+                    <div class="flex flex-wrap items-center justify-center gap-2">
+                        @foreach ($heroCategories as $cat)
+                            <a href="{{ route('events.index', ['selectedCategories[]' => $cat->slug]) }}"
+                                class="rounded-lg border border-white/30 bg-white/20 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition-all hover:bg-white/30">
+                                {{ $cat->name }}
+                            </a>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+        </div>
+    </section>
+@else
+    <section class="py-10">
+        <div x-data="carousel()" x-show="events.length > 0" x-cloak class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <!-- Overflow container -->
+            <div class="overflow-hidden" x-ref="container" :style="`height: ${activeHeight}px`">
+                <!-- Track — transition disabled during silent clone-jump -->
+                <div :class="noTransition ? '' : 'transition-transform duration-500 ease-in-out'" class="flex items-center"
+                    :style="`transform: translateX(${trackOffset}px); gap: ${gap}px`">
+
+                    <template x-for="(event, i) in displayEvents" :key="`${event.id}-${i}`">
+                        <div class="flex-shrink-0 flex flex-col lg:flex-row rounded-2xl lg:rounded-3xl overflow-hidden bg-amber-50 border border-amber-100"
+                            :class="i === displayActive || events.length === 1 ? 'opacity-100 shadow-2xl shadow-gray-200' :
+                                'opacity-50 cursor-pointer'"
+                            :style="`width: ${cardWidth}px; height: ${(events.length === 1 || i === displayActive) ? activeHeight : inactiveHeight}px; transition: ${(events.length === 1 || noCardTransition) ? 'none' : `all ${i !== displayActive ? '400ms' : '500ms'} ease-in-out ${i !== displayActive ? '100ms' : '0ms'}`}`"
+                            @click="i > 0 && i <= events.length && i !== displayActive && goTo(i - 1)">
+
+                            <!-- Image (top on mobile, left on lg) -->
+                            <div class="w-full h-1/2 lg:w-1/2 lg:h-full flex-shrink-0 relative overflow-hidden">
+                                <img :src="event.banner_url ?? 'https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=900&q=90'" :alt="event.title" class="w-full h-full object-cover">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-r from-transparent to-amber-50/20 pointer-events-none">
+                                </div>
+                            </div>
+
+                            <!-- Content (bottom on mobile, right on lg) -->
+                            <div class="w-full lg:w-1/2 flex flex-col justify-between p-4 lg:p-8 overflow-hidden"
+                                :style="`${isLg ? 'height:' + activeHeight + 'px;' : ''} transform: scale(${(events.length === 1 || i === displayActive) ? 1 : inactiveHeight / activeHeight}); transform-origin: top left; transition: ${(events.length === 1 || noCardTransition) ? 'none' : `transform ${i !== displayActive ? '400ms' : '500ms'} ease-in-out ${i !== displayActive ? '100ms' : '0ms'}`}`">
+
+                                <div class="flex flex-col gap-2 lg:gap-3 min-h-0 overflow-hidden">
+                                    <!-- Badges -->
+                                    <div class="flex items-center gap-2 flex-wrap">
+                                        <span
+                                            class="hidden lg:inline-flex items-center gap-1 bg-amber-500 text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full shadow-sm shadow-amber-500/30">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-2.5 w-2.5" viewBox="0 0 24 24"
+                                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path
+                                                    d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
+                                                <path d="M13 5v2" />
+                                                <path d="M13 17v2" />
+                                                <path d="M13 11v2" />
+                                            </svg>
+                                            Featured Event
+                                        </span>
+                                        <span
+                                            class="inline-flex w-fit text-[10px] font-semibold px-2.5 py-1 rounded-full bg-amber-100 text-amber-700"
+                                            x-text="event.category?.name ?? ''"></span>
+                                    </div>
+
+                                    <!-- Title -->
+                                    <h2 class="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-extrabold text-gray-900 leading-tight line-clamp-2"
+                                        x-text="event.title"></h2>
+
+                                    <!-- Excerpt -->
+                                    <p class="text-gray-500 text-sm leading-relaxed line-clamp-2 hidden sm:block"
+                                        x-text="event.excerpt"></p>
+
+                                    <!-- Details -->
+                                    <ul class="flex flex-col gap-1.5 mt-1">
+                                        <li class="flex items-center gap-2 text-sm text-gray-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="h-4 w-4 text-amber-500 flex-shrink-0" viewBox="0 0 24 24"
+                                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path d="M8 2v4" />
+                                                <path d="M16 2v4" />
+                                                <rect width="18" height="18" x="3" y="4" rx="2" />
+                                                <path d="M3 10h18" />
+                                            </svg>
+                                            <span x-text="new Date(event.start_at).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})"></span>
+                                        </li>
+                                        <li class="flex items-center gap-2 text-sm text-gray-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="h-4 w-4 text-amber-500 flex-shrink-0" viewBox="0 0 24 24"
+                                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path
+                                                    d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+                                                <circle cx="12" cy="10" r="3" />
+                                            </svg>
+                                            <span x-text="event.is_online ? 'Online' : ([event.venue_name, event.city].filter(Boolean).join(', ') || 'Kenya')"></span>
+                                        </li>
+                                        <li class="flex items-center gap-2 text-sm text-gray-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="h-4 w-4 text-amber-500 flex-shrink-0" viewBox="0 0 24 24"
+                                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path
+                                                    d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
+                                                <path d="M13 5v2" />
+                                                <path d="M13 17v2" />
+                                                <path d="M13 11v2" />
+                                            </svg>
+                                            <span class="text-gray-600">Starting from <span class="font-bold text-gray-900"
+                                                    x-text="event.ticket_types?.length ? 'KES ' + Math.min(...event.ticket_types.map(t => +t.price)).toLocaleString('en-KE') : 'Free'"></span></span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <!-- CTA -->
+                                <div class="hidden lg:block">
+                                    <a :href="'/events/' + event.slug"
+                                        class="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-violet-500 text-white font-bold text-sm py-2.5 px-5 rounded-xl shadow-lg shadow-blue-600/25 transition-all duration-200 hover:-translate-y-0.5">
+                                        Book Now
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M5 12h14" />
+                                            <path d="m12 5 7 7-7 7" />
+                                        </svg>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </template>
+
+                </div>
             </div>
 
-            @if ($heroCategories->isNotEmpty())
-                <div class="flex flex-wrap items-center justify-center gap-2">
-                    @foreach ($heroCategories as $cat)
-                        <a href="{{ route('events.index', ['selectedCategories[]' => $cat->slug]) }}"
-                            class="rounded-lg border border-white/30 bg-white/20 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition-all hover:bg-white/30">
-                            {{ $cat->name }}
-                        </a>
-                    @endforeach
+            <!-- Navigation -->
+            <template x-if="events.length > 1">
+                <div class="flex items-center justify-between mt-8 mx-auto" :style="`width: ${cardWidth}px`">
+                    <button @click="goPrev()"
+                        class="flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-gray-700 transition-colors group">
+                        <span
+                            class="flex items-center justify-center h-9 w-9 rounded-full border border-gray-200 group-hover:border-gray-400 group-hover:bg-gray-50 transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m12 19-7-7 7-7" />
+                                <path d="M19 12H5" />
+                            </svg>
+                        </span>
+                    </button>
+
+                    <div class="flex items-center gap-2">
+                        <template x-for="(event, i) in events" :key="i">
+                            <button @click="goTo(i)"
+                                :class="i === active ? 'bg-blue-600 w-6 h-2.5' : 'bg-slate-200 hover:bg-slate-300 w-2.5 h-2.5'"
+                                class="rounded-full transition-all duration-300" :aria-label="`Go to event ${i + 1}`">
+                            </button>
+                        </template>
+                    </div>
+
+                    <button @click="goNext()"
+                        class="flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-gray-700 transition-colors group">
+                        <span
+                            class="flex items-center justify-center h-9 w-9 rounded-full border border-gray-200 group-hover:border-gray-400 group-hover:bg-gray-50 transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 12h14" />
+                                <path d="m12 5 7 7-7 7" />
+                            </svg>
+                        </span>
+                    </button>
                 </div>
-            @endif
+            </template>
+
         </div>
-    </div>
-</section>
+    </section>
+
+    <script>
+        function carousel() {
+            return {
+                events: @js($featured),
+
+                // displayActive is the position in displayEvents (0 = prepended clone, 1..N = real, N+1 = appended clone)
+                displayActive: 1,
+                noTransition: false,
+                noCardTransition: false,
+                cardWidth: 0,
+                activeHeight: 0,
+                inactiveHeight: 0,
+                isLg: false,
+                gap: 20,
+                trackOffset: 0,
+                _timer: null,
+
+                // Real active index (0-based) derived from displayActive
+                get active() {
+                    return (this.displayActive - 1 + this.events.length) % this.events.length;
+                },
+
+                // Track including clones: [last, ...all, first]
+                get displayEvents() {
+                    if (this.events.length <= 1) return this.events;
+                    return [
+                        this.events[this.events.length - 1],
+                        ...this.events,
+                        this.events[0],
+                    ];
+                },
+
+                init() {
+                    this.$nextTick(() => {
+                        this.updateSizes();
+                        window.addEventListener('resize', () => this.updateSizes());
+                        this.startTimer();
+                    });
+                },
+
+                startTimer() {
+                    if (this.events.length <= 1) return;
+                    clearInterval(this._timer);
+                    this._timer = setInterval(() => this.goNext(), 5000);
+                },
+
+                updateSizes() {
+                    const container = this.$refs.container;
+                    if (!container) return;
+                    const w = window.innerWidth;
+                    this.isLg = w >= 1024;
+                    const pct = w < 768 ? 1 : w < 1024 ? 0.78 : 0.72;
+                    this.gap = w < 640 ? 12 : 20;
+                    this.cardWidth = this.events.length === 1 ? container.offsetWidth : container.offsetWidth * pct;
+                    this.activeHeight = w < 640 ? 380 : w < 1024 ? 440 : 500;
+                    this.inactiveHeight = Math.round(this.activeHeight * 0.75);
+                    this.updateOffset();
+                },
+
+                updateOffset() {
+                    const container = this.$refs.container;
+                    if (!container) return;
+                    if (this.events.length <= 1) {
+                        this.trackOffset = 0;
+                        return;
+                    }
+                    const center = (container.offsetWidth - this.cardWidth) / 2;
+                    this.trackOffset = center - this.displayActive * (this.cardWidth + this.gap);
+                },
+
+                // Jump to a real index from dots/clicks
+                goTo(realIndex) {
+                    this.displayActive = realIndex + 1;
+                    this.updateOffset();
+                    this.startTimer();
+                },
+
+                goNext() {
+                    if (this.events.length <= 1) return;
+                    this.displayActive++;
+                    this.updateOffset();
+                    // Slid into appended first-card clone → silently jump to real first card
+                    if (this.displayActive === this.events.length + 1) {
+                        setTimeout(() => {
+                            this.noTransition = true;
+                            this.noCardTransition = true;
+                            this.displayActive = 1;
+                            this.updateOffset();
+                            requestAnimationFrame(() => requestAnimationFrame(() => {
+                                this.noTransition = false;
+                                this.noCardTransition = false;
+                            }));
+                        }, 510);
+                    }
+                    this.startTimer();
+                },
+
+                goPrev() {
+                    if (this.events.length <= 1) return;
+                    this.displayActive--;
+                    this.updateOffset();
+                    // Slid into prepended last-card clone → silently jump to real last card
+                    if (this.displayActive === 0) {
+                        setTimeout(() => {
+                            this.noTransition = true;
+                            this.noCardTransition = true;
+                            this.displayActive = this.events.length;
+                            this.updateOffset();
+                            requestAnimationFrame(() => requestAnimationFrame(() => {
+                                this.noTransition = false;
+                                this.noCardTransition = false;
+                            }));
+                        }, 510);
+                    }
+                    this.startTimer();
+                },
+            }
+        }
+    </script>
+
+
+@endif

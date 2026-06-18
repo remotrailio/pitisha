@@ -14,7 +14,7 @@ class Homepage extends Component
 {
     public function render()
     {
-        $featured = Event::with(['organizer', 'category'])
+        $featured = Event::with(['organizer', 'category', 'ticketTypes'])
             ->withCount('attendees')
             ->whereIn('status', [EventStatus::PUBLISHED, EventStatus::LIVE])
             ->where('visibility', EventVisibility::PUBLIC)

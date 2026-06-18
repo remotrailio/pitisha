@@ -25,6 +25,8 @@ class Event extends Model
 {
     use HasFactory;
 
+    protected $appends = ['banner_url'];
+
     protected static function booted(): void
     {
         static::updating(function (Event $event) {
