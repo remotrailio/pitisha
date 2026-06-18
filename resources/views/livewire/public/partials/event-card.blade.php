@@ -1,11 +1,13 @@
 @php
-    $lowestPrice = $event->ticketTypes->min('price');
+    $cheapestTicket = $event->ticketTypes->sortBy('price')->first();
+    $lowestPrice = $cheapestTicket?->price;
+    $currency = $cheapestTicket?->currency ?? 'KES';
     $showFeatured = $featured ?? false;
     $eventUrl = route('events.show', $event->slug);
 @endphp
 
 <a href="{{ $eventUrl }}" class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/60">
-    <div class="relative aspect-16/10 overflow-hidden">
+    <div class="relative aspect-square overflow-hidden">
         @if ($event->banner_url)
             <img src="{{ $event->banner_url }}" alt="{{ $event->title }}"
                 class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
@@ -79,12 +81,12 @@
             @endif
         </div>
 
-        <div class="pt-2 border-t border-slate-100">
+        <div class="pt-2 border-t border-slate-100 flex items-center gap-x-4">
             @if (is_null($lowestPrice) || $lowestPrice == 0)
                 <span class="text-sm font-bold text-emerald-600">Free</span>
             @else
                 <span class="text-sm text-slate-400">From</span>
-                <span class="text-lg font-semibold text-slate-900"> KES {{ number_format($lowestPrice) }}</span>
+                <span class="text-lg font-semibold text-slate-900 uppercase">{{ $currency }} {{ number_format($lowestPrice) }}</span>
             @endif
         </div>
     </div>

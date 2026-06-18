@@ -5,7 +5,7 @@
     {{-- Categories --}}
     @if ($categories->isNotEmpty())
         <section class="py-12 bg-white border-b border-slate-100">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="mx-auto max-w-360 px-4 sm:px-6 lg:px-8">
                 <h2 class="text-lg font-semibold text-slate-700 mb-6">Browse by Category</h2>
                 <div class="flex flex-wrap gap-3">
                     @foreach ($categories as $cat)
@@ -21,14 +21,16 @@
 
     {{-- Upcoming Events --}}
     @if ($upcoming->isNotEmpty())
-        <section class="py-16 bg-indigo-50">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <section class="py-16 bg-white">
+            <div class="mx-auto max-w-360 px-4 sm:px-6 lg:px-8">
                 <div class="mb-8 flex items-center justify-between">
                     <h2 class="text-2xl font-bold text-slate-900">Upcoming Events</h2>
                     <a href="{{ route('events.index', ['sort' => 'start_at']) }}"
                         class="hidden sm:inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition-all hover:border-blue-300 hover:text-blue-600 h-9">
                         View All
-                        <svg xmlns="http://www.w3.org/2000/svg" class="ml-1 h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ml-1 h-4 w-4" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            viewBox="0 0 24 24">
                             <path d="M5 12h14" />
                             <path d="m12 5 7 7-7 7" />
                         </svg>

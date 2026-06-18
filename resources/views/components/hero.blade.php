@@ -1,7 +1,7 @@
-@if($featured->isEmpty())
+@if ($featured->isEmpty())
     <section class="relative py-24 md:py-32"
         style="background-image: linear-gradient(rgba(0,0,0,0.50), rgba(0,0,0,0.50)), url('https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=1600'); background-size: cover; background-position: center;">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-360 px-4 sm:px-6 lg:px-8">
             <div class="mx-auto max-w-3xl text-center text-white">
                 <h1 class="mb-6 font-heading text-4xl font-bold tracking-tight md:text-6xl">
                     Discover Amazing Events &amp; Experiences in Kenya
@@ -12,17 +12,10 @@
                 </p>
 
                 <div class="relative mx-auto mb-6">
-                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                        <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2"
-                            viewBox="0 0 24 24">
-                            <circle cx="11" cy="11" r="8" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.3-4.3" />
-                        </svg>
-                    </div>
-                    <form action="{{ route('events.index') }}" method="GET">
-                        <input type="search" name="q" placeholder="Search events, experiences, safaris..."
-                            class="flex w-full rounded-xl border border-slate-200 bg-white px-3 pl-12 h-12 text-base text-slate-900 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all">
-                    </form>
+                    <x-search-input
+                        placeholder="Search events, experiences, safaris..."
+                        inputClass="bg-white shadow-sm py-3 text-base rounded-xl border-slate-200 focus:border-blue-500"
+                    />
                 </div>
 
                 @if ($heroCategories->isNotEmpty())
@@ -40,16 +33,16 @@
     </section>
 @else
     <section class="py-10">
-        <div x-data="carousel()" x-show="events.length > 0" x-cloak class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div x-data="carousel()" x-show="events.length > 0" x-cloak class="max-w-360 mx-auto px-4 sm:px-6 lg:px-8">
 
             <!-- Overflow container -->
             <div class="overflow-hidden" x-ref="container" :style="`height: ${activeHeight}px`">
                 <!-- Track — transition disabled during silent clone-jump -->
-                <div :class="noTransition ? '' : 'transition-transform duration-500 ease-in-out'" class="flex items-center"
-                    :style="`transform: translateX(${trackOffset}px); gap: ${gap}px`">
+                <div :class="noTransition ? '' : 'transition-transform duration-500 ease-in-out'"
+                    class="flex items-center" :style="`transform: translateX(${trackOffset}px); gap: ${gap}px`">
 
                     <template x-for="(event, i) in displayEvents" :key="`${event.id}-${i}`">
-                        <div class="flex-shrink-0 flex flex-col md:flex-row overflow-hidden bg-amber-50 border border-amber-100 cursor-pointer"
+                        <div class="shrink-0 flex flex-col md:flex-row overflow-hidden bg-slate-50 border border-slate-200 cursor-pointer"
                             :class="i === displayActive || events.length === 1 ? 'opacity-100 shadow-2xl shadow-gray-200' :
                                 'opacity-50 cursor-pointer'"
                             :style="`width: ${cardWidth}px; height: ${(events.length === 1 || i === displayActive) ? activeHeight : inactiveHeight}px; transition: ${(events.length === 1 || noCardTransition) ? 'none' : `all ${i !== displayActive ? '400ms' : '500ms'} ease-in-out ${i !== displayActive ? '100ms' : '0ms'}`}`"
@@ -57,9 +50,11 @@
 
                             <!-- Image (top on mobile, left on lg) -->
                             <div class="w-full h-1/2 md:w-1/2 md:h-full shrink-0 relative overflow-hidden">
-                                <img :src="event.banner_url ?? 'https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=900&q=90'" :alt="event.title" class="w-full h-full object-cover">
+                                <img :src="event.banner_url ??
+                                    'https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=900&q=90'"
+                                    :alt="event.title" class="w-full h-full object-cover">
                                 <div
-                                    class="absolute inset-0 bg-gradient-to-r from-transparent to-amber-50/20 pointer-events-none">
+                                    class="absolute inset-0 bg-linear-to-r from-transparent to-slate-50/20 pointer-events-none">
                                 </div>
                             </div>
 
@@ -72,9 +67,9 @@
                                     <div class="flex items-center gap-2 flex-wrap">
                                         <span
                                             class="hidden md:inline-flex items-center gap-1 bg-blue-600 text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full shadow-sm shadow-blue-600/30">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-2.5 w-2.5" viewBox="0 0 24 24"
-                                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-2.5 w-2.5"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                 <path
                                                     d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
                                                 <path d="M13 5v2" />
@@ -84,7 +79,7 @@
                                             Featured Event
                                         </span>
                                         <span
-                                            class="inline-flex w-fit text-[10px] font-semibold px-2.5 py-1 rounded-full bg-amber-100 text-amber-700"
+                                            class="inline-flex w-fit text-[10px] font-semibold px-2.5 py-1 rounded-full bg-slate-200 text-slate-700"
                                             x-text="event.category?.name ?? ''"></span>
                                     </div>
 
@@ -100,39 +95,42 @@
                                     <ul class="flex flex-col gap-1.5 mt-1">
                                         <li class="flex items-center gap-2 text-sm text-gray-600">
                                             <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="h-4 w-4 text-amber-500 flex-shrink-0" viewBox="0 0 24 24"
-                                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
+                                                class="h-4 w-4 text-blue-500 shrink-0" viewBox="0 0 24 24"
+                                                fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
                                                 <path d="M8 2v4" />
                                                 <path d="M16 2v4" />
                                                 <rect width="18" height="18" x="3" y="4" rx="2" />
                                                 <path d="M3 10h18" />
                                             </svg>
-                                            <span x-text="new Date(event.start_at).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})"></span>
+                                            <span
+                                                x-text="new Date(event.start_at).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})"></span>
                                         </li>
                                         <li class="flex items-center gap-2 text-sm text-gray-600">
                                             <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="h-4 w-4 text-amber-500 flex-shrink-0" viewBox="0 0 24 24"
-                                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
+                                                class="h-4 w-4 text-blue-500 shrink-0" viewBox="0 0 24 24"
+                                                fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
                                                 <path
                                                     d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
                                                 <circle cx="12" cy="10" r="3" />
                                             </svg>
-                                            <span x-text="event.is_online ? 'Online' : ([event.venue_name, event.city].filter(Boolean).join(', ') || 'Kenya')"></span>
+                                            <span
+                                                x-text="event.is_online ? 'Online' : ([event.venue_name, event.city].filter(Boolean).join(', ') || 'Kenya')"></span>
                                         </li>
                                         <li class="flex items-center gap-2 text-sm text-gray-600">
                                             <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="h-4 w-4 text-amber-500 flex-shrink-0" viewBox="0 0 24 24"
-                                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
+                                                class="h-4 w-4 text-blue-500 shrink-0" viewBox="0 0 24 24"
+                                                fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
                                                 <path
                                                     d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
                                                 <path d="M13 5v2" />
                                                 <path d="M13 17v2" />
                                                 <path d="M13 11v2" />
                                             </svg>
-                                            <span class="text-gray-600">Starting from <span class="font-bold text-gray-900"
+                                            <span class="text-gray-600">Starting from <span
+                                                    class="font-bold text-gray-900"
                                                     x-text="event.ticket_types?.length ? 'KES ' + Math.min(...event.ticket_types.map(t => +t.price)).toLocaleString('en-KE') : 'Free'"></span></span>
                                         </li>
                                     </ul>
@@ -144,8 +142,8 @@
                                         class="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-violet-500 text-white font-bold text-sm py-2.5 px-5 rounded-xl shadow-lg shadow-blue-600/25 transition-all duration-200 hover:-translate-y-0.5">
                                         Book Now
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24"
-                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round">
+                                            fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M5 12h14" />
                                             <path d="m12 5 7 7-7 7" />
                                         </svg>
@@ -166,8 +164,9 @@
                         class="flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-gray-700 transition-colors group">
                         <span
                             class="flex items-center justify-center h-9 w-9 rounded-full border border-gray-200 group-hover:border-gray-400 group-hover:bg-gray-50 transition-all">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
                                 <path d="m12 19-7-7 7-7" />
                                 <path d="M19 12H5" />
                             </svg>
@@ -187,8 +186,9 @@
                         class="flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-gray-700 transition-colors group">
                         <span
                             class="flex items-center justify-center h-9 w-9 rounded-full border border-gray-200 group-hover:border-gray-400 group-hover:bg-gray-50 transition-all">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
                                 <path d="M5 12h14" />
                                 <path d="m12 5 7 7-7 7" />
                             </svg>

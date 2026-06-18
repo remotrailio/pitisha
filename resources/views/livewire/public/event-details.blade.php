@@ -1,10 +1,14 @@
 <div>
     @if ($event->banner_url)
         <section class="bg-white min-h-[70vh] flex items-center overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-10 lg:py-0">
-                <div class="flex flex-col lg:flex-row items-start justify-between gap-10 lg:gap-16 min-h-[70vh] pt-0 lg:pt-20">
-                    <div class="w-full lg:w-2/5 flex flex-col gap-6 text-slate-900 order-2 lg:order-1 pb-10 lg:pb-0 pt-10">
-                        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight text-slate-900">{{ $event->title }}</h1>
+            <div class="max-w-360 mx-auto px-4 sm:px-6 lg:px-8 w-full py-10 lg:py-0">
+                <div
+                    class="flex flex-col lg:flex-row items-start justify-between gap-10 lg:gap-16 min-h-[70vh] pt-0 lg:pt-20">
+                    <div
+                        class="w-full lg:w-2/5 flex flex-col gap-6 text-slate-900 order-2 lg:order-1 pb-10 lg:pb-0 pt-10">
+                        <h1
+                            class="text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight text-slate-900">
+                            {{ $event->title }}</h1>
 
                         @if ($event->excerpt)
                             <p class="text-sm sm:text-base text-slate-500 leading-relaxed">{{ $event->excerpt }}</p>
@@ -27,17 +31,23 @@
                                         $startMonth = $event->start_at->format('F');
                                         $startYear = $event->start_at->format('Y');
                                         $endDay = $event->end_at ? $event->end_at->format('j') : null;
-                                        $sameMonth = $event->end_at && $event->end_at->format('Ym') === $event->start_at->format('Ym');
+                                        $sameMonth =
+                                            $event->end_at &&
+                                            $event->end_at->format('Ym') === $event->start_at->format('Ym');
                                     @endphp
-                                    {{ $startMonth }} {{ $startDay }}@if($event->end_at && $endDay !== $startDay)–{{ $sameMonth ? $endDay : $event->end_at->format('F j') }}@endif, {{ $startYear }}
-                                    · {{ $event->start_at->format('g:i A') }}@if($event->end_at) – {{ $event->end_at->format('g:i A') }}@endif
+                                    {{ $startMonth }} {{ $startDay }}@if ($event->end_at && $endDay !== $startDay)
+                                        –{{ $sameMonth ? $endDay : $event->end_at->format('F j') }}
+                                    @endif, {{ $startYear }}
+                                    · {{ $event->start_at->format('g:i A') }}@if ($event->end_at)
+                                        – {{ $event->end_at->format('g:i A') }}
+                                    @endif
                                 </span>
                             </div>
 
                             <div class="flex items-center gap-2 text-sm text-slate-600">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round"
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
                                     class="lucide lucide-map-pin h-4 w-4 text-blue-600 shrink-0">
                                     <path
                                         d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0">
@@ -48,7 +58,7 @@
                                     @if ($event->is_online)
                                         Online Event
                                     @else
-                                        {{ collect([$event->venue_name, $event->city])->filter()->implode(', ') ?: 'Location TBA' }}
+                                        {{ collect([$event->venue_name, $event->city])->filter()->implode(', ') ?:'Location TBA' }}
                                     @endif
                                 </span>
                             </div>
@@ -74,7 +84,7 @@
                                 </svg>
                             </a>
                         </div>
-                        
+
                         <div class="pt-1 border-t border-slate-200">
                             @php
                                 $shareUrl = urlencode(url()->current());
@@ -164,8 +174,10 @@
                     </div>
 
                     <div class="w-full lg:w-2/5 aspect-square relative order-1 lg:order-2 flex-shrink-0">
-                        <div class="absolute inset-0 rounded-2xl lg:rounded-3xl overflow-hidden shadow-xl shadow-gray-200 ring-1 ring-gray-200">
-                            <img src="{{ $event->banner_url }}" alt="{{ $event->title }}" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
+                        <div
+                            class="absolute inset-0 overflow-hidden shadow-xl shadow-gray-200">
+                            <img src="{{ $event->banner_url }}" alt="{{ $event->title }}"
+                                class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
                         </div>
                     </div>
                 </div>
@@ -173,7 +185,7 @@
         </section>
     @endif
 
-    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-360 px-4 py-10 sm:px-6 lg:px-8">
         <div class="lg:grid lg:grid-cols-3 lg:gap-12">
 
             {{-- Main content --}}
@@ -193,7 +205,8 @@
                 {{-- Meta badges --}}
                 @if ($event->is_online)
                     <div class="mt-6 flex flex-wrap gap-3">
-                        <span class="inline-flex items-center rounded-full bg-emerald-50 border border-emerald-100 px-3 py-1 text-xs font-medium text-emerald-700">
+                        <span
+                            class="inline-flex items-center rounded-full bg-emerald-50 border border-emerald-100 px-3 py-1 text-xs font-medium text-emerald-700">
                             Online
                         </span>
                     </div>
@@ -213,7 +226,8 @@
                             <img src="{{ $event->organizer->logo_url }}" alt="{{ $event->organizer->display_name }}"
                                 class="h-12 w-12 rounded-full object-cover border-2 border-white shadow-sm">
                         @else
-                            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-600 font-bold text-lg border-2 border-white shadow-sm">
+                            <div
+                                class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-600 font-bold text-lg border-2 border-white shadow-sm">
                                 {{ mb_substr($event->organizer->display_name, 0, 1) }}
                             </div>
                         @endif
