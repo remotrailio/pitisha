@@ -49,14 +49,14 @@
                     :style="`transform: translateX(${trackOffset}px); gap: ${gap}px`">
 
                     <template x-for="(event, i) in displayEvents" :key="`${event.id}-${i}`">
-                        <div class="flex-shrink-0 flex flex-col lg:flex-row rounded-2xl lg:rounded-3xl overflow-hidden bg-amber-50 border border-amber-100"
+                        <div class="flex-shrink-0 flex flex-col md:flex-row overflow-hidden bg-amber-50 border border-amber-100 cursor-pointer"
                             :class="i === displayActive || events.length === 1 ? 'opacity-100 shadow-2xl shadow-gray-200' :
                                 'opacity-50 cursor-pointer'"
                             :style="`width: ${cardWidth}px; height: ${(events.length === 1 || i === displayActive) ? activeHeight : inactiveHeight}px; transition: ${(events.length === 1 || noCardTransition) ? 'none' : `all ${i !== displayActive ? '400ms' : '500ms'} ease-in-out ${i !== displayActive ? '100ms' : '0ms'}`}`"
-                            @click="i > 0 && i <= events.length && i !== displayActive && goTo(i - 1)">
+                            @click="(i === displayActive || events.length === 1) ? window.location.href = '/events/' + event.slug : (i > 0 && i <= events.length && goTo(i - 1))">
 
                             <!-- Image (top on mobile, left on lg) -->
-                            <div class="w-full h-1/2 lg:w-1/2 lg:h-full flex-shrink-0 relative overflow-hidden">
+                            <div class="w-full h-1/2 md:w-1/2 md:h-full shrink-0 relative overflow-hidden">
                                 <img :src="event.banner_url ?? 'https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=900&q=90'" :alt="event.title" class="w-full h-full object-cover">
                                 <div
                                     class="absolute inset-0 bg-gradient-to-r from-transparent to-amber-50/20 pointer-events-none">
@@ -64,14 +64,14 @@
                             </div>
 
                             <!-- Content (bottom on mobile, right on lg) -->
-                            <div class="w-full lg:w-1/2 flex flex-col justify-between p-4 lg:p-8 overflow-hidden"
+                            <div class="w-full md:w-1/2 flex-1 flex flex-col justify-between p-4 md:p-8 overflow-hidden"
                                 :style="`${isLg ? 'height:' + activeHeight + 'px;' : ''} transform: scale(${(events.length === 1 || i === displayActive) ? 1 : inactiveHeight / activeHeight}); transform-origin: top left; transition: ${(events.length === 1 || noCardTransition) ? 'none' : `transform ${i !== displayActive ? '400ms' : '500ms'} ease-in-out ${i !== displayActive ? '100ms' : '0ms'}`}`">
 
-                                <div class="flex flex-col gap-2 lg:gap-3 min-h-0 overflow-hidden">
+                                <div class="flex flex-col gap-2 md:gap-3 min-h-0 overflow-hidden">
                                     <!-- Badges -->
                                     <div class="flex items-center gap-2 flex-wrap">
                                         <span
-                                            class="hidden lg:inline-flex items-center gap-1 bg-amber-500 text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full shadow-sm shadow-amber-500/30">
+                                            class="hidden md:inline-flex items-center gap-1 bg-blue-600 text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full shadow-sm shadow-blue-600/30">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-2.5 w-2.5" viewBox="0 0 24 24"
                                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                                 stroke-linejoin="round">
@@ -89,7 +89,7 @@
                                     </div>
 
                                     <!-- Title -->
-                                    <h2 class="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-extrabold text-gray-900 leading-tight line-clamp-2"
+                                    <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-gray-900 leading-tight line-clamp-2"
                                         x-text="event.title"></h2>
 
                                     <!-- Excerpt -->
@@ -139,7 +139,7 @@
                                 </div>
 
                                 <!-- CTA -->
-                                <div class="hidden lg:block">
+                                <div class="hidden md:block">
                                     <a :href="'/events/' + event.slug"
                                         class="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-violet-500 text-white font-bold text-sm py-2.5 px-5 rounded-xl shadow-lg shadow-blue-600/25 transition-all duration-200 hover:-translate-y-0.5">
                                         Book Now
@@ -250,11 +250,11 @@
                     const container = this.$refs.container;
                     if (!container) return;
                     const w = window.innerWidth;
-                    this.isLg = w >= 1024;
+                    this.isLg = w >= 768;
                     const pct = w < 768 ? 1 : w < 1024 ? 0.78 : 0.72;
                     this.gap = w < 640 ? 12 : 20;
                     this.cardWidth = this.events.length === 1 ? container.offsetWidth : container.offsetWidth * pct;
-                    this.activeHeight = w < 640 ? 380 : w < 1024 ? 440 : 500;
+                    this.activeHeight = w < 640 ? 450 : w < 1024 ? 440 : 500;
                     this.inactiveHeight = Math.round(this.activeHeight * 0.75);
                     this.updateOffset();
                 },
