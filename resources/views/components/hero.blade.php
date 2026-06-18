@@ -60,7 +60,7 @@
 
                             <!-- Content (bottom on mobile, right on lg) -->
                             <div class="w-full md:w-1/2 flex-1 flex flex-col justify-between p-4 md:p-8 overflow-hidden"
-                                :style="`${isLg ? 'height:' + activeHeight + 'px;' : ''} transform: scale(${(events.length === 1 || i === displayActive) ? 1 : inactiveHeight / activeHeight}); transform-origin: top left; transition: ${(events.length === 1 || noCardTransition) ? 'none' : `transform ${i !== displayActive ? '400ms' : '500ms'} ease-in-out ${i !== displayActive ? '100ms' : '0ms'}`}`">
+                                :style="`${isLg ? 'height:' + activeHeight + 'px;' : ''} transform: scale(${(events.length === 1 || i === displayActive) ? 1 : inactiveHeight / activeHeight}); transform-origin: top left; transition: ${(events.length === 1 || noCardTransition) ? 'none' : `transform ${i !== displayActive ? '500ms' : '500ms'} ease-in-out ${i !== displayActive ? '100ms' : '0ms'}`}`">
 
                                 <div class="flex flex-col gap-2 md:gap-3 min-h-0 overflow-hidden">
                                     <!-- Badges -->
