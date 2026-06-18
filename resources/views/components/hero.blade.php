@@ -1,4 +1,4 @@
-@if(empty($featured))
+@if($featured->isEmpty())
     <section class="relative py-24 md:py-32"
         style="background-image: linear-gradient(rgba(0,0,0,0.50), rgba(0,0,0,0.50)), url('https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=1600'); background-size: cover; background-position: center;">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
