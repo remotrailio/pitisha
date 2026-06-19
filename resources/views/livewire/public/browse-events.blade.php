@@ -28,21 +28,21 @@
                 {{-- Mobile toolbar --}}
                 <div class="mb-5 flex items-center justify-between lg:hidden">
                     <button @click="filtersOpen = true"
-                        class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:border-blue-300 hover:bg-blue-50 transition-all">
+                        class="inline-flex items-center gap-2 border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:border-blue-300 hover:bg-blue-50 transition-all">
                         <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 4h18M7 8h10M10 12h4" />
                         </svg>
                         Filters
                         @if ($activeFilterCount > 0)
                             <span
-                                class="flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">
+                                class="flex h-5 w-5 items-center justify-center bg-blue-600 text-xs font-bold text-white">
                                 {{ $activeFilterCount }}
                             </span>
                         @endif
                     </button>
 
                     <select wire:model.live="sort"
-                        class="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
+                        class="border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
                         <option value="start_at">Upcoming first</option>
                         <option value="published_at">Newest</option>
                     </select>
@@ -55,7 +55,7 @@
                         {{ Str::plural('event', $events->total()) }} found
                     </p>
                     <select wire:model.live="sort"
-                        class="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
+                        class="border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
                         <option value="start_at">Upcoming first</option>
                         <option value="published_at">Newest</option>
                     </select>
@@ -72,19 +72,19 @@
                     <div class="mb-5 flex flex-wrap gap-2">
                         @foreach ($selectedCategories as $slug)
                             <span
-                                class="inline-flex items-center gap-1 rounded-full bg-indigo-50 border border-indigo-200 px-3 py-1 text-xs font-medium text-blue-700">
+                                class="inline-flex items-center gap-1 bg-indigo-50 border border-indigo-200 px-3 py-1 text-xs font-medium text-blue-700">
                                 {{ $categories->firstWhere('slug', $slug)?->name ?? $slug }}
                             </span>
                         @endforeach
                         @foreach ($selectedCities as $city)
                             <span
-                                class="inline-flex items-center gap-1 rounded-full bg-indigo-50 border border-indigo-200 px-3 py-1 text-xs font-medium text-blue-700">
+                                class="inline-flex items-center gap-1 bg-indigo-50 border border-indigo-200 px-3 py-1 text-xs font-medium text-blue-700">
                                 {{ $city }}
                             </span>
                         @endforeach
                         @if ($selectedDate)
                             <span
-                                class="inline-flex items-center gap-1 rounded-full bg-indigo-50 border border-indigo-200 px-3 py-1 text-xs font-medium text-blue-700">
+                                class="inline-flex items-center gap-1 bg-indigo-50 border border-indigo-200 px-3 py-1 text-xs font-medium text-blue-700">
                                 {{ ['today' => 'Today', 'tomorrow' => 'Tomorrow', 'this_week' => 'This week', 'this_month' => 'This month'][$selectedDate] ?? '' }}
                             </span>
                         @endif
@@ -106,7 +106,7 @@
                     @if ($events->hasMorePages())
                         <div class="mt-10 flex justify-center">
                             <button wire:click="nextPage"
-                                class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-8 py-3 text-sm font-medium text-slate-700 shadow-sm transition-all hover:border-blue-300 hover:bg-blue-50">
+                                class="inline-flex items-center gap-2 border border-slate-200 bg-white px-8 py-3 text-sm font-medium text-slate-700 shadow-sm transition-all hover:border-blue-300 hover:bg-blue-50">
                                 <svg wire:loading wire:target="nextPage" class="h-4 w-4 animate-spin text-blue-600"
                                     fill="none" viewBox="0 0 24 24">
                                     <circle class="opacity-25" cx="12" cy="12" r="10"
@@ -118,7 +118,7 @@
                         </div>
                     @endif
                 @else
-                    <div class="rounded-2xl border border-dashed border-slate-200 bg-white py-24 text-center">
+                    <div class="border border-dashed border-slate-200 bg-white py-24 text-center">
                         <svg class="mx-auto mb-4 h-12 w-12 text-slate-300" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -127,7 +127,7 @@
                         <p class="text-sm font-medium text-slate-500">No events match your filters.</p>
                         <p class="mt-1 text-xs text-slate-400">Try broadening your search or removing some filters.</p>
                         <button wire:click="clearFilters"
-                            class="mt-4 rounded-xl bg-blue-600 px-5 py-2 text-xs font-semibold text-white hover:bg-violet-500 transition-colors">
+                            class="mt-4 bg-blue-600 px-5 py-2 text-xs font-semibold text-white hover:bg-violet-500 transition-colors">
                             Clear Filters
                         </button>
                     </div>
@@ -152,7 +152,7 @@
             <div class="flex items-center justify-between border-b border-slate-100 px-4 py-4">
                 <h2 class="text-base font-semibold text-slate-900">Filters</h2>
                 <button @click="filtersOpen = false"
-                    class="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors">
+                    class="flex h-8 w-8 items-center justify-center text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors">
                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="h-5 w-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
@@ -168,7 +168,7 @@
 
             <div class="border-t border-slate-100 p-4">
                 <button @click="filtersOpen = false"
-                    class="w-full rounded-xl bg-blue-600 py-3 text-sm font-semibold text-white hover:bg-violet-500 transition-colors">
+                    class="w-full bg-blue-600 py-3 text-sm font-semibold text-white hover:bg-violet-500 transition-colors">
                     Show {{ $events->total() }} {{ Str::plural('Event', $events->total()) }}
                 </button>
             </div>

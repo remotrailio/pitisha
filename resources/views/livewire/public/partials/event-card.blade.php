@@ -6,7 +6,7 @@
     $eventUrl = route('events.show', $event->slug);
 @endphp
 
-<a href="{{ $eventUrl }}" class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/60">
+<a href="{{ $eventUrl }}" class="group flex flex-col overflow-hidden border border-slate-200 bg-white cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/60">
     <div class="relative aspect-square overflow-hidden">
         @if ($event->banner_url)
             <img src="{{ $event->banner_url }}" alt="{{ $event->title }}"
@@ -21,13 +21,13 @@
         @endif
 
         @if ($showFeatured)
-            <span class="absolute left-3 top-3 rounded-full bg-blue-600 px-2.5 py-1 text-xs font-semibold text-white shadow-sm">
+            <span class="absolute left-3 top-3 bg-blue-600 px-2.5 py-1 text-xs font-semibold text-white shadow-sm">
                 Featured
             </span>
         @endif
 
         @if ($event->category)
-            <span class="absolute right-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-xs font-semibold text-slate-700 backdrop-blur-sm shadow-sm">
+            <span class="absolute right-3 top-3 bg-white/90 px-2.5 py-1 text-xs font-semibold text-slate-700 backdrop-blur-sm shadow-sm">
                 {{ $event->category->name }}
             </span>
         @endif
