@@ -3,7 +3,7 @@
     @include('components.hero')
 
     {{-- Categories --}}
-    @if ($categories->isNotEmpty())
+    {{-- @if ($categories->isNotEmpty())
         <section class="py-12 bg-white border-b border-slate-100">
             <div class="mx-auto max-w-360 px-4 sm:px-6 lg:px-8">
                 <h2 class="text-lg font-semibold text-slate-700 mb-6">Browse by Category</h2>
@@ -17,7 +17,7 @@
                 </div>
             </div>
         </section>
-    @endif
+    @endif --}}
 
     {{-- Upcoming Events --}}
     @if ($upcoming->isNotEmpty())
