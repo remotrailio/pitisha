@@ -26,14 +26,8 @@
                 <div class="mb-8 flex items-center justify-between">
                     <h2 class="text-2xl font-bold text-slate-900">Upcoming Events</h2>
                     <a href="{{ route('events.index', ['sort' => 'start_at']) }}"
-                        class="hidden sm:inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition-all hover:border-blue-300 hover:text-blue-600 h-9">
-                        View All
-                        <svg xmlns="http://www.w3.org/2000/svg" class="ml-1 h-4 w-4" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            viewBox="0 0 24 24">
-                            <path d="M5 12h14" />
-                            <path d="m12 5 7 7-7 7" />
-                        </svg>
+                        class="hidden sm:inline-flex items-center justify-center gap-2 whitespace-nowrap px-4 py-2 text-sm font-medium text-slate-700 transition-all hover:border-blue-300 hover:text-blue-600 h-9">
+                        View More
                     </a>
                 </div>
                 <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
