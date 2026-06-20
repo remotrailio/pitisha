@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DownloadTicketsPdfController;
 use App\Http\Controllers\OrganizerOnboardingController;
 use App\Http\Controllers\TicketVerificationController;
 use App\Livewire\My\MyOrders;
@@ -34,6 +35,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::get('/checkout/{slug}', CheckoutStart::class)->name('checkout.start');
 Route::get('/orders/{uuid}/confirmation', OrderConfirmation::class)->name('orders.confirmation');
+Route::get('/orders/{uuid}/tickets/download', DownloadTicketsPdfController::class)->name('orders.tickets.download');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/become-organizer', [OrganizerOnboardingController::class, 'show'])
