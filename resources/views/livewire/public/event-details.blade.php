@@ -1,7 +1,7 @@
 <div>
     @if ($event->banner_url)
         <section class="bg-white min-h-[70vh] flex items-center overflow-hidden">
-            <div class="max-w-360 mx-auto px-4 sm:px-6 lg:px-8 w-full py-10 lg:py-0">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-10 lg:py-0">
                 <div
                     class="flex flex-col lg:flex-row items-start justify-between gap-10 lg:gap-16 min-h-[70vh] pt-0 lg:pt-20">
                     <div
@@ -19,7 +19,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round"
-                                    class="lucide lucide-calendar h-4 w-4 text-blue-600 shrink-0">
+                                    class="lucide lucide-calendar h-4 w-4 text-teal-600 shrink-0">
                                     <path d="M8 2v4"></path>
                                     <path d="M16 2v4"></path>
                                     <rect width="18" height="18" x="3" y="4" rx="2"></rect>
@@ -48,7 +48,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round"
-                                    class="lucide lucide-map-pin h-4 w-4 text-blue-600 shrink-0">
+                                    class="lucide lucide-map-pin h-4 w-4 text-teal-600 shrink-0">
                                     <path
                                         d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0">
                                     </path>
@@ -65,7 +65,7 @@
 
                             @if ($event->category)
                                 <a href="{{ route('events.index', ['category' => $event->category->slug]) }}"
-                                    class="inline-flex items-center rounded-full bg-indigo-50 border border-indigo-100 px-3 py-1 text-xs font-semibold text-blue-700 hover:bg-indigo-100 transition-colors w-fit">
+                                    class="inline-flex items-center rounded-full bg-teal-50 border border-teal-100 px-3 py-1 text-xs font-semibold text-teal-700 hover:bg-teal-100 transition-colors w-fit">
                                     {{ $event->category->name }}
                                 </a>
                             @endif
@@ -73,7 +73,7 @@
 
                         <div class="pt-1">
                             <a href="#tickets"
-                                class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-blue-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-violet-500 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
+                                class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-teal-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-teal-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                                 Book Tickets
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -174,8 +174,7 @@
                     </div>
 
                     <div class="w-full lg:w-2/5 aspect-square relative order-1 lg:order-2 flex-shrink-0">
-                        <div
-                            class="absolute inset-0 overflow-hidden shadow-xl shadow-gray-200">
+                        <div class="absolute inset-0 overflow-hidden shadow-xl shadow-gray-200">
                             <img src="{{ $event->banner_url }}" alt="{{ $event->title }}"
                                 class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
                         </div>
@@ -185,7 +184,7 @@
         </section>
     @endif
 
-    <div class="mx-auto max-w-360 px-4 py-10 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div class="lg:grid lg:grid-cols-3 lg:gap-12">
 
             {{-- Main content --}}
@@ -227,14 +226,14 @@
                                 class="h-12 w-12 rounded-full object-cover border-2 border-white shadow-sm">
                         @else
                             <div
-                                class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-600 font-bold text-lg border-2 border-white shadow-sm">
+                                class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-teal-100 text-teal-600 font-bold text-lg border-2 border-white shadow-sm">
                                 {{ mb_substr($event->organizer->display_name, 0, 1) }}
                             </div>
                         @endif
                         <div>
                             <p class="text-xs text-gray-400 uppercase tracking-wide">Organised by</p>
                             <a href="{{ route('organizers.show', $event->organizer->slug) }}"
-                                class="font-semibold text-gray-900 hover:text-blue-600 transition-colors">
+                                class="font-semibold text-gray-900 hover:text-teal-600 transition-colors">
                                 {{ $event->organizer->display_name }}
                             </a>
                             @if ($event->organizer->bio)

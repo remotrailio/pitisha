@@ -16,7 +16,7 @@
 
         /* ── Header ─────────────────────────────────────────────────────── */
         .header {
-            background: #4f46e5;
+            background: #0d9488;
             color: #ffffff;
             padding: 28px 36px;
             margin-bottom: 24px;
@@ -76,7 +76,7 @@
         .ticket-type {
             display: inline-block;
             background: #ede9fe;
-            color: #4f46e5;
+            color: #0d9488;
             font-size: 10px;
             font-weight: 700;
             text-transform: uppercase;
@@ -138,7 +138,7 @@
             font-size: 13px;
             font-weight: 700;
             letter-spacing: 2px;
-            color: #4f46e5;
+            color: #0d9488;
         }
 
         .ticket-num {
@@ -177,7 +177,7 @@
 
         .summary-total {
             font-weight: 700;
-            color: #4f46e5;
+            color: #0d9488;
             font-size: 14px;
         }
 
@@ -190,7 +190,7 @@
             line-height: 1.6;
         }
 
-        .footer strong { color: #4f46e5; }
+        .footer strong { color: #0d9488; }
     </style>
 </head>
 <body>

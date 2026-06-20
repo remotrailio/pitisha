@@ -33,7 +33,7 @@ class OrganizerPanelProvider extends PanelProvider
             ->path('organizer')
             ->login(OrganizerLogin::class)
             ->colors([
-                'primary' => Color::Blue,
+                'primary' => Color::Teal,
             ])
             ->font('Open Sans')
             ->discoverResources(in: app_path('Filament/Organizer/Resources'), for: 'App\Filament\Organizer\Resources')

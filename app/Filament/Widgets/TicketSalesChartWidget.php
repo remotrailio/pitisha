@@ -47,7 +47,7 @@ class TicketSalesChartWidget extends ChartWidget
                     'label'           => 'Tickets Issued',
                     'data'            => $data,
                     'backgroundColor' => 'rgba(37, 99, 235, 0.7)',
-                    'borderColor'     => '#2563EB',
+                    'borderColor'     => '#0d9488',
                     'borderWidth'     => 1,
                 ],
             ],

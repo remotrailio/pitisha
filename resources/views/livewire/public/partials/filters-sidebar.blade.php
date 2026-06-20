@@ -13,7 +13,7 @@
 
     @if($activeFilterCount > 0)
     <button wire:click="clearFilters"
-            class="text-xs font-medium text-blue-600 hover:text-violet-500 transition-colors">
+            class="text-xs font-medium text-teal-600 hover:text-teal-700 transition-colors">
         Clear all filters ({{ $activeFilterCount }})
     </button>
     @endif
@@ -27,7 +27,7 @@
                 <input type="checkbox"
                        wire:model.live="selectedCategories"
                        value="{{ $cat->slug }}"
-                       class="h-4 w-4 cursor-pointer accent-blue-600 rounded border-gray-300">
+                       class="h-4 w-4 cursor-pointer accent-teal-600 rounded border-gray-300">
                 <span class="text-sm text-gray-700">{{ $cat->name }}</span>
             </label>
             @endforeach
@@ -45,7 +45,7 @@
                 <input type="checkbox"
                        wire:model.live="selectedCities"
                        value="{{ $city }}"
-                       class="h-4 w-4 cursor-pointer accent-blue-600 rounded border-gray-300">
+                       class="h-4 w-4 cursor-pointer accent-teal-600 rounded border-gray-300">
                 <span class="text-sm text-gray-700">{{ $city }}</span>
             </label>
             @endforeach
@@ -63,7 +63,7 @@
                 <input type="radio"
                        wire:model.live="selectedDate"
                        value="{{ $value }}"
-                       class="h-4 w-4 cursor-pointer accent-blue-600 border-gray-300">
+                       class="h-4 w-4 cursor-pointer accent-teal-600 border-gray-300">
                 <span class="text-sm text-gray-700">{{ $label }}</span>
             </label>
             @endforeach

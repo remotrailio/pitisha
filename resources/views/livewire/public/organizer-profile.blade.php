@@ -6,14 +6,14 @@
             : null;
     @endphp
     <div class="relative h-56 w-full overflow-hidden sm:h-64"
-        style="background: linear-gradient(135deg, #1d4ed8, #2563EB, #7c3aed);">
+        style="background: linear-gradient(135deg, #0f766e, #0d9488, #14b8a6);">
         @if ($bannerUrl)
             <img src="{{ $bannerUrl }}" alt="{{ $organizer->display_name }}"
                 class="h-full w-full object-cover opacity-60">
         @endif
     </div>
 
-    <div class="mx-auto max-w-360 px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {{-- Organizer header --}}
         <div class="relative -mt-16 mb-8 flex items-end gap-5">
             <div class="shrink-0">
@@ -22,7 +22,7 @@
                         class="h-28 w-28 rounded-2xl border-4 border-white object-cover shadow-lg shadow-gray-200/60">
                 @else
                     <div
-                        class="flex h-28 w-28 items-center justify-center rounded-2xl border-4 border-white bg-indigo-100 text-3xl font-bold text-blue-600 shadow-lg shadow-gray-200/60">
+                        class="flex h-28 w-28 items-center justify-center rounded-2xl border-4 border-white bg-teal-100 text-3xl font-bold text-teal-600 shadow-lg shadow-gray-200/60">
                         {{ mb_substr($organizer->display_name, 0, 1) }}
                     </div>
                 @endif
@@ -31,7 +31,7 @@
                 <h1 class="text-2xl font-extrabold text-gray-900">{{ $organizer->display_name }}</h1>
                 @if ($organizer->website)
                     <a href="{{ $organizer->website }}" target="_blank" rel="noopener"
-                        class="mt-1 inline-flex items-center gap-1 text-sm text-blue-600 hover:text-violet-500 transition-colors">
+                        class="mt-1 inline-flex items-center gap-1 text-sm text-teal-600 hover:text-teal-700 transition-colors">
                         {{ parse_url($organizer->website, PHP_URL_HOST) }}
                         <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

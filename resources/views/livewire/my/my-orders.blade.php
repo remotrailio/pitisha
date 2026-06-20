@@ -52,7 +52,7 @@
         @else
         <div class="rounded-xl border border-dashed border-gray-200 py-20 text-center text-gray-400">
             <p class="text-sm font-medium">No orders yet.</p>
-            <a href="{{ route('events.index') }}" class="mt-3 inline-block text-xs text-indigo-600 hover:underline">
+            <a href="{{ route('events.index') }}" class="mt-3 inline-block text-xs text-teal-600 hover:underline">
                 Browse events →
             </a>
         </div>

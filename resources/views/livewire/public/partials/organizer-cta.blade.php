@@ -1,5 +1,5 @@
-<section class="py-20" style="background: linear-gradient(135deg, #1d4ed8, #2563EB, #7c3aed);">
-    <div class="mx-auto max-w-360 px-4">
+<section class="py-20" style="background: linear-gradient(135deg, #0f766e, #0d9488, #14b8a6);">
+    <div class="mx-auto max-w-7xl px-4">
         <div class="mx-auto max-w-3xl text-center">
 
             {{-- Badge --}}
@@ -41,7 +41,7 @@
             {{-- CTA --}}
             <div class="flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <a href="{{ route('organizers.become') }}#signup"
-                    class="inline-flex items-center gap-2 rounded-xl bg-white px-8 py-3 text-sm font-semibold text-blue-700 shadow-lg transition-all hover:bg-indigo-50 hover:shadow-xl">
+                    class="inline-flex items-center gap-2 rounded-xl bg-white px-8 py-3 text-sm font-semibold text-teal-700 shadow-lg transition-all hover:bg-teal-50 hover:shadow-xl">
                     Become an Organizer
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-7-7 7 7-7 7" />

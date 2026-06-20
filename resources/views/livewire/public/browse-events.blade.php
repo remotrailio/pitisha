@@ -2,14 +2,14 @@
 
     {{-- Hero / Search header --}}
     <div class="border-b border-gray-200 bg-white shadow-sm">
-        <div class="mx-auto max-w-360 px-4 py-10 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
             <h1 class="text-3xl font-bold tracking-tight text-gray-900">Browse Events</h1>
             <p class="mt-1 text-sm text-gray-500">Find your next unforgettable experience in Kenya.</p>
         </div>
     </div>
 
     {{-- Page body --}}
-    <div class="mx-auto max-w-360 px-4 py-8 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div class="flex gap-8">
 
             {{-- Sidebar (desktop) --}}
@@ -28,21 +28,21 @@
                 {{-- Mobile toolbar --}}
                 <div class="mb-5 flex items-center justify-between lg:hidden">
                     <button @click="filtersOpen = true"
-                        class="inline-flex items-center gap-2 border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:border-blue-300 hover:bg-blue-50 transition-all">
+                        class="inline-flex items-center gap-2 border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:border-teal-300 hover:bg-teal-50 transition-all">
                         <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 4h18M7 8h10M10 12h4" />
                         </svg>
                         Filters
                         @if ($activeFilterCount > 0)
                             <span
-                                class="flex h-5 w-5 items-center justify-center bg-blue-600 text-xs font-bold text-white">
+                                class="flex h-5 w-5 items-center justify-center bg-teal-600 text-xs font-bold text-white">
                                 {{ $activeFilterCount }}
                             </span>
                         @endif
                     </button>
 
                     <select wire:model.live="sort"
-                        class="border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
+                        class="border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20">
                         <option value="start_at">Upcoming first</option>
                         <option value="published_at">Newest</option>
                     </select>
@@ -55,7 +55,7 @@
                         {{ Str::plural('event', $events->total()) }} found
                     </p>
                     <select wire:model.live="sort"
-                        class="border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
+                        class="border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20">
                         <option value="start_at">Upcoming first</option>
                         <option value="published_at">Newest</option>
                     </select>
@@ -72,19 +72,19 @@
                     <div class="mb-5 flex flex-wrap gap-2">
                         @foreach ($selectedCategories as $slug)
                             <span
-                                class="inline-flex items-center gap-1 bg-indigo-50 border border-indigo-200 px-3 py-1 text-xs font-medium text-blue-700">
+                                class="inline-flex items-center gap-1 bg-teal-50 border border-teal-200 px-3 py-1 text-xs font-medium text-teal-700">
                                 {{ $categories->firstWhere('slug', $slug)?->name ?? $slug }}
                             </span>
                         @endforeach
                         @foreach ($selectedCities as $city)
                             <span
-                                class="inline-flex items-center gap-1 bg-indigo-50 border border-indigo-200 px-3 py-1 text-xs font-medium text-blue-700">
+                                class="inline-flex items-center gap-1 bg-teal-50 border border-teal-200 px-3 py-1 text-xs font-medium text-teal-700">
                                 {{ $city }}
                             </span>
                         @endforeach
                         @if ($selectedDate)
                             <span
-                                class="inline-flex items-center gap-1 bg-indigo-50 border border-indigo-200 px-3 py-1 text-xs font-medium text-blue-700">
+                                class="inline-flex items-center gap-1 bg-teal-50 border border-teal-200 px-3 py-1 text-xs font-medium text-teal-700">
                                 {{ ['today' => 'Today', 'tomorrow' => 'Tomorrow', 'this_week' => 'This week', 'this_month' => 'This month'][$selectedDate] ?? '' }}
                             </span>
                         @endif
@@ -99,15 +99,18 @@
                 @if ($events->isNotEmpty())
                     <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
                         @foreach ($events as $event)
-                            @include('livewire.public.partials.event-card', ['event' => $event, 'purchasedEventIds' => $purchasedEventIds])
+                            @include('livewire.public.partials.event-card', [
+                                'event' => $event,
+                                'purchasedEventIds' => $purchasedEventIds,
+                            ])
                         @endforeach
                     </div>
 
                     @if ($events->hasMorePages())
                         <div class="mt-10 flex justify-center">
                             <button wire:click="nextPage"
-                                class="inline-flex items-center justify-center gap-3 rounded-full border border-gray-200 bg-white h-10 px-5 text-sm font-medium text-gray-700 text-nowrap hover:border-blue-300 hover:bg-blue-50 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
-                                <svg wire:loading wire:target="nextPage" class="h-4 w-4 animate-spin text-blue-600"
+                                class="inline-flex items-center justify-center gap-3 rounded-full border border-gray-200 bg-white h-10 px-5 text-sm font-medium text-gray-700 text-nowrap hover:border-teal-300 hover:bg-teal-50 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
+                                <svg wire:loading wire:target="nextPage" class="h-4 w-4 animate-spin text-teal-600"
                                     fill="none" viewBox="0 0 24 24">
                                     <circle class="opacity-25" cx="12" cy="12" r="10"
                                         stroke="currentColor" stroke-width="4" />
@@ -127,7 +130,7 @@
                         <p class="text-sm font-medium text-gray-500">No events match your filters.</p>
                         <p class="mt-1 text-xs text-gray-400">Try broadening your search or removing some filters.</p>
                         <button wire:click="clearFilters"
-                            class="mt-4 inline-flex items-center justify-center gap-3 rounded-full bg-blue-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-violet-500 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
+                            class="mt-4 inline-flex items-center justify-center gap-3 rounded-full bg-teal-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-teal-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                             Clear Filters
                         </button>
                     </div>
@@ -168,7 +171,7 @@
 
             <div class="border-t border-gray-100 p-4">
                 <button @click="filtersOpen = false"
-                    class="w-full bg-blue-600 py-3 text-sm font-semibold text-white hover:bg-violet-500 transition-colors">
+                    class="w-full bg-teal-600 py-3 text-sm font-semibold text-white hover:bg-teal-700 transition-colors">
                     Show {{ $events->total() }} {{ Str::plural('Event', $events->total()) }}
                 </button>
             </div>

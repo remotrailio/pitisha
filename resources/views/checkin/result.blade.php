@@ -58,7 +58,7 @@
                         </div>
                         <div class="flex justify-between px-4 py-3">
                             <span class="text-gray-500">Ticket</span>
-                            <span class="font-mono text-xs font-semibold tracking-widest text-indigo-600">{{ $ticket['ticket_code'] }}</span>
+                            <span class="font-mono text-xs font-semibold tracking-widest text-teal-600">{{ $ticket['ticket_code'] }}</span>
                         </div>
                     </div>
                 @endif

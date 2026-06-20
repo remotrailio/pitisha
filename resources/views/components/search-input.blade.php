@@ -30,13 +30,13 @@
         type="search"
         @if (!$hasModel) name="q" value="{{ request('q') }}" @endif
         placeholder="{{ $placeholder }}"
-        {{ $inputAttrs->merge(['class' => "w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 hover:border-gray-300 transition-all duration-150 {$inputClass}"]) }}
+        {{ $inputAttrs->merge(['class' => "w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 hover:border-gray-300 transition-all duration-150 {$inputClass}"]) }}
     >
 
     @if ($spinner)
         <div wire:loading wire:target="{{ $inputAttrs->whereStartsWith('wire:model')->first() }}"
             class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
-            <svg class="h-4 w-4 animate-spin text-blue-400" fill="none" viewBox="0 0 24 24">
+            <svg class="h-4 w-4 animate-spin text-teal-400" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
             </svg>

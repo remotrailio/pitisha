@@ -38,7 +38,7 @@
 
     <nav class="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/90 backdrop-blur-md shadow-sm"
         x-data="{ open: false }" x-init="$watch('open', v => document.body.classList.toggle('overflow-hidden', v))" @keydown.escape.window="open = false">
-        <div class="mx-auto max-w-360 px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="flex h-16 items-center gap-4">
 
                 {{-- Logo --}}
@@ -46,7 +46,7 @@
                     @if ($__settings->logo_url)
                         <img src="{{ $__settings->logo_url }}" alt="{{ $__settings->app_name }}" class="h-8 w-auto">
                     @else
-                        <div class="h-8 w-8 rounded-lg bg-blue-600 flex items-center justify-center shadow-sm">
+                        <div class="h-8 w-8 rounded-lg bg-teal-600 flex items-center justify-center shadow-sm">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="lucide lucide-ticket h-4 w-4 text-white">
@@ -58,8 +58,7 @@
                                 <path d="M13 11v2"></path>
                             </svg>
                         </div>
-                        <span
-                            class="text-xl font-bold tracking-tight text-gray-900">{{ $__settings->app_name }}</span>
+                        <span class="text-xl font-bold tracking-tight text-gray-900">{{ $__settings->app_name }}</span>
                     @endif
                 </a>
 
@@ -87,29 +86,17 @@
                                     class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">My
                                     Tickets</a>
                                 <a href="{{ route('organizers.become') }}"
-                                    class="text-sm font-medium text-blue-600 hover:text-violet-500 transition-colors">Host
+                                    class="text-sm font-medium text-teal-600 hover:text-teal-700 transition-colors">Host
                                     an Event</a>
                             @endif
                         @else
                             <a href="{{ route('organizers.become') }}"
-                                class="text-sm font-medium text-blue-600 hover:text-violet-500 transition-colors">Host an
+                                class="text-sm font-medium text-teal-600 hover:text-teal-700 transition-colors">Host an
                                 Event</a>
                         @endauth
                     </nav>
 
                     @auth
-                        @if (!auth()->user()->isOrganizer() && !auth()->user()->isAdmin())
-                            <a href="{{ route('events.index') }}"
-                                class="hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 transition-colors hover:text-gray-900 hover:bg-gray-100"
-                                title="Browse Events">
-                                <svg class="h-4.5 w-4.5" fill="none" stroke="currentColor" stroke-width="2"
-                                    viewBox="0 0 24 24">
-                                    <circle cx="11" cy="11" r="8" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.3-4.3" />
-                                </svg>
-                            </a>
-                        @endif
-
                         <div class="relative hidden sm:block" x-data="{ userMenu: false }">
                             <button @click="userMenu = !userMenu" @click.away="userMenu = false"
                                 class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 transition-colors hover:text-gray-900 hover:bg-gray-100"
@@ -123,8 +110,7 @@
                             </button>
 
                             <div x-show="userMenu" x-transition:enter="transition ease-out duration-100"
-                                x-transition:enter-start="opacity-0 scale-95"
-                                x-transition:enter-end="opacity-100 scale-100"
+                                x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                                 x-transition:leave="transition ease-in duration-75"
                                 x-transition:leave-start="opacity-100 scale-100"
                                 x-transition:leave-end="opacity-0 scale-95"
@@ -159,7 +145,7 @@
                             Log in
                         </a>
                         <a href="{{ route('register') }}"
-                            class="hidden sm:inline-flex rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-500 transition-colors shadow-sm">
+                            class="hidden sm:inline-flex rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-700 transition-colors shadow-sm">
                             Sign up
                         </a>
                     @endguest
@@ -198,7 +184,7 @@
                         <img src="{{ $__settings->logo_url }}" alt="{{ $__settings->app_name }}"
                             class="h-8 w-auto">
                     @else
-                        <span class="text-lg font-bold text-blue-600">{{ $__settings->app_name }}</span>
+                        <span class="text-lg font-bold text-teal-600">{{ $__settings->app_name }}</span>
                     @endif
                 </a>
                 <button @click="open = false"
@@ -251,7 +237,7 @@
                     </form>
                 @else
                     <a href="{{ route('register') }}"
-                        class="block w-full rounded-lg bg-blue-600 px-4 py-2 text-center text-sm font-medium text-white hover:bg-violet-500 transition-colors">
+                        class="block w-full rounded-lg bg-teal-600 px-4 py-2 text-center text-sm font-medium text-white hover:bg-teal-700 transition-colors">
                         Sign up
                     </a>
                 @endauth
@@ -264,12 +250,12 @@
     </main>
 
     <footer class="border-t border-gray-200 bg-white">
-        <div class="mx-auto max-w-360 px-4 py-12 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             <div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
                 @if ($__settings->logo_url)
                     <img src="{{ $__settings->logo_url }}" alt="{{ $__settings->app_name }}" class="h-8 w-auto">
                 @else
-                    <span class="text-sm font-semibold text-blue-600">{{ $__settings->app_name }}</span>
+                    <span class="text-sm font-semibold text-teal-600">{{ $__settings->app_name }}</span>
                 @endif
                 <p class="text-xs text-gray-400">&copy; {{ date('Y') }} {{ $__settings->app_name }}. All rights
                     reserved.</p>

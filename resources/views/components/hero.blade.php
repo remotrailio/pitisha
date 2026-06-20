@@ -1,7 +1,7 @@
 @if ($featured->isEmpty())
     <section class="relative py-24 md:py-32"
         style="background-image: linear-gradient(rgba(0,0,0,0.50), rgba(0,0,0,0.50)), url('https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=1600'); background-size: cover; background-position: center;">
-        <div class="mx-auto max-w-360 px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="mx-auto max-w-3xl text-center text-white">
                 <h1 class="mb-6 font-heading text-4xl font-bold tracking-tight md:text-6xl">
                     Discover Amazing Events &amp; Experiences in Kenya
@@ -12,10 +12,8 @@
                 </p>
 
                 <div class="relative mx-auto mb-6">
-                    <x-search-input
-                        placeholder="Search events, experiences, safaris..."
-                        inputClass="bg-white shadow-sm py-3 text-base rounded-xl border-gray-200 focus:border-blue-500"
-                    />
+                    <x-search-input placeholder="Search events, experiences, safaris..."
+                        inputClass="bg-white shadow-sm py-3 text-base rounded-xl border-gray-200 focus:border-teal-500" />
                 </div>
 
                 @if ($heroCategories->isNotEmpty())
@@ -33,7 +31,8 @@
     </section>
 @else
     <section class="py-10">
-        <div x-data="carousel()" x-show="events.length > 0" x-cloak class="max-w-360 mx-auto px-4 sm:px-6 lg:px-8">
+        <div x-data="carousel()" x-show="events.length > 0" x-cloak class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+            @mouseenter="stopTimer()" @mouseleave="startTimer()">
 
             <!-- Overflow container -->
             <div class="overflow-hidden" x-ref="container" :style="`height: ${activeHeight}px`">
@@ -66,7 +65,7 @@
                                     <!-- Badges -->
                                     <div class="flex items-center gap-2 flex-wrap">
                                         <span
-                                            class="hidden md:inline-flex items-center gap-1 bg-blue-600 text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full shadow-sm shadow-blue-600/30">
+                                            class="hidden md:inline-flex items-center gap-1 bg-teal-600 text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full shadow-sm shadow-teal-600/30">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-2.5 w-2.5"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -95,7 +94,7 @@
                                     <ul class="flex flex-col gap-1.5 mt-1">
                                         <li class="flex items-center gap-2 text-sm text-gray-600">
                                             <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="h-4 w-4 text-blue-500 shrink-0" viewBox="0 0 24 24"
+                                                class="h-4 w-4 text-teal-500 shrink-0" viewBox="0 0 24 24"
                                                 fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round">
                                                 <path d="M8 2v4" />
@@ -108,7 +107,7 @@
                                         </li>
                                         <li class="flex items-center gap-2 text-sm text-gray-600">
                                             <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="h-4 w-4 text-blue-500 shrink-0" viewBox="0 0 24 24"
+                                                class="h-4 w-4 text-teal-500 shrink-0" viewBox="0 0 24 24"
                                                 fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round">
                                                 <path
@@ -120,7 +119,7 @@
                                         </li>
                                         <li class="flex items-center gap-2 text-sm text-gray-600">
                                             <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="h-4 w-4 text-blue-500 shrink-0" viewBox="0 0 24 24"
+                                                class="h-4 w-4 text-teal-500 shrink-0" viewBox="0 0 24 24"
                                                 fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round">
                                                 <path
@@ -139,11 +138,11 @@
                                 <!-- CTA -->
                                 <div class="hidden md:block">
                                     <a :href="'/events/' + event.slug"
-                                        class="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-violet-500 text-white font-bold text-sm py-2.5 px-5 rounded-xl shadow-lg shadow-blue-600/25 transition-all duration-200 hover:-translate-y-0.5">
+                                        class="w-full inline-flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-bold text-sm py-2.5 px-5 rounded-xl shadow-lg shadow-teal-600/25 transition-all duration-200 hover:-translate-y-0.5">
                                         Book Now
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24"
-                                            fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round">
+                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
                                             <path d="M5 12h14" />
                                             <path d="m12 5 7 7-7 7" />
                                         </svg>
@@ -164,8 +163,8 @@
                         class="flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-gray-700 transition-colors group">
                         <span
                             class="flex items-center justify-center h-9 w-9 rounded-full border border-gray-200 group-hover:border-gray-400 group-hover:bg-gray-50 transition-all">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round">
                                 <path d="m12 19-7-7 7-7" />
                                 <path d="M19 12H5" />
@@ -176,7 +175,7 @@
                     <div class="flex items-center gap-2">
                         <template x-for="(event, i) in events" :key="i">
                             <button @click="goTo(i)"
-                                :class="i === active ? 'bg-blue-600 w-6 h-2.5' : 'bg-gray-200 hover:bg-gray-300 w-2.5 h-2.5'"
+                                :class="i === active ? 'bg-teal-600 w-6 h-2.5' : 'bg-gray-200 hover:bg-gray-300 w-2.5 h-2.5'"
                                 class="rounded-full transition-all duration-300" :aria-label="`Go to event ${i + 1}`">
                             </button>
                         </template>
@@ -246,6 +245,11 @@
                     this._timer = setInterval(() => this.goNext(), 5000);
                 },
 
+                stopTimer() {
+                    clearInterval(this._timer);
+                    this._timer = null;
+                },
+
                 updateSizes() {
                     const container = this.$refs.container;
                     if (!container) return;
@@ -254,7 +258,7 @@
                     const pct = w < 768 ? 1 : w < 1024 ? 0.78 : 0.72;
                     this.gap = w < 640 ? 12 : 20;
                     this.cardWidth = this.events.length === 1 ? container.offsetWidth : container.offsetWidth * pct;
-                    this.activeHeight = w < 640 ? 450 : w < 1024 ? 440 : 500;
+                    this.activeHeight = w < 640 ? 450 : w < 1024 ? 440 : 420;
                     this.inactiveHeight = Math.round(this.activeHeight * 0.75);
                     this.updateOffset();
                 },
