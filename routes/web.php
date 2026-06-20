@@ -32,10 +32,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/my/profile', MyProfile::class)->name('my.profile');
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/checkout/{slug}', CheckoutStart::class)->name('checkout.start');
-    Route::get('/orders/{uuid}/confirmation', OrderConfirmation::class)->name('orders.confirmation');
-});
+Route::get('/checkout/{slug}', CheckoutStart::class)->name('checkout.start');
+Route::get('/orders/{uuid}/confirmation', OrderConfirmation::class)->name('orders.confirmation');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/become-organizer', [OrganizerOnboardingController::class, 'show'])

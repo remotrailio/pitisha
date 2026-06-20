@@ -19,6 +19,10 @@ class CheckoutStart extends Component
 
     public array $items = [];
 
+    public string $name = '';
+
+    public string $email = '';
+
     public string $phone = '';
 
     // idle | processing | polling | success | failed
@@ -27,6 +31,8 @@ class CheckoutStart extends Component
     public ?string $errorMessage = null;
 
     public ?int $orderId = null;
+
+    public ?string $guestToken = null;
 
     public int $pollCount = 0;
 
@@ -43,14 +49,23 @@ class CheckoutStart extends Component
             return;
         }
 
-        $this->phone = Auth::user()->phone ?? '';
+        if (Auth::check()) {
+            $this->name  = Auth::user()->name;
+            $this->email = Auth::user()->email;
+            $this->phone = Auth::user()->phone ?? '';
+        }
     }
 
     public function pay(): void
     {
-        $this->validate([
-            'phone' => ['required', 'string', 'min:9'],
-        ]);
+        $rules = ['phone' => ['required', 'string', 'min:9']];
+
+        if (! Auth::check()) {
+            $rules['name']  = ['required', 'string', 'min:2'];
+            $rules['email'] = ['required', 'email'];
+        }
+
+        $this->validate($rules);
 
         $this->state        = 'processing';
         $this->errorMessage = null;
@@ -65,7 +80,17 @@ class CheckoutStart extends Component
 
             /** @var CheckoutService $checkout */
             $checkout = app(CheckoutService::class);
-            $order    = $checkout->checkout(Auth::user(), $this->event, $checkoutItems);
+
+            $user = Auth::check()
+                ? Auth::user()
+                : $checkout->resolveGuestUser($this->email, $this->name);
+
+            $order = $checkout->checkout($user, $this->event, $checkoutItems);
+
+            if (! Auth::check()) {
+                $this->guestToken = (string) \Illuminate\Support\Str::uuid();
+                $order->update(['guest_token' => $this->guestToken]);
+            }
 
             $this->orderId = $order->id;
 

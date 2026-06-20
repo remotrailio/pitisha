@@ -23,14 +23,16 @@
             <p class="mt-2 text-sm text-emerald-700">Your tickets are ready.</p>
             @if($order)
                 <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
-                    <a href="{{ route('orders.confirmation', $order->uuid) }}"
+                    <a href="{{ route('orders.confirmation', $order->uuid) . ($guestToken ? '?token=' . $guestToken : '') }}"
                        class="inline-flex justify-center rounded-xl bg-emerald-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700 transition-colors">
                         View tickets
                     </a>
+                    @auth
                     <a href="{{ route('my.tickets') }}"
                        class="inline-flex justify-center rounded-xl border border-emerald-300 bg-white px-6 py-2.5 text-sm font-semibold text-emerald-700 hover:bg-emerald-50 transition-colors">
                         My tickets
                     </a>
+                    @endauth
                 </div>
             @endif
         </div>
@@ -118,6 +120,38 @@
                 </div>
             </div>
 
+            {{-- Guest details --}}
+            @guest
+            <div class="rounded-2xl border border-slate-200 bg-white px-6 py-6 shadow-md shadow-slate-100 space-y-4">
+                <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Your details</h2>
+
+                <div>
+                    <label for="name" class="block text-sm font-medium text-slate-700">Full name</label>
+                    <input
+                        id="name"
+                        type="text"
+                        wire:model="name"
+                        placeholder="Jane Doe"
+                        class="mt-1.5 block w-full rounded-xl border border-slate-200 bg-slate-50 py-2.5 px-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 hover:border-slate-300 transition-all duration-150"
+                    />
+                    @error('name') <p class="mt-1.5 text-xs text-red-600">{{ $message }}</p> @enderror
+                </div>
+
+                <div>
+                    <label for="email" class="block text-sm font-medium text-slate-700">Email address</label>
+                    <input
+                        id="email"
+                        type="email"
+                        wire:model="email"
+                        placeholder="jane@example.com"
+                        class="mt-1.5 block w-full rounded-xl border border-slate-200 bg-slate-50 py-2.5 px-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 hover:border-slate-300 transition-all duration-150"
+                    />
+                    @error('email') <p class="mt-1.5 text-xs text-red-600">{{ $message }}</p> @enderror
+                    <p class="mt-1.5 text-xs text-slate-400">Your tickets will be sent to this address.</p>
+                </div>
+            </div>
+            @endguest
+
             {{-- Phone number input --}}
             <div class="rounded-2xl border border-slate-200 bg-white px-6 py-6 shadow-md shadow-slate-100">
                 <h2 class="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-500">M-Pesa payment</h2>
@@ -125,7 +159,7 @@
                 <label for="phone" class="block text-sm font-medium text-slate-700">
                     M-Pesa phone number
                 </label>
-                <div class="mt-1.5 flex rounded-xl shadow-sm ring-1 ring-slate-300 focus-within:ring-2 focus-within:ring-blue-500">
+                <div class="mt-1.5 flex rounded-xl border border-slate-200 bg-slate-50 shadow-sm focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-400 hover:border-slate-300 transition-all duration-150">
                     <span class="inline-flex items-center rounded-l-xl border-r border-slate-300 bg-slate-50 px-3 text-sm text-slate-500">
                         +254
                     </span>
@@ -134,7 +168,7 @@
                         type="tel"
                         wire:model="phone"
                         placeholder="7XXXXXXXX"
-                        class="block w-full rounded-r-xl border-0 bg-transparent py-2.5 pl-3 pr-4 text-sm text-slate-900 placeholder-slate-400 focus:ring-0"
+                        class="block w-full rounded-r-xl border-0 bg-transparent py-2.5 pl-3 pr-4 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-0"
                     />
                 </div>
                 @error('phone')

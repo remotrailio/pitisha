@@ -12,7 +12,7 @@
             <label for="email" class="block text-sm font-medium text-slate-700">Email address</label>
             <input id="email" name="email" type="email" autocomplete="email" required autofocus
                    value="{{ old('email') }}"
-                   class="mt-1 block w-full rounded-xl border bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all {{ $errors->has('email') ? 'border-red-400' : 'border-slate-300' }}">
+                   class="mt-1 block w-full rounded-xl border bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 hover:border-slate-300 transition-all duration-150 {{ $errors->has('email') ? 'border-red-400' : 'border-slate-200' }}">
             @error('email')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
         </div>
 
@@ -22,7 +22,7 @@
                 <a href="{{ route('password.request') }}" class="text-xs text-blue-600 hover:text-violet-500 transition-colors">Forgot password?</a>
             </div>
             <input id="password" name="password" type="password" autocomplete="current-password" required
-                   class="mt-1 block w-full rounded-xl border bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all {{ $errors->has('password') ? 'border-red-400' : 'border-slate-300' }}">
+                   class="mt-1 block w-full rounded-xl border bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 hover:border-slate-300 transition-all duration-150 {{ $errors->has('password') ? 'border-red-400' : 'border-slate-200' }}">
             @error('password')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
         </div>
 

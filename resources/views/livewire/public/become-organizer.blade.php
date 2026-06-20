@@ -207,7 +207,7 @@
                             <div>
                                 <label class="block text-sm font-medium text-slate-700">Full name</label>
                                 <input wire:model="name" type="text" autocomplete="name" placeholder="John Doe"
-                                    class="mt-1 block w-full rounded-xl border bg-white px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all {{ $errors->has('name') ? 'border-red-400' : 'border-slate-300' }}">
+                                    class="mt-1 block w-full rounded-xl border bg-slate-50 px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 hover:border-slate-300 transition-all duration-150 {{ $errors->has('name') ? 'border-red-400' : 'border-slate-200' }}">
                                 @error('name')
                                     <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                                 @enderror
@@ -215,7 +215,7 @@
                             <div>
                                 <label class="block text-sm font-medium text-slate-700">Organization name</label>
                                 <input wire:model.blur="display_name" type="text" placeholder="Nairobi Events Co."
-                                    class="mt-1 block w-full rounded-xl border bg-white px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all {{ $errors->has('display_name') ? 'border-red-400' : 'border-slate-300' }}">
+                                    class="mt-1 block w-full rounded-xl border bg-slate-50 px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 hover:border-slate-300 transition-all duration-150 {{ $errors->has('display_name') ? 'border-red-400' : 'border-slate-200' }}">
                                 @error('display_name')
                                     <p class="mt-1 text-xs text-red-600 flex items-center gap-1">
                                         <svg class="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor"
@@ -242,7 +242,7 @@
                         <div>
                             <label class="block text-sm font-medium text-slate-700">Email address</label>
                             <input wire:model="email" type="email" autocomplete="email" placeholder="you@example.com"
-                                class="mt-1 block w-full rounded-xl border bg-white px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all {{ $errors->has('email') ? 'border-red-400' : 'border-slate-300' }}">
+                                class="mt-1 block w-full rounded-xl border bg-slate-50 px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 hover:border-slate-300 transition-all duration-150 {{ $errors->has('email') ? 'border-red-400' : 'border-slate-200' }}">
                             @error('email')
                                 <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                             @enderror
@@ -252,7 +252,7 @@
                             <div>
                                 <label class="block text-sm font-medium text-slate-700">Password</label>
                                 <input wire:model="password" type="password" autocomplete="new-password"
-                                    class="mt-1 block w-full rounded-xl border bg-white px-3 py-2.5 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all {{ $errors->has('password') ? 'border-red-400' : 'border-slate-300' }}">
+                                    class="mt-1 block w-full rounded-xl border bg-slate-50 px-3 py-2.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 hover:border-slate-300 transition-all duration-150 {{ $errors->has('password') ? 'border-red-400' : 'border-slate-200' }}">
                                 @error('password')
                                     <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                                 @enderror
@@ -260,7 +260,7 @@
                             <div>
                                 <label class="block text-sm font-medium text-slate-700">Confirm password</label>
                                 <input wire:model="password_confirmation" type="password" autocomplete="new-password"
-                                    class="mt-1 block w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all">
+                                    class="mt-1 block w-full rounded-xl border border-slate-300 bg-slate-50 px-3 py-2.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 hover:border-slate-300 transition-all duration-150">
                             </div>
                         </div>
 

@@ -14,10 +14,16 @@ class OrderConfirmation extends Component
 
     public function mount(string $uuid): void
     {
-        $this->order = Order::with(['items.ticketType', 'tickets.orderItem.ticketType', 'event'])
-            ->where('uuid', $uuid)
-            ->where('user_id', Auth::id())
-            ->firstOrFail();
+        $query = Order::with(['items.ticketType', 'tickets.orderItem.ticketType', 'event'])
+            ->where('uuid', $uuid);
+
+        if (Auth::check()) {
+            $query->where('user_id', Auth::id());
+        } else {
+            $query->where('guest_token', request('token'));
+        }
+
+        $this->order = $query->firstOrFail();
     }
 
     public function render()
