@@ -19,16 +19,16 @@
             <div class="shrink-0">
                 @if ($organizer->logo_url)
                     <img src="{{ $organizer->logo_url }}" alt="{{ $organizer->display_name }}"
-                        class="h-28 w-28 rounded-2xl border-4 border-white object-cover shadow-lg shadow-slate-200/60">
+                        class="h-28 w-28 rounded-2xl border-4 border-white object-cover shadow-lg shadow-gray-200/60">
                 @else
                     <div
-                        class="flex h-28 w-28 items-center justify-center rounded-2xl border-4 border-white bg-indigo-100 text-3xl font-bold text-blue-600 shadow-lg shadow-slate-200/60">
+                        class="flex h-28 w-28 items-center justify-center rounded-2xl border-4 border-white bg-indigo-100 text-3xl font-bold text-blue-600 shadow-lg shadow-gray-200/60">
                         {{ mb_substr($organizer->display_name, 0, 1) }}
                     </div>
                 @endif
             </div>
             <div class="pb-2">
-                <h1 class="text-2xl font-extrabold text-slate-900">{{ $organizer->display_name }}</h1>
+                <h1 class="text-2xl font-extrabold text-gray-900">{{ $organizer->display_name }}</h1>
                 @if ($organizer->website)
                     <a href="{{ $organizer->website }}" target="_blank" rel="noopener"
                         class="mt-1 inline-flex items-center gap-1 text-sm text-blue-600 hover:text-violet-500 transition-colors">
@@ -43,10 +43,10 @@
         </div>
 
         @if ($organizer->bio)
-            <p class="mb-10 max-w-2xl text-slate-600">{{ $organizer->bio }}</p>
+            <p class="mb-10 max-w-2xl text-gray-600">{{ $organizer->bio }}</p>
         @endif
 
-        <h2 class="mb-6 text-xl font-bold text-slate-900">Upcoming Events</h2>
+        <h2 class="mb-6 text-xl font-bold text-gray-900">Upcoming Events</h2>
 
         @if ($events->isNotEmpty())
             <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -58,7 +58,7 @@
                 {{ $events->links() }}
             </div>
         @else
-            <div class="rounded-2xl border border-dashed border-slate-200 bg-white py-16 text-center text-slate-400">
+            <div class="rounded-2xl border border-dashed border-gray-200 bg-white py-16 text-center text-gray-400">
                 <p class="text-sm">No upcoming events from this organizer.</p>
             </div>
         @endif

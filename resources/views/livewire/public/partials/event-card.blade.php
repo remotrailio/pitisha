@@ -4,9 +4,10 @@
     $currency = $cheapestTicket?->currency ?? 'KES';
     $showFeatured = $featured ?? false;
     $eventUrl = route('events.show', $event->slug);
+    $hasPurchased = isset($purchasedEventIds) && $purchasedEventIds->contains($event->id);
 @endphp
 
-<a href="{{ $eventUrl }}" class="group flex flex-col overflow-hidden border border-slate-200 bg-white cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/60">
+<a href="{{ $eventUrl }}" class="group flex flex-col overflow-hidden border border-gray-200 bg-white cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-gray-200/60">
     <div class="relative aspect-square overflow-hidden">
         @if ($event->banner_url)
             <img src="{{ $event->banner_url }}" alt="{{ $event->title }}"
@@ -20,23 +21,30 @@
             </div>
         @endif
 
-        @if ($showFeatured)
+        @if ($hasPurchased)
+            <span class="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-emerald-500 px-2.5 py-1 text-xs font-semibold text-white shadow-sm">
+                <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                </svg>
+                Ticket purchased
+            </span>
+        @elseif ($showFeatured)
             <span class="absolute left-3 top-3 rounded-full bg-blue-600 px-2.5 py-1 text-xs font-semibold text-white shadow-sm">
                 Featured
             </span>
         @endif
 
         @if ($event->category)
-            <span class="absolute right-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-xs font-semibold text-slate-700 backdrop-blur-sm shadow-sm">
+            <span class="absolute right-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-xs font-semibold text-gray-700 backdrop-blur-sm shadow-sm">
                 {{ $event->category->name }}
             </span>
         @endif
     </div>
 
     <div class="p-4 space-y-3">
-        <h3 class="line-clamp-2 min-h-12 font-semibold text-slate-900">{{ $event->title }}</h3>
+        <h3 class="line-clamp-2 min-h-12 font-semibold text-gray-900">{{ $event->title }}</h3>
         <div class="space-y-2">
-            <div class="flex items-start gap-2 text-sm text-slate-500">
+            <div class="flex items-start gap-2 text-sm text-gray-500">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mt-0.5 shrink-0 text-blue-400" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                     <path d="M8 2v4"></path>
@@ -55,7 +63,7 @@
                     <span>Online</span>
                 </div>
             @elseif($event->city)
-                <div class="flex items-start gap-2 text-sm text-slate-500">
+                <div class="flex items-start gap-2 text-sm text-gray-500">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mt-0.5 shrink-0 text-blue-400" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                         <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
@@ -68,7 +76,7 @@
             @endif
 
             @if (($event->attendees_count ?? 0) > 0)
-            <div class="flex items-center gap-2 text-sm text-slate-500">
+            <div class="flex items-center gap-2 text-sm text-gray-500">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0 text-blue-400" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                     <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
@@ -81,12 +89,12 @@
             @endif
         </div>
 
-        <div class="pt-2 border-t border-slate-100 flex items-center gap-x-4">
+        <div class="pt-2 border-t border-gray-100 flex items-center gap-x-4">
             @if (is_null($lowestPrice) || $lowestPrice == 0)
                 <span class="text-sm font-bold text-emerald-600">Free</span>
             @else
-                <span class="text-sm text-slate-400">From</span>
-                <span class="text-lg font-semibold text-slate-900 uppercase">{{ $currency }} {{ number_format($lowestPrice) }}</span>
+                <span class="text-sm text-gray-400">From</span>
+                <span class="text-lg font-semibold text-gray-900 uppercase">{{ $currency }} {{ number_format($lowestPrice) }}</span>
             @endif
         </div>
     </div>

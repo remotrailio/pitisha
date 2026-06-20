@@ -6,8 +6,8 @@
                       d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
             </svg>
         </div>
-        <h2 class="text-xl font-bold text-slate-900">Check your email</h2>
-        <p class="mt-2 text-sm text-slate-500">
+        <h2 class="text-xl font-bold text-gray-900">Check your email</h2>
+        <p class="mt-2 text-sm text-gray-500">
             We sent a verification link to your email. Click the link to verify your account.
         </p>
     </div>
@@ -29,7 +29,7 @@
 
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <button type="submit" class="w-full text-center text-sm text-slate-500 hover:text-slate-700 transition-colors">
+            <button type="submit" class="w-full text-center text-sm text-gray-500 hover:text-gray-700 transition-colors">
                 Log out
             </button>
         </form>

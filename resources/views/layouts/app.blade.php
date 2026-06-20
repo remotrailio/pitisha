@@ -34,9 +34,9 @@
     @stack('schema-org')
 </head>
 
-<body class="min-h-screen bg-white font-sans text-slate-900 antialiased flex flex-col">
+<body class="min-h-screen bg-white font-sans text-gray-900 antialiased flex flex-col">
 
-    <nav class="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/90 backdrop-blur-md shadow-sm"
+    <nav class="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/90 backdrop-blur-md shadow-sm"
         x-data="{ open: false }" x-init="$watch('open', v => document.body.classList.toggle('overflow-hidden', v))" @keydown.escape.window="open = false">
         <div class="mx-auto max-w-360 px-4 sm:px-6 lg:px-8">
             <div class="flex h-16 items-center gap-4">
@@ -59,7 +59,7 @@
                             </svg>
                         </div>
                         <span
-                            class="text-xl font-bold tracking-tight text-slate-900">{{ $__settings->app_name }}</span>
+                            class="text-xl font-bold tracking-tight text-gray-900">{{ $__settings->app_name }}</span>
                     @endif
                 </a>
 
@@ -74,17 +74,17 @@
                     {{-- Nav links (lg+) --}}
                     <nav class="hidden lg:flex items-center gap-5 mr-2">
                         <a href="{{ route('events.index') }}"
-                            class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Browse</a>
+                            class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Browse</a>
                         @auth
                             @if (auth()->user()->isOrganizer())
                                 <a href="{{ url('/organizer') }}"
-                                    class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Dashboard</a>
+                                    class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Dashboard</a>
                             @elseif(auth()->user()->isAdmin())
                                 <a href="{{ url('/admin') }}"
-                                    class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Admin</a>
+                                    class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Admin</a>
                             @else
                                 <a href="{{ route('my.tickets') }}"
-                                    class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">My
+                                    class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">My
                                     Tickets</a>
                                 <a href="{{ route('organizers.become') }}"
                                     class="text-sm font-medium text-blue-600 hover:text-violet-500 transition-colors">Host
@@ -100,7 +100,7 @@
                     @auth
                         @if (!auth()->user()->isOrganizer() && !auth()->user()->isAdmin())
                             <a href="{{ route('events.index') }}"
-                                class="hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition-colors hover:text-slate-900 hover:bg-slate-100"
+                                class="hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 transition-colors hover:text-gray-900 hover:bg-gray-100"
                                 title="Browse Events">
                                 <svg class="h-4.5 w-4.5" fill="none" stroke="currentColor" stroke-width="2"
                                     viewBox="0 0 24 24">
@@ -112,7 +112,7 @@
 
                         <div class="relative hidden sm:block" x-data="{ userMenu: false }">
                             <button @click="userMenu = !userMenu" @click.away="userMenu = false"
-                                class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition-colors hover:text-slate-900 hover:bg-slate-100"
+                                class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 transition-colors hover:text-gray-900 hover:bg-gray-100"
                                 title="Account">
                                 <svg class="h-4.5 w-4.5" fill="none" stroke="currentColor" stroke-width="2"
                                     viewBox="0 0 24 24">
@@ -128,19 +128,19 @@
                                 x-transition:leave="transition ease-in duration-75"
                                 x-transition:leave-start="opacity-100 scale-100"
                                 x-transition:leave-end="opacity-0 scale-95"
-                                class="absolute right-0 top-full mt-2 w-52 origin-top-right rounded-xl border border-slate-200 bg-white shadow-lg shadow-slate-200/60 z-50"
+                                class="absolute right-0 top-full mt-2 w-52 origin-top-right rounded-xl border border-gray-200 bg-white shadow-lg shadow-gray-200/60 z-50"
                                 style="display: none;">
-                                <div class="border-b border-slate-100 px-4 py-3">
-                                    <p class="text-xs font-semibold text-slate-900 truncate">{{ auth()->user()->name }}
+                                <div class="border-b border-gray-100 px-4 py-3">
+                                    <p class="text-xs font-semibold text-gray-900 truncate">{{ auth()->user()->name }}
                                     </p>
-                                    <p class="text-xs text-slate-400 truncate">{{ auth()->user()->email }}</p>
+                                    <p class="text-xs text-gray-400 truncate">{{ auth()->user()->email }}</p>
                                 </div>
                                 <div class="p-1">
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
                                         <button type="submit"
-                                            class="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors">
-                                            <svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor"
+                                            class="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+                                            <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor"
                                                 stroke-width="2" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h6a2 2 0 012 2v1" />
@@ -155,7 +155,7 @@
 
                     @guest
                         <a href="{{ route('login') }}"
-                            class="hidden sm:inline-flex text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
+                            class="hidden sm:inline-flex text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
                             Log in
                         </a>
                         <a href="{{ route('register') }}"
@@ -165,7 +165,7 @@
                     @endguest
 
                     <button @click="open = !open"
-                        class="sm:hidden p-2 rounded-md text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors">
+                        class="sm:hidden p-2 rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-colors">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 6h16M4 12h16M4 18h16" />
@@ -181,7 +181,7 @@
         <div x-show="open" @click="open = false" x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
             x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0" class="fixed inset-0 z-40 bg-slate-900/30 backdrop-blur-sm sm:hidden"
+            x-transition:leave-end="opacity-0" class="fixed inset-0 z-40 bg-gray-900/30 backdrop-blur-sm sm:hidden"
             style="display: none;" aria-hidden="true">
         </div>
 
@@ -189,10 +189,10 @@
             x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0"
             x-transition:leave="transition ease-in duration-200 transform" x-transition:leave-start="translate-x-0"
             x-transition:leave-end="-translate-x-full"
-            class="fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-white shadow-2xl shadow-slate-200 sm:hidden min-h-screen border-r border-slate-100"
+            class="fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-white shadow-2xl shadow-gray-200 sm:hidden min-h-screen border-r border-gray-100"
             style="display: none;">
 
-            <div class="flex h-16 shrink-0 items-center justify-between border-b border-slate-100 px-4">
+            <div class="flex h-16 shrink-0 items-center justify-between border-b border-gray-100 px-4">
                 <a href="{{ route('home') }}" @click="open = false">
                     @if ($__settings->logo_url)
                         <img src="{{ $__settings->logo_url }}" alt="{{ $__settings->app_name }}"
@@ -202,7 +202,7 @@
                     @endif
                 </a>
                 <button @click="open = false"
-                    class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors">
+                    class="flex h-8 w-8 items-center justify-center rounded-md text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors">
                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="h-5 w-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
@@ -213,34 +213,34 @@
                 <x-search-input class="mb-4" />
 
                 <a href="{{ route('events.index') }}" @click="open = false"
-                    class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors">Browse
+                    class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors">Browse
                     Events</a>
                 @auth
                     @if (auth()->user()->isOrganizer())
                         <a href="{{ url('/organizer') }}" @click="open = false"
-                            class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors">Dashboard</a>
+                            class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors">Dashboard</a>
                     @elseif(auth()->user()->isAdmin())
                         <a href="{{ url('/admin') }}" @click="open = false"
-                            class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors">Admin</a>
+                            class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors">Admin</a>
                     @else
                         <a href="{{ route('my.tickets') }}" @click="open = false"
-                            class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors">My
+                            class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors">My
                             Tickets</a>
                         <a href="{{ route('organizers.become') }}" @click="open = false"
-                            class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors">Become
+                            class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors">Become
                             an Organizer</a>
                     @endif
                 @else
                     <a href="{{ route('login') }}" @click="open = false"
-                        class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors">Log
+                        class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors">Log
                         in</a>
                     <a href="{{ route('organizers.become') }}" @click="open = false"
-                        class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors">Become
+                        class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors">Become
                         an Organizer</a>
                 @endauth
             </div>
 
-            <div class="shrink-0 border-t border-slate-100 p-4">
+            <div class="shrink-0 border-t border-gray-100 p-4">
                 @auth
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
@@ -263,7 +263,7 @@
         {{ $slot }}
     </main>
 
-    <footer class="border-t border-slate-200 bg-white">
+    <footer class="border-t border-gray-200 bg-white">
         <div class="mx-auto max-w-360 px-4 py-12 sm:px-6 lg:px-8">
             <div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
                 @if ($__settings->logo_url)
@@ -271,12 +271,12 @@
                 @else
                     <span class="text-sm font-semibold text-blue-600">{{ $__settings->app_name }}</span>
                 @endif
-                <p class="text-xs text-slate-400">&copy; {{ date('Y') }} {{ $__settings->app_name }}. All rights
+                <p class="text-xs text-gray-400">&copy; {{ date('Y') }} {{ $__settings->app_name }}. All rights
                     reserved.</p>
-                <div class="flex gap-4 text-xs text-slate-400">
-                    <a href="#" class="hover:text-slate-600 transition-colors">Privacy</a>
-                    <a href="#" class="hover:text-slate-600 transition-colors">Terms</a>
-                    <a href="#" class="hover:text-slate-600 transition-colors">Contact</a>
+                <div class="flex gap-4 text-xs text-gray-400">
+                    <a href="#" class="hover:text-gray-600 transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-gray-600 transition-colors">Terms</a>
+                    <a href="#" class="hover:text-gray-600 transition-colors">Contact</a>
                 </div>
             </div>
         </div>

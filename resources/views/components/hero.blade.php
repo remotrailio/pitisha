@@ -14,7 +14,7 @@
                 <div class="relative mx-auto mb-6">
                     <x-search-input
                         placeholder="Search events, experiences, safaris..."
-                        inputClass="bg-white shadow-sm py-3 text-base rounded-xl border-slate-200 focus:border-blue-500"
+                        inputClass="bg-white shadow-sm py-3 text-base rounded-xl border-gray-200 focus:border-blue-500"
                     />
                 </div>
 
@@ -42,7 +42,7 @@
                     class="flex items-center" :style="`transform: translateX(${trackOffset}px); gap: ${gap}px`">
 
                     <template x-for="(event, i) in displayEvents" :key="`${event.id}-${i}`">
-                        <div class="shrink-0 flex flex-col md:flex-row overflow-hidden bg-slate-50 border border-slate-200 cursor-pointer"
+                        <div class="shrink-0 flex flex-col md:flex-row overflow-hidden bg-gray-50 border border-gray-200 cursor-pointer"
                             :class="i === displayActive || events.length === 1 ? 'opacity-100 shadow-2xl shadow-gray-200' :
                                 'opacity-50 cursor-pointer'"
                             :style="`width: ${cardWidth}px; height: ${(events.length === 1 || i === displayActive) ? activeHeight : inactiveHeight}px; transition: ${(events.length === 1 || noCardTransition) ? 'none' : `all ${i !== displayActive ? '400ms' : '500ms'} ease-in-out ${i !== displayActive ? '100ms' : '0ms'}`}`"
@@ -54,7 +54,7 @@
                                     'https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=900&q=90'"
                                     :alt="event.title" class="w-full h-full object-cover">
                                 <div
-                                    class="absolute inset-0 bg-linear-to-r from-transparent to-slate-50/20 pointer-events-none">
+                                    class="absolute inset-0 bg-linear-to-r from-transparent to-gray-50/20 pointer-events-none">
                                 </div>
                             </div>
 
@@ -79,7 +79,7 @@
                                             Featured Event
                                         </span>
                                         <span
-                                            class="inline-flex w-fit text-[10px] font-semibold px-2.5 py-1 rounded-full bg-slate-200 text-slate-700"
+                                            class="inline-flex w-fit text-[10px] font-semibold px-2.5 py-1 rounded-full bg-gray-200 text-gray-700"
                                             x-text="event.category?.name ?? ''"></span>
                                     </div>
 
@@ -176,7 +176,7 @@
                     <div class="flex items-center gap-2">
                         <template x-for="(event, i) in events" :key="i">
                             <button @click="goTo(i)"
-                                :class="i === active ? 'bg-blue-600 w-6 h-2.5' : 'bg-slate-200 hover:bg-slate-300 w-2.5 h-2.5'"
+                                :class="i === active ? 'bg-blue-600 w-6 h-2.5' : 'bg-gray-200 hover:bg-gray-300 w-2.5 h-2.5'"
                                 class="rounded-full transition-all duration-300" :aria-label="`Go to event ${i + 1}`">
                             </button>
                         </template>

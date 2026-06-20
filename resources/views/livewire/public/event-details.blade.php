@@ -5,17 +5,17 @@
                 <div
                     class="flex flex-col lg:flex-row items-start justify-between gap-10 lg:gap-16 min-h-[70vh] pt-0 lg:pt-20">
                     <div
-                        class="w-full lg:w-2/5 flex flex-col gap-6 text-slate-900 order-2 lg:order-1 pb-10 lg:pb-0 pt-10">
+                        class="w-full lg:w-2/5 flex flex-col gap-6 text-gray-900 order-2 lg:order-1 pb-10 lg:pb-0 pt-10">
                         <h1
-                            class="text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight text-slate-900">
+                            class="text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight text-gray-900">
                             {{ $event->title }}</h1>
 
                         @if ($event->excerpt)
-                            <p class="text-sm sm:text-base text-slate-500 leading-relaxed">{{ $event->excerpt }}</p>
+                            <p class="text-sm sm:text-base text-gray-500 leading-relaxed">{{ $event->excerpt }}</p>
                         @endif
 
                         <div class="flex flex-col gap-3">
-                            <div class="flex items-center gap-2 text-sm text-slate-600">
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round"
@@ -44,7 +44,7 @@
                                 </span>
                             </div>
 
-                            <div class="flex items-center gap-2 text-sm text-slate-600">
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round"
@@ -85,7 +85,7 @@
                             </a>
                         </div>
 
-                        <div class="pt-1 border-t border-slate-200">
+                        <div class="pt-1 border-t border-gray-200">
                             @php
                                 $shareUrl = urlencode(url()->current());
                                 $shareTitle = urlencode('Check out this event: ' . $event->title);
@@ -191,15 +191,15 @@
             {{-- Main content --}}
             <div class="lg:col-span-2">
                 {{-- Breadcrumb --}}
-                <nav class="mb-6 flex items-center gap-2 text-sm text-slate-400">
-                    <a href="{{ route('events.index') }}" class="hover:text-slate-600 transition-colors">Events</a>
+                <nav class="mb-6 flex items-center gap-2 text-sm text-gray-400">
+                    <a href="{{ route('events.index') }}" class="hover:text-gray-600 transition-colors">Events</a>
                     @if ($event->category)
                         <span>/</span>
                         <a href="{{ route('events.index', ['category' => $event->category->slug]) }}"
-                            class="hover:text-slate-600 transition-colors">{{ $event->category->name }}</a>
+                            class="hover:text-gray-600 transition-colors">{{ $event->category->name }}</a>
                     @endif
                     <span>/</span>
-                    <span class="text-slate-600 line-clamp-1">{{ $event->title }}</span>
+                    <span class="text-gray-600 line-clamp-1">{{ $event->title }}</span>
                 </nav>
 
                 {{-- Meta badges --}}
@@ -214,14 +214,14 @@
 
                 {{-- Description --}}
                 @if ($event->description)
-                    <div class="mt-10 prose prose-sm max-w-none text-slate-700">
+                    <div class="mt-10 prose prose-sm max-w-none text-gray-700">
                         {!! nl2br(e($event->description)) !!}
                     </div>
                 @endif
 
                 {{-- Organizer --}}
                 @if ($event->organizer)
-                    <div class="mt-10 rounded-2xl border border-slate-200 bg-indigo-50 p-5 flex items-center gap-4">
+                    <div class="mt-10 rounded-2xl border border-gray-200 bg-gray-50 p-5 flex items-center gap-4">
                         @if ($event->organizer->logo_url)
                             <img src="{{ $event->organizer->logo_url }}" alt="{{ $event->organizer->display_name }}"
                                 class="h-12 w-12 rounded-full object-cover border-2 border-white shadow-sm">
@@ -232,13 +232,13 @@
                             </div>
                         @endif
                         <div>
-                            <p class="text-xs text-slate-400 uppercase tracking-wide">Organised by</p>
+                            <p class="text-xs text-gray-400 uppercase tracking-wide">Organised by</p>
                             <a href="{{ route('organizers.show', $event->organizer->slug) }}"
-                                class="font-semibold text-slate-900 hover:text-blue-600 transition-colors">
+                                class="font-semibold text-gray-900 hover:text-blue-600 transition-colors">
                                 {{ $event->organizer->display_name }}
                             </a>
                             @if ($event->organizer->bio)
-                                <p class="mt-0.5 text-xs text-slate-500 line-clamp-2">{{ $event->organizer->bio }}</p>
+                                <p class="mt-0.5 text-xs text-gray-500 line-clamp-2">{{ $event->organizer->bio }}</p>
                             @endif
                         </div>
                     </div>

@@ -33,24 +33,24 @@
     </section>
 
     {{-- Stats --}}
-    <section class="py-16 bg-white border-b border-slate-100">
+    <section class="py-16 bg-white border-b border-gray-100">
         <div class="mx-auto max-w-360 px-4">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
                 <div class="text-center">
                     <div class="text-3xl md:text-4xl font-bold text-blue-600 mb-2">5,000+</div>
-                    <div class="text-sm text-slate-500">Active Organizers</div>
+                    <div class="text-sm text-gray-500">Active Organizers</div>
                 </div>
                 <div class="text-center">
                     <div class="text-3xl md:text-4xl font-bold text-blue-600 mb-2">250K+</div>
-                    <div class="text-sm text-slate-500">Tickets Sold Monthly</div>
+                    <div class="text-sm text-gray-500">Tickets Sold Monthly</div>
                 </div>
                 <div class="text-center">
                     <div class="text-3xl md:text-4xl font-bold text-blue-600 mb-2">4.8/5</div>
-                    <div class="text-sm text-slate-500">Organizer Rating</div>
+                    <div class="text-sm text-gray-500">Organizer Rating</div>
                 </div>
                 <div class="text-center">
                     <div class="text-3xl md:text-4xl font-bold text-blue-600 mb-2">2.5%</div>
-                    <div class="text-sm text-slate-500">Platform Fee</div>
+                    <div class="text-sm text-gray-500">Platform Fee</div>
                 </div>
             </div>
         </div>
@@ -60,9 +60,9 @@
     <section class="py-16 bg-white">
         <div class="mx-auto max-w-360 px-4">
             <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Why Organizers Choose
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Why Organizers Choose
                     {{ $__settings->app_name }}</h2>
-                <p class="text-xl text-slate-500 max-w-2xl mx-auto">Everything you need to create, promote, and manage
+                <p class="text-xl text-gray-500 max-w-2xl mx-auto">Everything you need to create, promote, and manage
                     successful events</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
@@ -75,15 +75,15 @@
         ['icon' => 'M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z', 'title' => 'Easy Setup', 'desc' => 'Create and publish events in minutes, not hours'],
     ] as $feature)
                     <div
-                        class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+                        class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
                         <div class="h-12 w-12 rounded-xl bg-indigo-50 flex items-center justify-center mb-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none"
                                 stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="{{ $feature['icon'] }}" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-semibold text-slate-900 mb-2">{{ $feature['title'] }}</h3>
-                        <p class="text-slate-500">{{ $feature['desc'] }}</p>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ $feature['title'] }}</h3>
+                        <p class="text-gray-500">{{ $feature['desc'] }}</p>
                     </div>
                 @endforeach
             </div>
@@ -95,9 +95,9 @@
         <div class="mx-auto max-w-360 px-4">
             <div class="max-w-5xl mx-auto">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Powerful Features for Every Event
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Powerful Features for Every Event
                     </h2>
-                    <p class="text-xl text-slate-500">From small meetups to large festivals, we've got you covered</p>
+                    <p class="text-xl text-gray-500">From small meetups to large festivals, we've got you covered</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     @foreach (['Customizable event pages with rich media', 'Flexible ticket types and pricing', 'Built-in email marketing tools', 'Real-time sales reporting', 'QR code check-in system', 'Attendee management dashboard', 'Mobile-optimized checkout', 'Multiple payment gateways (M-Pesa, Card, etc.)', 'Social media integration', 'Discount codes and promotions', 'Waitlist management', 'Automated reminders and updates'] as $item)
@@ -107,7 +107,7 @@
                                 <circle cx="12" cy="12" r="10" />
                                 <path d="m9 12 2 2 4-4" />
                             </svg>
-                            <span class="text-slate-600">{{ $item }}</span>
+                            <span class="text-gray-600">{{ $item }}</span>
                         </div>
                     @endforeach
                 </div>
@@ -119,7 +119,7 @@
     <section class="py-16 bg-indigo-50">
         <div class="mx-auto max-w-360 px-4">
             <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Trusted by Event Organizers Across Kenya
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Trusted by Event Organizers Across Kenya
                 </h2>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -151,14 +151,14 @@
                     ];
                 @endphp
                 @foreach ($testimonials as $testimonial)
-                    <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-                        <p class="text-slate-600 italic mb-6">{{ $testimonial['quote'] }}</p>
+                    <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                        <p class="text-gray-600 italic mb-6">{{ $testimonial['quote'] }}</p>
                         <div class="flex items-center gap-3">
                             <img src="{{ $testimonial['img'] }}" alt="{{ $testimonial['name'] }}"
-                                class="h-12 w-12 rounded-full object-cover border-2 border-slate-100">
+                                class="h-12 w-12 rounded-full object-cover border-2 border-gray-100">
                             <div>
-                                <div class="font-semibold text-slate-900">{{ $testimonial['name'] }}</div>
-                                <div class="text-sm text-slate-500">{{ $testimonial['role'] }}</div>
+                                <div class="font-semibold text-gray-900">{{ $testimonial['name'] }}</div>
+                                <div class="text-sm text-gray-500">{{ $testimonial['role'] }}</div>
                             </div>
                         </div>
                     </div>
@@ -172,8 +172,8 @@
         <div class="mx-auto max-w-360 px-4">
             <div class="max-w-4xl mx-auto">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">How It Works</h2>
-                    <p class="text-xl text-slate-500">Get started in 3 simple steps</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
+                    <p class="text-xl text-gray-500">Get started in 3 simple steps</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     @foreach ([['step' => '1', 'title' => 'Create Your Account', 'desc' => 'Sign up and set up your organizer profile in minutes'], ['step' => '2', 'title' => 'Promote & Sell', 'desc' => 'Share your event and start selling tickets immediately'], ['step' => '3', 'title' => 'Manage & Grow', 'desc' => 'Track sales, manage attendees, and grow your audience']] as $step)
@@ -182,8 +182,8 @@
                                 class="h-16 w-16 rounded-2xl bg-blue-600 text-white flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-md shadow-blue-200">
                                 {{ $step['step'] }}
                             </div>
-                            <h3 class="text-xl font-semibold text-slate-900 mb-2">{{ $step['title'] }}</h3>
-                            <p class="text-slate-500">{{ $step['desc'] }}</p>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ $step['title'] }}</h3>
+                            <p class="text-gray-500">{{ $step['desc'] }}</p>
                         </div>
                     @endforeach
                 </div>
@@ -195,27 +195,27 @@
     <section id="signup" class="py-20 bg-white">
         <div class="mx-auto max-w-360 px-4">
             <div
-                class="bg-white rounded-2xl border border-slate-200 shadow-xl shadow-slate-200/60 max-w-2xl mx-auto p-8">
+                class="bg-white rounded-2xl border border-gray-200 shadow-xl shadow-gray-200/60 max-w-2xl mx-auto p-8">
                 <div class="text-center mb-8">
-                    <h2 class="text-3xl font-bold text-slate-900 mb-2">Ready to Get Started?</h2>
-                    <p class="text-slate-500">Create your organizer account and list your first event today</p>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Ready to Get Started?</h2>
+                    <p class="text-gray-500">Create your organizer account and list your first event today</p>
                 </div>
 
                 @guest
                     <form wire:submit="submit" class="space-y-4">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-sm font-medium text-slate-700">Full name</label>
+                                <label class="block text-sm font-medium text-gray-700">Full name</label>
                                 <input wire:model="name" type="text" autocomplete="name" placeholder="John Doe"
-                                    class="mt-1 block w-full rounded-xl border bg-slate-50 px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 hover:border-slate-300 transition-all duration-150 {{ $errors->has('name') ? 'border-red-400' : 'border-slate-200' }}">
+                                    class="mt-1 block w-full rounded-xl border bg-gray-50 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 hover:border-gray-300 transition-all duration-150 {{ $errors->has('name') ? 'border-red-400' : 'border-gray-200' }}">
                                 @error('name')
                                     <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-slate-700">Organization name</label>
+                                <label class="block text-sm font-medium text-gray-700">Organization name</label>
                                 <input wire:model.blur="display_name" type="text" placeholder="Nairobi Events Co."
-                                    class="mt-1 block w-full rounded-xl border bg-slate-50 px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 hover:border-slate-300 transition-all duration-150 {{ $errors->has('display_name') ? 'border-red-400' : 'border-slate-200' }}">
+                                    class="mt-1 block w-full rounded-xl border bg-gray-50 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 hover:border-gray-300 transition-all duration-150 {{ $errors->has('display_name') ? 'border-red-400' : 'border-gray-200' }}">
                                 @error('display_name')
                                     <p class="mt-1 text-xs text-red-600 flex items-center gap-1">
                                         <svg class="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor"
@@ -240,9 +240,9 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-slate-700">Email address</label>
+                            <label class="block text-sm font-medium text-gray-700">Email address</label>
                             <input wire:model="email" type="email" autocomplete="email" placeholder="you@example.com"
-                                class="mt-1 block w-full rounded-xl border bg-slate-50 px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 hover:border-slate-300 transition-all duration-150 {{ $errors->has('email') ? 'border-red-400' : 'border-slate-200' }}">
+                                class="mt-1 block w-full rounded-xl border bg-gray-50 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 hover:border-gray-300 transition-all duration-150 {{ $errors->has('email') ? 'border-red-400' : 'border-gray-200' }}">
                             @error('email')
                                 <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                             @enderror
@@ -250,17 +250,17 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-sm font-medium text-slate-700">Password</label>
+                                <label class="block text-sm font-medium text-gray-700">Password</label>
                                 <input wire:model="password" type="password" autocomplete="new-password"
-                                    class="mt-1 block w-full rounded-xl border bg-slate-50 px-3 py-2.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 hover:border-slate-300 transition-all duration-150 {{ $errors->has('password') ? 'border-red-400' : 'border-slate-200' }}">
+                                    class="mt-1 block w-full rounded-xl border bg-gray-50 px-3 py-2.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 hover:border-gray-300 transition-all duration-150 {{ $errors->has('password') ? 'border-red-400' : 'border-gray-200' }}">
                                 @error('password')
                                     <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-slate-700">Confirm password</label>
+                                <label class="block text-sm font-medium text-gray-700">Confirm password</label>
                                 <input wire:model="password_confirmation" type="password" autocomplete="new-password"
-                                    class="mt-1 block w-full rounded-xl border border-slate-300 bg-slate-50 px-3 py-2.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 hover:border-slate-300 transition-all duration-150">
+                                    class="mt-1 block w-full rounded-xl border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 hover:border-gray-300 transition-all duration-150">
                             </div>
                         </div>
 
@@ -269,7 +269,7 @@
                             Create organizer account
                         </button>
 
-                        <p class="text-xs text-center text-slate-400">
+                        <p class="text-xs text-center text-gray-400">
                             By signing up, you agree to our Terms of Service and Privacy Policy.
                             Already have an account? <a href="{{ route('login') }}"
                                 class="text-blue-600 hover:text-violet-500 transition-colors">Sign in</a>
@@ -277,7 +277,7 @@
                     </form>
                 @else
                     <div class="text-center py-4">
-                        <p class="text-slate-600 mb-4">You're already signed in. Head to your organizer dashboard to get
+                        <p class="text-gray-600 mb-4">You're already signed in. Head to your organizer dashboard to get
                             started.</p>
                         <a href="{{ route('organizer.onboard') }}"
                             class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-violet-500 transition-colors">

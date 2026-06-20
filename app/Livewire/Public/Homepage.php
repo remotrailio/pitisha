@@ -4,8 +4,11 @@ namespace App\Livewire\Public;
 
 use App\Enums\EventStatus;
 use App\Enums\EventVisibility;
+use App\Enums\PaymentStatus;
 use App\Models\Category;
 use App\Models\Event;
+use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -24,7 +27,7 @@ class Homepage extends Component
             ->limit(6)
             ->get();
 
-        $upcoming = Event::with(['organizer', 'category'])
+        $upcoming = Event::with(['organizer', 'category', 'ticketTypes'])
             ->withCount('attendees')
             ->whereIn('status', [EventStatus::PUBLISHED, EventStatus::LIVE])
             ->where('visibility', EventVisibility::PUBLIC)
@@ -50,6 +53,15 @@ class Homepage extends Component
             ->limit(5)
             ->get();
 
-        return view('livewire.public.homepage', compact('featured', 'upcoming', 'categories', 'heroCategories'));
+        $purchasedEventIds = collect();
+        if (Auth::check()) {
+            $allEventIds = $featured->pluck('id')->merge($upcoming->pluck('id'));
+            $purchasedEventIds = Order::where('user_id', Auth::id())
+                ->where('payment_status', PaymentStatus::PAID)
+                ->whereIn('event_id', $allEventIds)
+                ->pluck('event_id');
+        }
+
+        return view('livewire.public.homepage', compact('featured', 'upcoming', 'categories', 'heroCategories', 'purchasedEventIds'));
     }
 }

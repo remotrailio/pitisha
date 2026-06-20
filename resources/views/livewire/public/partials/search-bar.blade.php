@@ -4,5 +4,5 @@
     placeholder="Search events, experiences, safaris..."
     wire:model.live.debounce.300ms="search"
     class="mt-6 max-w-2xl"
-    inputClass="h-12 rounded-xl pl-12 border-slate-200 bg-white shadow-sm focus:border-blue-500"
+    inputClass="h-12 rounded-xl pl-12 border-gray-200 bg-white shadow-sm focus:border-blue-500"
 />
