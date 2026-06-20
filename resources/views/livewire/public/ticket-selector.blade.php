@@ -22,6 +22,13 @@
                             Free
                         @endif
                     </p>
+                    @if($type->sales_end && now()->gt($type->sales_end))
+                    <p class="mt-1 text-xs font-medium text-red-500">Sales have ended</p>
+                    @elseif($type->sales_start && now()->lt($type->sales_start))
+                    <p class="mt-1 text-xs font-medium text-gray-400">Sales start {{ $type->sales_start->format('M j, g:i A') }}</p>
+                    @elseif($type->isSoldOut())
+                    <p class="mt-1 text-xs font-medium text-red-500">Sold out</p>
+                    @endif
                     @if($type->isGroupTicket())
                     <span class="mt-1 inline-block rounded-full bg-amber-50 border border-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700">
                         Group ticket ({{ $type->group_size }} people)
@@ -43,7 +50,8 @@
                     </span>
 
                     <button wire:click="increment({{ $type->id }})"
-                            class="flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:border-blue-400 hover:text-blue-600 transition-all">
+                            @if(!$type->isOnSale()) disabled @endif
+                            class="flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:border-blue-400 hover:text-blue-600 transition-all disabled:opacity-40 disabled:cursor-not-allowed">
                         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                         </svg>
@@ -80,7 +88,7 @@
     <div class="px-5 pb-5 {{ $hasSelection ? 'pt-3' : 'pt-5' }}">
         <button wire:click="proceedToCheckout"
                 @if(!$hasSelection) disabled @endif
-                class="w-full rounded-xl bg-blue-600 py-3 text-sm font-semibold text-white hover:bg-violet-500 transition-colors disabled:cursor-not-allowed disabled:opacity-50 shadow-sm">
+                class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-blue-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-violet-500 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1 disabled:cursor-not-allowed disabled:opacity-50">
             @if($hasSelection)
                 Proceed to Checkout
             @else

@@ -35,6 +35,7 @@ class OrganizerPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Blue,
             ])
+            ->font('Open Sans')
             ->discoverResources(in: app_path('Filament/Organizer/Resources'), for: 'App\Filament\Organizer\Resources')
             ->discoverPages(in: app_path('Filament/Organizer/Pages'), for: 'App\Filament\Organizer\Pages')
             ->pages([

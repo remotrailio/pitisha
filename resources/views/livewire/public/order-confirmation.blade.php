@@ -99,13 +99,13 @@
     <div class="flex flex-col gap-3 sm:flex-row">
         @auth
         <a href="{{ route('my.tickets') }}"
-           class="flex flex-1 items-center justify-center rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-violet-500 transition-colors">
+           class="flex flex-1 items-center justify-center gap-3 rounded-full bg-blue-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-violet-500 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
             View all my tickets
         </a>
         @endauth
         @if($order->tickets->isNotEmpty())
         <a href="{{ route('orders.tickets.download', $order->uuid) . ($order->guest_token ? '?token=' . $order->guest_token : '') }}"
-           class="flex flex-1 items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-violet-500 transition-colors">
+           class="flex flex-1 items-center justify-center gap-3 rounded-full bg-blue-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-violet-500 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
@@ -114,7 +114,7 @@
         </a>
         @endif
         <a href="{{ route('events.show', $order->event->slug) }}"
-           class="flex flex-1 items-center justify-center rounded-xl border border-gray-200 bg-white px-6 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all">
+           class="flex flex-1 items-center justify-center gap-3 rounded-full border border-gray-200 bg-white h-10 px-5 text-sm font-semibold text-gray-700 text-nowrap hover:bg-gray-50 hover:border-gray-300 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
             Back to event
         </a>
     </div>

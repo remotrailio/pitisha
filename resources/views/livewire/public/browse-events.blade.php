@@ -106,7 +106,7 @@
                     @if ($events->hasMorePages())
                         <div class="mt-10 flex justify-center">
                             <button wire:click="nextPage"
-                                class="inline-flex items-center gap-2 border border-gray-200 bg-white px-8 py-3 text-sm font-medium text-gray-700 shadow-sm transition-all hover:border-blue-300 hover:bg-blue-50">
+                                class="inline-flex items-center justify-center gap-3 rounded-full border border-gray-200 bg-white h-10 px-5 text-sm font-medium text-gray-700 text-nowrap hover:border-blue-300 hover:bg-blue-50 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                                 <svg wire:loading wire:target="nextPage" class="h-4 w-4 animate-spin text-blue-600"
                                     fill="none" viewBox="0 0 24 24">
                                     <circle class="opacity-25" cx="12" cy="12" r="10"
@@ -127,7 +127,7 @@
                         <p class="text-sm font-medium text-gray-500">No events match your filters.</p>
                         <p class="mt-1 text-xs text-gray-400">Try broadening your search or removing some filters.</p>
                         <button wire:click="clearFilters"
-                            class="mt-4 bg-blue-600 px-5 py-2 text-xs font-semibold text-white hover:bg-violet-500 transition-colors">
+                            class="mt-4 inline-flex items-center justify-center gap-3 rounded-full bg-blue-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-violet-500 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                             Clear Filters
                         </button>
                     </div>

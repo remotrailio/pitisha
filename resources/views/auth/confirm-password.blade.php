@@ -13,7 +13,7 @@
         </div>
 
         <button type="submit"
-                class="w-full rounded-lg bg-indigo-600 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 transition">
+                class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-indigo-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-indigo-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
             Confirm
         </button>
     </form>

@@ -73,7 +73,7 @@
 
                         <div class="pt-1">
                             <a href="#tickets"
-                                class="inline-flex items-center justify-center gap-2 w-full h-11 rounded-xl px-6 bg-blue-600 hover:bg-violet-500 text-white font-bold text-base shadow-lg shadow-blue-600/25 transition-all duration-200 hover:-translate-y-0.5">
+                                class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-blue-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-violet-500 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                                 Book Tickets
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"

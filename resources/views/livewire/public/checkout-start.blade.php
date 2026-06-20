@@ -24,12 +24,12 @@
             @if($order)
                 <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
                     <a href="{{ route('orders.confirmation', $order->uuid) . ($guestToken ? '?token=' . $guestToken : '') }}"
-                       class="inline-flex justify-center rounded-xl bg-emerald-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700 transition-colors">
+                       class="inline-flex items-center justify-center gap-3 rounded-full bg-emerald-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-emerald-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                         View tickets
                     </a>
                     @auth
                     <a href="{{ route('my.tickets') }}"
-                       class="inline-flex justify-center rounded-xl border border-emerald-300 bg-white px-6 py-2.5 text-sm font-semibold text-emerald-700 hover:bg-emerald-50 transition-colors">
+                       class="inline-flex items-center justify-center gap-3 rounded-full border border-emerald-300 bg-white h-10 px-5 text-sm font-semibold text-emerald-700 text-nowrap hover:bg-emerald-50 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                         My tickets
                     </a>
                     @endauth
@@ -47,7 +47,7 @@
             <h2 class="text-xl font-bold text-red-800">Payment failed</h2>
             <p class="mt-2 text-sm text-red-700">{{ $errorMessage }}</p>
             <button wire:click="retry"
-                    class="mt-6 inline-flex items-center rounded-xl bg-red-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-red-700 transition-colors">
+                    class="mt-6 inline-flex items-center justify-center gap-3 rounded-full bg-red-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-red-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                 Try again
             </button>
         </div>
@@ -185,7 +185,7 @@
                 wire:click="pay"
                 wire:loading.attr="disabled"
                 wire:target="pay"
-                class="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3.5 text-base font-semibold text-white shadow-md hover:bg-violet-500 transition-colors disabled:opacity-60"
+                class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-blue-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-violet-500 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1 disabled:opacity-60"
             >
                 <span wire:loading.remove wire:target="pay">
                     Pay {{ $currency }} {{ number_format($total, 2) }} via M-Pesa

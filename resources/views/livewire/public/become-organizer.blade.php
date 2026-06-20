@@ -8,7 +8,7 @@
                     of eager attendees</p>
                 @auth
                     <a href="{{ route('organizer.onboard') }}"
-                        class="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-blue-700 shadow-lg hover:bg-indigo-50 transition-all">
+                        class="inline-flex items-center justify-center gap-3 rounded-full bg-white h-10 px-5 text-sm font-semibold text-blue-700 text-nowrap hover:bg-indigo-50 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                         Get Started Free
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" stroke="currentColor"
                             stroke-width="2" viewBox="0 0 24 24">
@@ -18,7 +18,7 @@
                     </a>
                 @else
                     <a href="#signup"
-                        class="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-blue-700 shadow-lg hover:bg-indigo-50 transition-all">
+                        class="inline-flex items-center justify-center gap-3 rounded-full bg-white h-10 px-5 text-sm font-semibold text-blue-700 text-nowrap hover:bg-indigo-50 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                         Get Started Free
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" stroke="currentColor"
                             stroke-width="2" viewBox="0 0 24 24">
@@ -265,7 +265,7 @@
                         </div>
 
                         <button type="submit"
-                            class="w-full rounded-xl bg-blue-600 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-violet-500 transition-colors">
+                            class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-blue-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-violet-500 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                             Create organizer account
                         </button>
 
@@ -280,7 +280,7 @@
                         <p class="text-gray-600 mb-4">You're already signed in. Head to your organizer dashboard to get
                             started.</p>
                         <a href="{{ route('organizer.onboard') }}"
-                            class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-violet-500 transition-colors">
+                            class="inline-flex items-center justify-center gap-3 rounded-full bg-blue-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-violet-500 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                             Go to onboarding
                         </a>
                     </div>
