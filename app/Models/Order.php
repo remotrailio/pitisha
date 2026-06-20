@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 #[Fillable([
-    'user_id', 'event_id', 'subtotal', 'fees', 'discount', 'total', 'currency',
+    'user_id', 'event_id', 'guest_token', 'subtotal', 'fees', 'discount', 'total', 'currency',
     'status', 'payment_status', 'payment_provider', 'payment_reference',
     'payment_method', 'expires_at', 'paid_at',
     'mpesa_receipt_number', 'mpesa_checkout_request_id', 'mpesa_response',

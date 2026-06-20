@@ -16,9 +16,6 @@ class OrganizerForm
 {
     public static function configure(Schema $schema): Schema
     {
-        $createOnly = fn (string $operation): bool => $operation === 'create';
-        $editOnly   = fn (string $operation): bool => $operation === 'edit';
-
         return $schema->components([
             Select::make('user_id')
                 ->label('User')
@@ -35,30 +32,22 @@ class OrganizerForm
                 ->helperText('Only users without an existing organizer account are listed.'),
 
             TextInput::make('display_name')
-                ->required()
-                ->disabled($editOnly)
-                ->dehydrated($createOnly),
+                ->required(),
 
             TextInput::make('slug')
                 ->unique(table: 'organizers', column: 'slug', ignoreRecord: true)
                 ->helperText('Leave blank to auto-generate from display name.')
-                ->nullable()
-                ->disabled($editOnly)
-                ->dehydrated($createOnly),
+                ->nullable(),
 
             Textarea::make('bio')
-                ->nullable()
-                ->disabled($editOnly)
-                ->dehydrated($createOnly),
+                ->nullable(),
 
             FileUpload::make('logo')
                 ->image()
                 ->disk('r2')
                 ->directory(app()->isLocal() ? 'local/organizers/logo' : 'organizers/logo')
                 ->visibility('public')
-                ->nullable()
-                ->disabled($editOnly)
-                ->dehydrated($createOnly),
+                ->nullable(),
 
             FileUpload::make('banner')
                 ->label('Banner Image')
@@ -66,20 +55,15 @@ class OrganizerForm
                 ->disk('r2')
                 ->directory(app()->isLocal() ? 'local/organizers/banner' : 'organizers/banner')
                 ->visibility('public')
-                ->nullable()
-                ->disabled($editOnly)
-                ->dehydrated($createOnly),
+                ->nullable(),
 
-            TextInput::make('email')
-                ->email()
+            Select::make('email')
                 ->nullable()
-                ->disabled($editOnly)
-                ->dehydrated($createOnly),
+                ->options(User::orderBy('email')->pluck('email', 'email'))
+                ->searchable(),
 
             TextInput::make('phone')
-                ->nullable()
-                ->disabled($editOnly)
-                ->dehydrated($createOnly),
+                ->nullable(),
 
             TextInput::make('platform_fee_percentage')
                 ->label('Platform Fee (%)')

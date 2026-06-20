@@ -4,8 +4,11 @@ namespace App\Livewire\Public;
 
 use App\Enums\EventStatus;
 use App\Enums\EventVisibility;
+use App\Enums\PaymentStatus;
 use App\Models\Category;
 use App\Models\Event;
+use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -95,10 +98,19 @@ class BrowseEvents extends Component
             + count($this->selectedCities)
             + ($this->selectedDate ? 1 : 0);
 
+        $purchasedEventIds = collect();
+        if (Auth::check()) {
+            $purchasedEventIds = Order::where('user_id', Auth::id())
+                ->where('payment_status', PaymentStatus::PAID)
+                ->whereIn('event_id', $events->pluck('id'))
+                ->pluck('event_id');
+        }
+
         return view('livewire.public.browse-events', compact(
             'events',
             'categories',
             'activeFilterCount',
+            'purchasedEventIds',
         ));
     }
 }

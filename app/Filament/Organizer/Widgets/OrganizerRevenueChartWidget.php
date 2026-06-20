@@ -58,7 +58,7 @@ class OrganizerRevenueChartWidget extends ChartWidget
                 [
                     'label'           => 'Revenue (KES)',
                     'data'            => $data,
-                    'borderColor'     => '#2563EB',
+                    'borderColor'     => '#0d9488',
                     'backgroundColor' => 'rgba(37, 99, 235, 0.1)',
                     'fill'            => true,
                     'tension'         => 0.4,

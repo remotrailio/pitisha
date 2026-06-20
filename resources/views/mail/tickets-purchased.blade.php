@@ -21,7 +21,7 @@ Your payment was confirmed and your tickets for **{{ $order->event->title }}** a
 
 Print or show your ticket PDF at the entrance. Each ticket has a unique QR code — do not share it.
 
-<x-mail::button url="{{ route('orders.confirmation', $order->uuid) }}" color="primary">
+<x-mail::button url="{{ route('orders.confirmation', $order->uuid) . ($order->guest_token ? '?token=' . $order->guest_token : '') }}" color="primary">
 View your tickets online
 </x-mail::button>
 

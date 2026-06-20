@@ -30,8 +30,9 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->colors([
-                'primary' => Color::Blue,
+                'primary' => Color::Teal,
             ])
+            ->font('Open Sans')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
@@ -55,7 +56,8 @@ class AdminPanelProvider extends PanelProvider
             ]);
 
         if ($settings) {
-            $panel->brandName(ucfirst($settings->app_name));
+            $env = ucfirst(app()->environment());
+            $panel->brandName(ucfirst($settings->app_name) . " (Admin | {$env})");
         }
 
         return $panel;

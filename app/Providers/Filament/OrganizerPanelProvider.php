@@ -33,8 +33,9 @@ class OrganizerPanelProvider extends PanelProvider
             ->path('organizer')
             ->login(OrganizerLogin::class)
             ->colors([
-                'primary' => Color::Blue,
+                'primary' => Color::Teal,
             ])
+            ->font('Open Sans')
             ->discoverResources(in: app_path('Filament/Organizer/Resources'), for: 'App\Filament\Organizer\Resources')
             ->discoverPages(in: app_path('Filament/Organizer/Pages'), for: 'App\Filament\Organizer\Pages')
             ->pages([
@@ -62,7 +63,7 @@ class OrganizerPanelProvider extends PanelProvider
             ]);
 
         if ($settings) {
-            $panel->brandName(ucfirst($settings->app_name));
+            $panel->brandName(ucfirst($settings->app_name) . ' (Organizer)');
         }
 
         return $panel;

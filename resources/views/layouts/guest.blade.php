@@ -8,10 +8,15 @@
     @if($__settings->favicon_url)
     <link rel="icon" type="image/x-icon" href="{{ $__settings->favicon_url }}">
     @endif
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+        rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-<body class="min-h-screen antialiased" style="background: linear-gradient(135deg, #F8FAFC 0%, #EEF2FF 50%, #E0E7FF 100%);">
+<body class="min-h-screen bg-white antialiased">
 
     <div class="flex min-h-screen flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-md">
@@ -19,13 +24,13 @@
                 @if($__settings->logo_url)
                     <img src="{{ $__settings->logo_url }}" alt="{{ $__settings->app_name }}" class="h-10 w-auto">
                 @else
-                    <span class="text-2xl font-extrabold text-blue-600">{{ $__settings->app_name }}</span>
+                    <span class="text-2xl font-extrabold text-teal-600">{{ $__settings->app_name }}</span>
                 @endif
             </a>
         </div>
 
         <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-            <div class="bg-white px-8 py-10 shadow-xl shadow-slate-200/60 ring-1 ring-slate-200/80 sm:rounded-2xl">
+            <div class="bg-white px-8 py-10 shadow-xl shadow-gray-200/50 border border-gray-200 sm:rounded-2xl">
                 {{ $slot }}
             </div>
         </div>

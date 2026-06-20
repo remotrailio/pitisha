@@ -13,17 +13,17 @@
             <div>
                 <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                 <input wire:model="name" id="name" type="text" required
-                       class="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                       class="mt-1 block w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 hover:border-gray-300 transition-all duration-150">
                 @error('name')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
             </div>
             <div>
                 <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
                 <input wire:model="email" id="email" type="email" required
-                       class="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                       class="mt-1 block w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 hover:border-gray-300 transition-all duration-150">
                 @error('email')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
             </div>
             <button type="submit"
-                    class="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 transition">
+                    class="inline-flex items-center justify-center gap-3 rounded-full bg-teal-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-teal-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                 Save changes
             </button>
         </form>
@@ -41,22 +41,22 @@
             <div>
                 <label for="current_password" class="block text-sm font-medium text-gray-700">Current password</label>
                 <input wire:model="current_password" id="current_password" type="password"
-                       class="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                       class="mt-1 block w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 hover:border-gray-300 transition-all duration-150">
                 @error('current_password')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
             </div>
             <div>
                 <label for="new_password" class="block text-sm font-medium text-gray-700">New password</label>
                 <input wire:model="password" id="new_password" type="password"
-                       class="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                       class="mt-1 block w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 hover:border-gray-300 transition-all duration-150">
                 @error('password')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
             </div>
             <div>
                 <label for="new_password_confirm" class="block text-sm font-medium text-gray-700">Confirm new password</label>
                 <input wire:model="password_confirmation" id="new_password_confirm" type="password"
-                       class="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                       class="mt-1 block w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 hover:border-gray-300 transition-all duration-150">
             </div>
             <button type="submit"
-                    class="rounded-lg bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-gray-900 transition">
+                    class="inline-flex items-center justify-center gap-3 rounded-full bg-gray-800 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-gray-900 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                 Update password
             </button>
         </form>
@@ -64,11 +64,11 @@
 
     {{-- Become an organizer --}}
     @if(auth()->user()->isAttendee())
-    <div class="mt-6 rounded-xl border border-indigo-100 bg-indigo-50 p-6">
-        <h2 class="text-base font-semibold text-indigo-900">Want to host events?</h2>
-        <p class="mt-1 text-sm text-indigo-700">Create an organizer profile to start selling tickets.</p>
+    <div class="mt-6 rounded-xl border border-teal-100 bg-teal-50 p-6">
+        <h2 class="text-base font-semibold text-teal-900">Want to host events?</h2>
+        <p class="mt-1 text-sm text-teal-700">Create an organizer profile to start selling tickets.</p>
         <a href="{{ route('organizer.onboard') }}"
-           class="mt-3 inline-block rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 transition">
+           class="mt-3 inline-flex items-center justify-center gap-3 rounded-full bg-teal-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-teal-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
             Become an organizer
         </a>
     </div>
