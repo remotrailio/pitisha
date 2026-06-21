@@ -42,7 +42,7 @@
                     </button>
 
                     <select wire:model.live="sort"
-                        class="border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20">
+                        class="rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm focus:border-mustard-500 focus:outline-none focus:ring-2 focus:ring-mustard-500/20 transition-colors cursor-pointer">
                         <option value="start_at">Upcoming first</option>
                         <option value="published_at">Newest</option>
                     </select>
@@ -55,7 +55,7 @@
                         {{ Str::plural('event', $events->total()) }} found
                     </p>
                     <select wire:model.live="sort"
-                        class="border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20">
+                        class="rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm focus:border-mustard-500 focus:outline-none focus:ring-2 focus:ring-mustard-500/20 transition-colors cursor-pointer">
                         <option value="start_at">Upcoming first</option>
                         <option value="published_at">Newest</option>
                     </select>

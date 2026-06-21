@@ -44,12 +44,12 @@
                 {{-- Logo --}}
                 <a href="{{ route('home') }}" class="flex items-center gap-2 shrink-0">
                     @if ($__settings->logo_url)
-                        <img src="{{ $__settings->logo_url }}" alt="{{ $__settings->app_name }}" class="h-8 w-auto">
+                        <img src="{{ $__settings->logo_url }}" alt="{{ $__settings->app_name }}" class="h-10 w-auto">
                     @else
-                        <div class="h-8 w-8 rounded-lg bg-teal-600 flex items-center justify-center shadow-sm">
+                        <div class="h-10 w-10 rounded-xl bg-teal-600 flex items-center justify-center shadow-sm">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="lucide lucide-ticket h-4 w-4 text-white">
+                                stroke-linejoin="round" class="lucide lucide-ticket h-5 w-5 text-white">
                                 <path
                                     d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z">
                                 </path>
@@ -58,7 +58,7 @@
                                 <path d="M13 11v2"></path>
                             </svg>
                         </div>
-                        <span class="text-xl font-bold tracking-tight text-gray-900">{{ $__settings->app_name }}</span>
+                        <span class="text-2xl font-bold tracking-tight text-gray-900">{{ $__settings->app_name }}</span>
                     @endif
                 </a>
 
@@ -191,12 +191,19 @@
             style="display: none;">
 
             <div class="flex h-16 shrink-0 items-center justify-between border-b border-gray-100 px-4">
-                <a href="{{ route('home') }}" @click="open = false">
+                <a href="{{ route('home') }}" @click="open = false" class="flex items-center gap-2">
                     @if ($__settings->logo_url)
-                        <img src="{{ $__settings->logo_url }}" alt="{{ $__settings->app_name }}"
-                            class="h-8 w-auto">
+                        <img src="{{ $__settings->logo_url }}" alt="{{ $__settings->app_name }}" class="h-10 w-auto">
                     @else
-                        <span class="text-lg font-bold text-teal-600">{{ $__settings->app_name }}</span>
+                        <div class="h-10 w-10 rounded-xl bg-teal-600 flex items-center justify-center shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="h-5 w-5 text-white">
+                                <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/>
+                                <path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/>
+                            </svg>
+                        </div>
+                        <span class="text-2xl font-bold tracking-tight text-gray-900">{{ $__settings->app_name }}</span>
                     @endif
                 </a>
                 <button @click="open = false"
@@ -277,9 +284,19 @@
         <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             <div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
                 @if ($__settings->logo_url)
-                    <img src="{{ $__settings->logo_url }}" alt="{{ $__settings->app_name }}" class="h-8 w-auto">
+                    <img src="{{ $__settings->logo_url }}" alt="{{ $__settings->app_name }}" class="h-10 w-auto">
                 @else
-                    <span class="text-sm font-semibold text-teal-600">{{ $__settings->app_name }}</span>
+                    <a href="{{ route('home') }}" class="flex items-center gap-2">
+                        <div class="h-10 w-10 rounded-xl bg-teal-600 flex items-center justify-center shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="h-5 w-5 text-white">
+                                <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/>
+                                <path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/>
+                            </svg>
+                        </div>
+                        <span class="text-2xl font-bold tracking-tight text-gray-900">{{ $__settings->app_name }}</span>
+                    </a>
                 @endif
                 <p class="text-xs text-gray-400">&copy; {{ date('Y') }} {{ $__settings->app_name }}. All rights
                     reserved.</p>
