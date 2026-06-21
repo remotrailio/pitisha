@@ -179,17 +179,26 @@
                 wire:click="pay"
                 wire:loading.attr="disabled"
                 wire:target="pay"
-                class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-teal-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-teal-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1 disabled:opacity-60"
+                class="relative w-full inline-flex items-center justify-center rounded-full bg-teal-600 h-10 px-5 text-sm font-semibold text-white hover:bg-teal-700 transition disabled:opacity-60"
             >
-                <span wire:loading.remove wire:target="pay">
+                <!-- Normal state -->
+                <span wire:loading.remove wire:target="pay" class="whitespace-nowrap">
                     Pay {{ $currency }} {{ number_format($total, 2) }} via M-Pesa
                 </span>
-                <span wire:loading wire:target="pay" class="inline-flex items-center gap-2 whitespace-nowrap">
-                    <svg class="h-5 w-5 shrink-0 animate-spin" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
-                    </svg>
-                    Processing…
+
+                <!-- Loading state -->
+                <span
+                    wire:loading
+                    wire:target="pay"
+                    class="absolute inset-0 flex items-center justify-center whitespace-nowrap"
+                >
+                    <span class="absolute inset-0 inline-flex items-center justify-center gap-2">
+                        <svg class="h-4 w-4 shrink-0 animate-spin" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                        </svg>
+                        <span>Processing…</span>
+                    </span>
                 </span>
             </button>
 
