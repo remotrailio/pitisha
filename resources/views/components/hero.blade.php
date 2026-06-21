@@ -159,16 +159,12 @@
             <template x-if="events.length > 1">
                 <div class="flex items-center justify-between mt-8 mx-auto" :style="`width: ${cardWidth}px`">
                     <button @click="goPrev()"
-                        class="flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-gray-700 transition-colors group">
-                        <span
-                            class="flex items-center justify-center h-9 w-9 rounded-full border border-gray-200 group-hover:border-gray-400 group-hover:bg-gray-50 transition-all">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="m12 19-7-7 7-7" />
-                                <path d="M19 12H5" />
-                            </svg>
-                        </span>
+                        class="flex items-center justify-center h-10 w-10 rounded-full bg-white shadow-xl shadow-gray-300/60 border border-gray-300 text-gray-800 hover:bg-gray-50 hover:shadow-2xl transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m12 19-7-7 7-7" />
+                            <path d="M19 12H5" />
+                        </svg>
                     </button>
 
                     <div class="flex items-center gap-2">
@@ -181,16 +177,13 @@
                     </div>
 
                     <button @click="goNext()"
-                        class="flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-gray-700 transition-colors group">
-                        <span
-                            class="flex items-center justify-center h-9 w-9 rounded-full border border-gray-200 group-hover:border-gray-400 group-hover:bg-gray-50 transition-all">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M5 12h14" />
-                                <path d="m12 5 7 7-7 7" />
-                            </svg>
-                        </span>
+                        class="flex items-center justify-center h-10 w-10 rounded-full bg-white shadow-xl shadow-gray-300/60 border border-gray-300 text-gray-800 hover:bg-gray-50 hover:shadow-2xl transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M5 12h14" />
+                            <path d="m12 5 7 7-7 7" />
+                        </svg>
                     </button>
                 </div>
             </template>
@@ -241,7 +234,7 @@
                 startTimer() {
                     if (this.events.length <= 1) return;
                     clearInterval(this._timer);
-                    this._timer = setInterval(() => this.goNext(), 5000);
+                    this._timer = setInterval(() => this.goNext(), 3000);
                 },
 
                 stopTimer() {
