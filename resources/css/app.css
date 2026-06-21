@@ -8,4 +8,15 @@
 @theme {
     --font-sans: 'Open Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* mustard — primary accent (#E0962D on white = 2.33:1; always pair with text-gray-900 on bg-mustard-500) */
+    --color-mustard-50:  #FEF7EC;
+    --color-mustard-500: #E0962D;
+    --color-mustard-600: #C4811F;
+    --color-mustard-700: #8F5D09; /* 5.6:1 on white — AA for all text sizes */
+
+    /* forest — secondary accent (#1B5C50 on white = 7.0:1; white text on bg-forest-700 passes AAA) */
+    --color-forest-50:  #EEF6F4;
+    --color-forest-700: #1B5C50;
+    --color-forest-800: #144440;
 }
