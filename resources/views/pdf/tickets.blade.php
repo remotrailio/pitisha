@@ -270,12 +270,6 @@
             <span>{{ strtoupper($order->currency) }} {{ number_format($item->subtotal, 2) }}</span>
         </div>
         @endforeach
-        @if($order->fees > 0)
-        <div class="summary-row">
-            <span>Platform fee</span>
-            <span>{{ strtoupper($order->currency) }} {{ number_format($order->fees, 2) }}</span>
-        </div>
-        @endif
         <div class="summary-row">
             <span class="summary-total">Total paid</span>
             <span class="summary-total">{{ strtoupper($order->currency) }} {{ number_format($order->total, 2) }}</span>

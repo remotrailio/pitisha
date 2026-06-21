@@ -55,6 +55,6 @@ class OrderPricingService
 
     public function calculateTotal(float $subtotal, float $fee, float $discount = 0.0): float
     {
-        return round($subtotal + $fee - $discount, 2);
+        return round($subtotal - $discount, 2);
     }
 }

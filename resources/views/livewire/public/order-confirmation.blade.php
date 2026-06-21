@@ -70,12 +70,6 @@
                 <span>Subtotal</span>
                 <span>KES {{ number_format($order->subtotal, 2) }}</span>
             </div>
-            @if($order->fees > 0)
-                <div class="flex justify-between">
-                    <span>Platform fee</span>
-                    <span>KES {{ number_format($order->fees, 2) }}</span>
-                </div>
-            @endif
             @if($order->discount > 0)
                 <div class="flex justify-between text-emerald-600">
                     <span>Discount</span>

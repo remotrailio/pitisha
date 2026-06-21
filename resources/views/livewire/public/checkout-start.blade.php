@@ -105,12 +105,6 @@
                         <span>Subtotal</span>
                         <span>{{ $currency }} {{ number_format($subtotal, 2) }}</span>
                     </div>
-                    @if($fee > 0)
-                    <div class="flex items-center justify-between text-sm text-gray-500">
-                        <span>Platform fee</span>
-                        <span>{{ $currency }} {{ number_format($fee, 2) }}</span>
-                    </div>
-                    @endif
                     <div class="flex items-center justify-between border-t border-gray-200 pt-2">
                         <span class="font-semibold text-gray-800">Total</span>
                         <span class="text-lg font-bold text-teal-600">
