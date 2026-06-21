@@ -124,31 +124,6 @@
                             </div>
                         </div>
 
-                        {{-- Tickets list --}}
-                        @if ($order->tickets->isNotEmpty())
-                            <div class="divide-y divide-gray-50 border-t border-gray-100">
-                                @foreach ($order->tickets as $ticket)
-                                    <div class="flex items-center gap-3 px-5 py-3">
-                                        <div class="flex-1 min-w-0">
-                                            <p class="text-sm font-medium text-gray-900">
-                                                {{ $ticket->orderItem?->ticketType?->name ?? 'Ticket' }}
-                                            </p>
-                                            <p class="mt-0.5 font-mono text-xs text-gray-400 tracking-wide">
-                                                #{{ $ticket->ticket_code }}
-                                            </p>
-                                        </div>
-                                        <span @class([
-                                            'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold',
-                                            'bg-emerald-50 text-emerald-700' => $ticket->status->value === 'valid',
-                                            'bg-gray-100 text-gray-500' => $ticket->status->value === 'used',
-                                            'bg-red-50 text-red-600' => $ticket->status->value === 'cancelled',
-                                        ])>
-                                            {{ ucfirst($ticket->status->value) }}
-                                        </span>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endif
                     </div>
                 @endforeach
             </div>
