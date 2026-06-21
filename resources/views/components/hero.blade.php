@@ -20,7 +20,7 @@
                     <div class="flex flex-wrap items-center justify-center gap-2">
                         @foreach ($heroCategories as $cat)
                             <a href="{{ route('events.index', ['selectedCategories[]' => $cat->slug]) }}"
-                                class="rounded-lg border border-white/30 bg-white/20 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition-all hover:bg-white/30">
+                                class="inline-flex items-center justify-center rounded-full border border-white/30 bg-white/20 h-10 px-5 text-sm font-semibold text-white text-nowrap backdrop-blur-sm transition-[color,background] duration-200 hover:bg-white/30 focus-visible:outline focus-visible:outline-offset-1">
                                 {{ $cat->name }}
                             </a>
                         @endforeach
@@ -94,7 +94,7 @@
                                     <ul class="flex flex-col gap-1.5 mt-1">
                                         <li class="flex items-center gap-2 text-sm text-gray-600">
                                             <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="h-4 w-4 text-teal-500 shrink-0" viewBox="0 0 24 24"
+                                                class="h-4 w-4 text-gray-400 shrink-0" viewBox="0 0 24 24"
                                                 fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round">
                                                 <path d="M8 2v4" />
@@ -107,7 +107,7 @@
                                         </li>
                                         <li class="flex items-center gap-2 text-sm text-gray-600">
                                             <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="h-4 w-4 text-teal-500 shrink-0" viewBox="0 0 24 24"
+                                                class="h-4 w-4 text-gray-400 shrink-0" viewBox="0 0 24 24"
                                                 fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round">
                                                 <path
@@ -119,7 +119,7 @@
                                         </li>
                                         <li class="flex items-center gap-2 text-sm text-gray-600">
                                             <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="h-4 w-4 text-teal-500 shrink-0" viewBox="0 0 24 24"
+                                                class="h-4 w-4 text-gray-400 shrink-0" viewBox="0 0 24 24"
                                                 fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round">
                                                 <path
@@ -138,8 +138,8 @@
                                 <!-- CTA -->
                                 <div class="hidden md:block">
                                     <a :href="'/events/' + event.slug"
-                                        class="w-full inline-flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-bold text-sm py-2.5 px-5 rounded-xl shadow-lg shadow-teal-600/25 transition-all duration-200 hover:-translate-y-0.5">
-                                        Book Now
+                                        class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-teal-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-teal-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
+                                        Get Tickets
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24"
                                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                             stroke-linejoin="round">

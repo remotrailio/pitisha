@@ -19,7 +19,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round"
-                                    class="lucide lucide-calendar h-4 w-4 text-teal-600 shrink-0">
+                                    class="lucide lucide-calendar h-4 w-4 text-gray-400 shrink-0">
                                     <path d="M8 2v4"></path>
                                     <path d="M16 2v4"></path>
                                     <rect width="18" height="18" x="3" y="4" rx="2"></rect>
@@ -48,7 +48,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round"
-                                    class="lucide lucide-map-pin h-4 w-4 text-teal-600 shrink-0">
+                                    class="lucide lucide-map-pin h-4 w-4 text-gray-400 shrink-0">
                                     <path
                                         d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0">
                                     </path>
@@ -238,6 +238,48 @@
                             </a>
                             @if ($event->organizer->bio)
                                 <p class="mt-0.5 text-xs text-gray-500 line-clamp-2">{{ $event->organizer->bio }}</p>
+                            @endif
+                        </div>
+                    </div>
+                @endif
+
+                {{-- Venue map --}}
+                @if (!$event->is_online && $event->latitude && $event->longitude)
+                    <div class="mt-10">
+                        <h2 class="mb-4 text-base font-semibold text-gray-900">Venue location</h2>
+                        <div class="overflow-hidden rounded-2xl border border-gray-200 shadow-sm">
+                            <iframe
+                                src="https://www.google.com/maps/embed/v1/place?key={{ config('filament-google-maps.key') }}&q={{ $event->latitude }},{{ $event->longitude }}&zoom=15"
+                                width="100%"
+                                height="320"
+                                style="border:0;"
+                                allowfullscreen=""
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"
+                                class="w-full">
+                            </iframe>
+                            @if ($event->venue_name || $event->venue_address || $event->city)
+                                <div class="flex items-start gap-3 border-t border-gray-100 bg-white px-4 py-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="mt-0.5 h-4 w-4 shrink-0 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                        <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/>
+                                        <circle cx="12" cy="10" r="3"/>
+                                    </svg>
+                                    <div class="min-w-0">
+                                        @if ($event->venue_name)
+                                            <p class="text-sm font-medium text-gray-900">{{ $event->venue_name }}</p>
+                                        @endif
+                                        @if ($event->venue_address || $event->city)
+                                            <p class="text-xs text-gray-500">
+                                                {{ collect([$event->venue_address, $event->city])->filter()->implode(', ') }}
+                                            </p>
+                                        @endif
+                                    </div>
+                                    <a href="https://www.google.com/maps/dir/?api=1&destination={{ $event->latitude }},{{ $event->longitude }}"
+                                        target="_blank" rel="noopener"
+                                        class="ml-auto inline-flex items-center justify-center gap-3 rounded-full border border-gray-200 h-10 px-5 text-sm font-semibold text-gray-700 text-nowrap hover:bg-gray-50 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1 shrink-0">
+                                        Get directions
+                                    </a>
+                                </div>
                             @endif
                         </div>
                     </div>

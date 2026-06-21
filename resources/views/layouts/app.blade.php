@@ -99,7 +99,7 @@
                     @auth
                         <div class="relative hidden sm:block" x-data="{ userMenu: false }">
                             <button @click="userMenu = !userMenu" @click.away="userMenu = false"
-                                class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 transition-colors hover:text-gray-900 hover:bg-gray-100"
+                                class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-gray-400 transition-colors hover:text-gray-600 hover:bg-gray-50"
                                 title="Account">
                                 <svg class="h-4.5 w-4.5" fill="none" stroke="currentColor" stroke-width="2"
                                     viewBox="0 0 24 24">
@@ -145,13 +145,13 @@
                             Log in
                         </a>
                         <a href="{{ route('register') }}"
-                            class="hidden sm:inline-flex rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-700 transition-colors shadow-sm">
+                            class="hidden sm:inline-flex items-center justify-center gap-3 rounded-full bg-teal-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-teal-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                             Sign up
                         </a>
                     @endguest
 
                     <button @click="open = !open"
-                        class="sm:hidden p-2 rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-colors">
+                        class="sm:hidden p-2 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 6h16M4 12h16M4 18h16" />
@@ -188,7 +188,7 @@
                     @endif
                 </a>
                 <button @click="open = false"
-                    class="flex h-8 w-8 items-center justify-center rounded-md text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors">
+                    class="flex h-8 w-8 items-center justify-center rounded-md text-gray-400 hover:bg-gray-50 hover:text-gray-600 transition-colors">
                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="h-5 w-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
@@ -231,13 +231,13 @@
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit"
-                            class="w-full rounded-lg border border-red-200 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors">
+                            class="w-full inline-flex items-center justify-center gap-3 rounded-full border border-red-200 h-10 px-5 text-sm font-semibold text-red-600 text-nowrap hover:bg-red-50 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                             Log out
                         </button>
                     </form>
                 @else
                     <a href="{{ route('register') }}"
-                        class="block w-full rounded-lg bg-teal-600 px-4 py-2 text-center text-sm font-medium text-white hover:bg-teal-700 transition-colors">
+                        class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-teal-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-teal-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                         Sign up
                     </a>
                 @endauth
