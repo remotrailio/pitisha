@@ -29,7 +29,7 @@
         </div>
     </section>
 @else
-    <section class="py-10" style="background-image: linear-gradient(rgba(255,255,255,0.88), rgba(255,255,255,0.88)), url('/images/african-prints.png'); background-size: cover; background-position: center;">
+    <section class="py-10" style="background-image: linear-gradient(rgba(255,255,255,0.88), rgba(255,255,255,0.70)), url('/images/african-prints.png'); background-size: cover; background-position: center;">
         <div x-data="carousel()" x-show="events.length > 0" x-cloak class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
             @mouseenter="stopTimer()" @mouseleave="startTimer()">
 
