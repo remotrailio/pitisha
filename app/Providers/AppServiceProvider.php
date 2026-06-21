@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         try {
-            $priorityNames = ['Music', 'Tech', 'Sports', 'Conferences'];
+            $priorityNames = ['Music', 'Technology', 'Sports', 'Conferences'];
 
             // Fetch whichever priority categories actually exist and are active.
             $priority = \App\Models\Category::withCount(['events' => fn ($q) => $q->where('status', 'published')])
