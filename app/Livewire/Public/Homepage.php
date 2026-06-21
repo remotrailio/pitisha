@@ -24,7 +24,7 @@ class Homepage extends Component
             ->whereHas('ticketTypes')
             ->where('end_at', '>=', now())
             ->orderByDesc('published_at')
-            ->limit(6)
+            ->limit(5)
             ->get();
 
         $upcoming = Event::with(['organizer', 'category', 'ticketTypes'])
