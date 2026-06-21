@@ -1,6 +1,5 @@
 @if ($featured->isEmpty())
-    <section class="relative py-24 md:py-32"
-        style="background-image: linear-gradient(rgba(0,0,0,0.50), rgba(0,0,0,0.50)), url('https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=1600'); background-size: cover; background-position: center;">
+    <section class="relative py-24 md:py-32" style="background-image: linear-gradient(rgba(0,0,0,0.50), rgba(0,0,0,0.50)), url('https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=1600'); background-size: cover; background-position: center;">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="mx-auto max-w-3xl text-center text-white">
                 <h1 class="mb-6 font-heading text-4xl font-bold tracking-tight md:text-6xl">
@@ -30,7 +29,7 @@
         </div>
     </section>
 @else
-    <section class="py-10">
+    <section class="py-10" style="background-image: linear-gradient(rgba(255,255,255,0.88), rgba(255,255,255,0.88)), url('/images/african-prints.png'); background-size: cover; background-position: center;">
         <div x-data="carousel()" x-show="events.length > 0" x-cloak class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
             @mouseenter="stopTimer()" @mouseleave="startTimer()">
 
@@ -42,8 +41,8 @@
 
                     <template x-for="(event, i) in displayEvents" :key="`${event.id}-${i}`">
                         <div class="shrink-0 flex flex-col md:flex-row overflow-hidden bg-gray-50 border border-gray-200 cursor-pointer"
-                            :class="i === displayActive || events.length === 1 ? 'opacity-100 shadow-2xl shadow-gray-200' :
-                                'opacity-50 cursor-pointer'"
+                            :class="i === displayActive || events.length === 1 ? 'shadow-2xl shadow-gray-200' :
+                                'cursor-pointer'"
                             :style="`width: ${cardWidth}px; height: ${(events.length === 1 || i === displayActive) ? activeHeight : inactiveHeight}px; transition: ${(events.length === 1 || noCardTransition) ? 'none' : `all ${i !== displayActive ? '400ms' : '500ms'} ease-in-out ${i !== displayActive ? '100ms' : '0ms'}`}`"
                             @click="(i === displayActive || events.length === 1) ? window.location.href = '/events/' + event.slug : (i > 0 && i <= events.length && goTo(i - 1))">
 
