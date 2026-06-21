@@ -35,7 +35,9 @@ class Homepage extends Component
             ->where('end_at', '>=', now())
             ->orderBy('start_at')
             ->limit(8)
-            ->get();
+            ->get()
+            ->sortByDesc('attendees_count')
+            ->values();
 
         $categories = Category::where('is_active', true)
             ->orderBy('sort_order')
