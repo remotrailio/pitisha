@@ -2,7 +2,8 @@
 
 namespace App\Livewire\My;
 
-use App\Models\Ticket;
+use App\Enums\PaymentStatus;
+use App\Models\Order;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -12,13 +13,29 @@ class MyTickets extends Component
 {
     use WithPagination;
 
+    public string $filter = 'all';
+
+    public function updatingFilter(): void
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
-        $tickets = Ticket::with(['order.event', 'orderItem.ticketType'])
-            ->whereHas('order', fn ($q) => $q->where('user_id', auth()->id()))
+        $orders = Order::with(['event.category', 'tickets.orderItem.ticketType'])
+            ->where('user_id', auth()->id())
+            ->where('payment_status', PaymentStatus::PAID)
+            ->when(
+                $this->filter === 'upcoming',
+                fn ($q) => $q->whereHas('event', fn ($e) => $e->where('start_at', '>=', now()))
+            )
+            ->when(
+                $this->filter === 'past',
+                fn ($q) => $q->whereHas('event', fn ($e) => $e->where('start_at', '<', now()))
+            )
             ->latest()
-            ->paginate(12);
+            ->paginate(10);
 
-        return view('livewire.my.my-tickets', compact('tickets'));
+        return view('livewire.my.my-tickets', compact('orders'));
     }
 }

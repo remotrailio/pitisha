@@ -2,7 +2,7 @@
     {{-- Hero --}}
     <section class="py-20 text-white" style="background: linear-gradient(135deg, #0f766e, #0d9488, #14b8a6);">
         <div class="mx-auto max-w-7xl px-4">
-            <div class="max-w-4xl mx-auto text-center">
+            <div class="max-w-7xl mx-auto text-center">
                 <h1 class="text-4xl md:text-6xl font-bold mb-6">Turn Your Events Into Success Stories</h1>
                 <p class="text-xl md:text-2xl mb-8 text-white/90">Join Kenya's leading event platform and reach thousands
                     of eager attendees</p>
@@ -35,7 +35,7 @@
     {{-- Stats --}}
     <section class="py-16 bg-white border-b border-gray-100">
         <div class="mx-auto max-w-7xl px-4">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
                 <div class="text-center">
                     <div class="text-3xl md:text-4xl font-bold text-teal-600 mb-2">5,000+</div>
                     <div class="text-sm text-gray-500">Active Organizers</div>
@@ -170,7 +170,7 @@
     {{-- How it works --}}
     <section class="py-16 bg-white">
         <div class="mx-auto max-w-7xl px-4">
-            <div class="max-w-4xl mx-auto">
+            <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
                     <p class="text-xl text-gray-500">Get started in 3 simple steps</p>
