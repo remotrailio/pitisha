@@ -66,7 +66,7 @@
                 @if(!empty($__topCategories) && $__topCategories->isNotEmpty())
                 <div class="hidden md:flex items-center gap-0.5 shrink-0">
                     @foreach($__topCategories as $cat)
-                    <a href="{{ route('events.index') . '?selectedCategories[]=' . urlencode($cat->slug) }}"
+                    <a href="{{ route('events.index') . '?' . http_build_query(['selectedCategories' => [$cat->slug]]) }}"
                        class="whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium text-gray-600 hover:bg-forest-50 hover:text-forest-700 transition-colors">
                         {{ $cat->name }}
                     </a>
@@ -213,7 +213,7 @@
                 @if(!empty($__topCategories) && $__topCategories->isNotEmpty())
                 <div class="mb-1">
                     @foreach($__topCategories as $cat)
-                    <a href="{{ route('events.index') . '?selectedCategories[]=' . urlencode($cat->slug) }}" @click="open = false"
+                    <a href="{{ route('events.index') . '?' . http_build_query(['selectedCategories' => [$cat->slug]]) }}" @click="open = false"
                        class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-forest-50 hover:text-forest-700 transition-colors">
                         {{ $cat->name }}
                     </a>

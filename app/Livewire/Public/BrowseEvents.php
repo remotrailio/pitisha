@@ -71,8 +71,15 @@ class BrowseEvents extends Component
             });
         }
 
-        if (! empty($this->selectedCategories)) {
-            $query->whereHas('category', fn ($q) => $q->whereIn('slug', $this->selectedCategories));
+        // Merge Livewire's own filter with the nav quick-link format (?selectedCategories.=slug),
+        // which PHP receives as selectedCategories_ due to dot→underscore key conversion.
+        $effectiveCategories = array_values(array_unique(array_merge(
+            $this->selectedCategories,
+            array_filter((array) request()->query('selectedCategories_', [])),
+        )));
+
+        if (! empty($effectiveCategories)) {
+            $query->whereHas('category', fn ($q) => $q->whereIn('slug', $effectiveCategories));
         }
 
         if (! empty($this->selectedCities)) {
