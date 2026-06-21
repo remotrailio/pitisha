@@ -8,7 +8,7 @@
 @endphp
 
 <a href="{{ $eventUrl }}"
-    class="group flex flex-col overflow-hidden rounded-3xl bg-white shadow-md shadow-gray-200/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-gray-200/70 cursor-pointer">
+    class="group flex flex-col overflow-hidden bg-white shadow-md shadow-gray-200/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-gray-200/70 cursor-pointer">
 
     {{-- Image — ~60% of card height --}}
     <div class="relative aspect-square overflow-hidden">
@@ -24,50 +24,29 @@
             </div>
         @endif
 
-        {{-- Subtle gradient for badge readability --}}
-        <div class="pointer-events-none absolute inset-0 bg-linear-to-t from-black/25 via-transparent to-black/10"></div>
-
-        {{-- Top row: featured badge + save button --}}
-        <div class="absolute left-3 right-3 top-3 flex items-start justify-between">
-            @if ($showFeatured)
-                <span class="inline-flex items-center rounded-full bg-teal-600 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm">
-                    Featured
-                </span>
-            @else
-                <span></span>
-            @endif
-
-            <span class="flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-gray-500 shadow-sm backdrop-blur-sm transition-all duration-200 hover:bg-white hover:text-red-400">
-                <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                </svg>
-            </span>
-        </div>
-
-        {{-- Bottom row: ticket purchased pill + category --}}
-        <div class="absolute bottom-3 left-3 right-3 flex items-end justify-between">
-            @if ($hasPurchased)
-                <span class="inline-flex items-center gap-1 rounded-full bg-emerald-500 px-2.5 py-1 text-[10px] font-bold text-white shadow-sm">
-                    <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
-                    </svg>
-                    Ticket Purchased
-                </span>
-            @else
-                <span></span>
-            @endif
-
-            @if ($event->category)
-                <span class="rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-semibold text-gray-700 shadow-sm backdrop-blur-sm">
-                    {{ $event->category->name }}
-                </span>
-            @endif
-        </div>
     </div>
 
     {{-- Card content --}}
     <div class="flex flex-col flex-1 gap-3 p-4">
+
+        {{-- Category + ticket purchased --}}
+        @if ($event->category || $hasPurchased)
+            <div class="flex items-center gap-2 flex-wrap">
+                @if ($event->category)
+                    <span class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-[10px] font-semibold text-gray-600">
+                        {{ $event->category->name }}
+                    </span>
+                @endif
+                @if ($hasPurchased)
+                    <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-1 text-[10px] font-bold text-emerald-700">
+                        <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                        </svg>
+                        Ticket Purchased
+                    </span>
+                @endif
+            </div>
+        @endif
 
         {{-- Title + price --}}
         <div class="flex items-start justify-between gap-3">
