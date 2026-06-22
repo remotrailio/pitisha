@@ -24,7 +24,7 @@ class OrganizerProfile extends Component
     public function render()
     {
         $events = $this->organizer->events()
-            ->with('category')
+            ->with('categories')
             ->where('status', EventStatus::PUBLISHED)
             ->where('visibility', EventVisibility::PUBLIC)
             ->where('start_at', '>=', now())

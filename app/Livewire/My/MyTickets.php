@@ -22,7 +22,7 @@ class MyTickets extends Component
 
     public function render()
     {
-        $orders = Order::with(['event.category', 'tickets.orderItem.ticketType'])
+        $orders = Order::with(['event.categories', 'tickets.orderItem.ticketType'])
             ->where('user_id', auth()->id())
             ->where('payment_status', PaymentStatus::PAID)
             ->when(

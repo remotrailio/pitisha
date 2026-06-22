@@ -21,8 +21,10 @@ class EventForm
     public static function configure(Schema $schema): Schema
     {
         return $schema->components([
-            Select::make('category_id')
-                ->relationship('category', 'name')
+            Select::make('categories')
+                ->relationship('categories', 'name')
+                ->multiple()
+                ->preload()
                 ->required(),
 
             TextInput::make('title')

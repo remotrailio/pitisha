@@ -50,12 +50,12 @@
                             {{-- Event info --}}
                             <div class="flex flex-1 flex-col justify-between gap-4 p-5">
                                 <div class="flex flex-col gap-2">
-                                    @if ($event?->category)
+                                    @foreach($event?->categories ?? [] as $cat)
                                         <span
                                             class="inline-flex w-fit items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-gray-600">
-                                            {{ $event->category->name }}
+                                            {{ $cat->name }}
                                         </span>
-                                    @endif
+                                    @endforeach
 
                                     <h2 class="text-base font-bold leading-snug text-gray-900">
                                         {{ $event?->title ?? 'Unknown Event' }}

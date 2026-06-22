@@ -30,13 +30,13 @@
     <div class="flex flex-col flex-1 gap-3 p-4">
 
         {{-- Category + ticket purchased --}}
-        @if ($event->category || $hasPurchased)
+        @if ($event->categories->isNotEmpty() || $hasPurchased)
             <div class="flex items-center gap-2 flex-wrap">
-                @if ($event->category)
+                @foreach($event->categories as $cat)
                     <span class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-[10px] font-semibold text-gray-600">
-                        {{ $event->category->name }}
+                        {{ $cat->name }}
                     </span>
-                @endif
+                @endforeach
                 @if ($hasPurchased)
                     <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-1 text-[10px] font-bold text-emerald-700">
                         <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

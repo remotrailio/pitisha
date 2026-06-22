@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
 #[Fillable(['name', 'slug', 'description', 'icon', 'color', 'image_path', 'is_active', 'sort_order'])]
@@ -41,8 +41,8 @@ class Category extends Model
         return 'slug';
     }
 
-    public function events(): HasMany
+    public function events(): BelongsToMany
     {
-        return $this->hasMany(\App\Models\Event::class);
+        return $this->belongsToMany(\App\Models\Event::class);
     }
 }

@@ -29,9 +29,10 @@ class EventsTable
                 TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('category.name')
-                    ->label('Category')
-                    ->sortable(),
+                TextColumn::make('categories.name')
+                    ->label('Categories')
+                    ->badge()
+                    ->separator(','),
                 TextColumn::make('status')
                     ->badge(),
                 TextColumn::make('visibility')
@@ -58,8 +59,8 @@ class EventsTable
                         EventVisibility::PRIVATE->value  => 'Private',
                         EventVisibility::UNLISTED->value => 'Unlisted',
                     ]),
-                SelectFilter::make('category_id')
-                    ->relationship('category', 'name')
+                SelectFilter::make('categories')
+                    ->relationship('categories', 'name')
                     ->label('Category')
                     ->searchable(),
             ])

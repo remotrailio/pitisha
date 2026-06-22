@@ -51,7 +51,7 @@ class BrowseEvents extends Component
 
     public function render()
     {
-        $query = Event::with(['organizer', 'category', 'ticketTypes'])->withCount('attendees')
+        $query = Event::with(['organizer', 'categories', 'ticketTypes'])->withCount('attendees')
             ->whereIn('status', [EventStatus::PUBLISHED, EventStatus::LIVE])
             ->where('visibility', EventVisibility::PUBLIC)
             ->whereHas('ticketTypes')
@@ -79,7 +79,7 @@ class BrowseEvents extends Component
         )));
 
         if (! empty($effectiveCategories)) {
-            $query->whereHas('category', fn ($q) => $q->whereIn('slug', $effectiveCategories));
+            $query->whereHas('categories', fn ($q) => $q->whereIn('slug', $effectiveCategories));
         }
 
         if (! empty($this->selectedCities)) {

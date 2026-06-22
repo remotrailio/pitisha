@@ -14,7 +14,7 @@ class EventDetails extends Component
 
     public function mount(string $slug): void
     {
-        $this->event = Event::with(['organizer', 'category', 'ticketTypes' => function ($q) {
+        $this->event = Event::with(['organizer', 'categories', 'ticketTypes' => function ($q) {
             $q->where('is_active', true)->orderBy('sort_order');
         }])
             ->where('slug', $slug)

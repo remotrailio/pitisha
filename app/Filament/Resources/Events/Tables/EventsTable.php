@@ -27,9 +27,10 @@ class EventsTable
                     ->label('Organizer')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('category.name')
-                    ->label('Category')
-                    ->sortable(),
+                TextColumn::make('categories.name')
+                    ->label('Categories')
+                    ->badge()
+                    ->separator(','),
                 TextColumn::make('status')
                     ->badge(),
                 TextColumn::make('visibility')
@@ -67,8 +68,8 @@ class EventsTable
                     ->relationship('organizer', 'display_name')
                     ->label('Organizer')
                     ->searchable(),
-                SelectFilter::make('category_id')
-                    ->relationship('category', 'name')
+                SelectFilter::make('categories')
+                    ->relationship('categories', 'name')
                     ->label('Category')
                     ->searchable(),
             ])

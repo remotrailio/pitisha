@@ -78,7 +78,7 @@
                                         </span>
                                         <span
                                             class="inline-flex w-fit text-[10px] font-semibold px-2.5 py-1 rounded-full bg-gray-200 text-gray-700"
-                                            x-text="event.category?.name ?? ''"></span>
+                                            x-text="event.categories?.[0]?.name ?? ''"></span>
                                     </div>
 
                                     <!-- Title -->

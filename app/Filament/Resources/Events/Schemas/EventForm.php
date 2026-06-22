@@ -27,8 +27,10 @@ class EventForm
                 ->searchable()
                 ->required(),
 
-            Select::make('category_id')
-                ->relationship('category', 'name')
+            Select::make('categories')
+                ->relationship('categories', 'name')
+                ->multiple()
+                ->preload()
                 ->required(),
 
             TextInput::make('title')

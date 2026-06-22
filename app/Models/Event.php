@@ -10,13 +10,14 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 #[Fillable([
-    'organizer_id', 'category_id', 'title', 'slug', 'excerpt', 'description',
+    'organizer_id', 'title', 'slug', 'excerpt', 'description',
     'banner_image', 'venue_name', 'venue_address', 'destination_id', 'country',
     'latitude', 'longitude', 'is_online', 'meeting_url',
     'timezone', 'start_at', 'end_at', 'visibility', 'status', 'published_at',
@@ -91,9 +92,9 @@ class Event extends Model
         return $this->belongsTo(Organizer::class);
     }
 
-    public function category(): BelongsTo
+    public function categories(): BelongsToMany
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class);
     }
 
     public function destination(): BelongsTo

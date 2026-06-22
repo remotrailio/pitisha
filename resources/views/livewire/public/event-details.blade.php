@@ -63,12 +63,12 @@
                                 </span>
                             </div>
 
-                            @if ($event->category)
-                                <a href="{{ route('events.index', ['category' => $event->category->slug]) }}"
+                            @foreach($event->categories as $cat)
+                                <a href="{{ route('events.index') . '?' . http_build_query(['selectedCategories' => [$cat->slug]]) }}"
                                     class="inline-flex items-center rounded-full bg-teal-50 border border-teal-100 px-3 py-1 text-xs font-semibold text-teal-700 hover:bg-teal-100 transition-colors w-fit">
-                                    {{ $event->category->name }}
+                                    {{ $cat->name }}
                                 </a>
-                            @endif
+                            @endforeach
                         </div>
 
                         <div class="pt-1">
@@ -192,11 +192,11 @@
                 {{-- Breadcrumb --}}
                 <nav class="mb-6 flex items-center gap-2 text-sm text-gray-400">
                     <a href="{{ route('events.index') }}" class="hover:text-gray-600 transition-colors">Events</a>
-                    @if ($event->category)
+                    @foreach($event->categories as $cat)
                         <span>/</span>
-                        <a href="{{ route('events.index', ['category' => $event->category->slug]) }}"
-                            class="hover:text-gray-600 transition-colors">{{ $event->category->name }}</a>
-                    @endif
+                        <a href="{{ route('events.index') . '?' . http_build_query(['selectedCategories' => [$cat->slug]]) }}"
+                            class="hover:text-gray-600 transition-colors">{{ $cat->name }}</a>
+                    @endforeach
                     <span>/</span>
                     <span class="text-gray-600 line-clamp-1">{{ $event->title }}</span>
                 </nav>
