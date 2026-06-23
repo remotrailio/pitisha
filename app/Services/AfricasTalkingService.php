@@ -16,21 +16,35 @@ class AfricasTalkingService
             return false;
         }
 
-        $payload = [
-            'username'     => config('africastalking.username'),
-            'message'      => $message,
-            'phoneNumbers' => $numbers,
-        ];
+        $isSandbox = config('africastalking.username') === 'sandbox';
+        $senderId  = config('africastalking.sender_id');
 
-        $senderId = config('africastalking.sender_id');
-        if ($senderId) {
-            $payload['senderId'] = $senderId;
+        $request = Http::withHeaders([
+            'Accept' => 'application/json',
+            'apiKey' => config('africastalking.api_key'),
+        ]);
+
+        if ($isSandbox) {
+            $payload = [
+                'username' => config('africastalking.username'),
+                'message'  => $message,
+                'to'       => implode(',', $numbers),
+            ];
+            if ($senderId) {
+                $payload['from'] = $senderId;
+            }
+            $response = $request->asForm()->post(config('africastalking.sms_endpoint'), $payload);
+        } else {
+            $payload = [
+                'username'     => config('africastalking.username'),
+                'message'      => $message,
+                'phoneNumbers' => $numbers,
+            ];
+            if ($senderId) {
+                $payload['senderId'] = $senderId;
+            }
+            $response = $request->post(config('africastalking.sms_endpoint'), $payload);
         }
-
-        $response = Http::withHeaders([
-            'Accept'   => 'application/json',
-            'apiKey'   => config('africastalking.api_key'),
-        ])->post(config('africastalking.base_url') . '/version1/messaging/bulk', $payload);
 
         if ($response->failed()) {
             Log::error('AfricasTalking: SMS send failed', [
