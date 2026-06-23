@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
     'user_id', 'event_id', 'guest_token', 'subtotal', 'fees', 'discount', 'total', 'currency',
     'status', 'payment_status', 'payment_provider', 'payment_reference',
     'payment_method', 'expires_at', 'paid_at',
-    'mpesa_receipt_number', 'mpesa_checkout_request_id', 'mpesa_response',
+    'mpesa_receipt_number', 'mpesa_checkout_request_id', 'mpesa_response', 'mpesa_phone',
 ])]
 class Order extends Model
 {

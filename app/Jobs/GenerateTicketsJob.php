@@ -36,6 +36,7 @@ class GenerateTicketsJob implements ShouldQueue
         $generator->generate($order);
 
         SendTicketsPdfJob::dispatch($this->orderId);
+        SendTicketsSmsJob::dispatch($this->orderId);
         NotifyOrganizerJob::dispatch($this->orderId);
 
         Log::info('GenerateTicketsJob: complete', ['order' => $order->order_number]);

@@ -98,6 +98,8 @@ class CheckoutStart extends Component
             $mpesa    = app(MpesaService::class);
             $response = $mpesa->initiateStkPush($order, $normalizedPhone);
 
+            $order->update(['mpesa_phone' => $normalizedPhone]);
+
             if (! isset($response['CheckoutRequestID'])) {
                 $this->state        = 'failed';
                 $this->errorMessage = $response['errorMessage']

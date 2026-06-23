@@ -39,6 +39,7 @@ return new class extends Migration
             // Mpesa-specific fields
             $table->string('mpesa_receipt_number')->nullable();
             $table->string('mpesa_checkout_request_id')->nullable();
+            $table->string('mpesa_phone', 20)->nullable();
             $table->json('mpesa_response')->nullable();
 
             // Timing
