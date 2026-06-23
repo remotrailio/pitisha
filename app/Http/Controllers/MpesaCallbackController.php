@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\PaymentStatus;
 use App\Jobs\GenerateTicketsJob;
 use App\Models\Order;
+use App\Services\AfricasTalkingService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
@@ -116,6 +117,26 @@ class MpesaCallbackController extends Controller
 
         // ── H. Dispatch job — ticket generation runs asynchronously ────────
         GenerateTicketsJob::dispatch($order->id);
+
+        // ── I. Send SMS immediately (synchronous, no queue dependency) ──────
+        if ($order->mpesa_phone) {
+            $phone = '+' . ltrim($order->mpesa_phone, '+');
+            $event = $order->event;
+
+            if (! $event) {
+                $order->load('event');
+                $event = $order->event;
+            }
+
+            $confirmationUrl = route('orders.confirmation', $order->uuid)
+                . '?token=' . ($order->guest_token ?? tap((string) \Illuminate\Support\Str::uuid(), fn ($token) => $order->update(['guest_token' => $token])));
+
+            $message = "✅ Payment confirmed!\n"
+                . "{$event->title} · {$event->start_at->format('d M Y')}\n"
+                . "View your ticket: {$confirmationUrl}";
+
+            app(AfricasTalkingService::class)->sendSms([$phone], $message);
+        }
 
         return response('', 200);
     }
