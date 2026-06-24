@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Enums\PaymentStatus;
 use App\Jobs\GenerateTicketsJob;
 use App\Models\Order;
+use App\Models\PromoCode;
+use App\Services\PromoCodeEngine;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
@@ -114,7 +116,18 @@ class MpesaCallbackController extends Controller
             'receipt' => $mpesaReceiptNumber,
         ]);
 
-        // ── H. Dispatch job — ticket generation runs asynchronously ────────
+        // ── H. Consume promo code if one was applied ────────────────────────
+        if ($order->discount_code) {
+            $promo = PromoCode::where('event_id', $order->event_id)
+                ->where('code', $order->discount_code)
+                ->first();
+
+            if ($promo) {
+                PromoCodeEngine::consume($promo);
+            }
+        }
+
+        // ── I. Dispatch job — ticket generation runs asynchronously ────────
         GenerateTicketsJob::dispatch($order->id);
 
         return response('', 200);

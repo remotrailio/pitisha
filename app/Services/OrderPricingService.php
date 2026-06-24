@@ -13,7 +13,7 @@ class OrderPricingService
      * @param  array<int|string, int>  $quantities  ticket_type_id => qty
      * @return array{lines: list<array{name:string,quantity:int,price:float,subtotal:float}>, subtotal:float, fee:float, total:float, currency:string}
      */
-    public function buildOrderSummary(Event $event, Collection $ticketTypes, array $quantities): array
+    public function buildOrderSummary(Event $event, Collection $ticketTypes, array $quantities, float $discountAmount = 0.0): array
     {
         $lines = [];
 
@@ -35,7 +35,7 @@ class OrderPricingService
 
         $subtotal = $this->calculateSubtotal(array_column($lines, 'subtotal'));
         $fee      = $this->calculatePlatformFee($event, $subtotal);
-        $total    = $this->calculateTotal($subtotal, $fee);
+        $total    = $this->calculateTotal($subtotal, $fee, $discountAmount);
         $currency = strtoupper($ticketTypes->first()?->currency ?? 'KES');
 
         return compact('lines', 'subtotal', 'fee', 'total', 'currency');

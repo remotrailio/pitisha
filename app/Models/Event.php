@@ -87,6 +87,11 @@ class Event extends Model
             : null;
     }
 
+    public function promoCodes(): HasMany
+    {
+        return $this->hasMany(PromoCode::class);
+    }
+
     public function organizer(): BelongsTo
     {
         return $this->belongsTo(Organizer::class);

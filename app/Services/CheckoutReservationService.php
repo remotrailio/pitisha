@@ -72,9 +72,9 @@ class CheckoutReservationService
      *
      * @param  array<array{ticket_type_id: int, quantity: int}>  $items
      */
-    public function createPendingOrder(User $user, Event $event, array $items): Order
+    public function createPendingOrder(User $user, Event $event, array $items, ?array $promoResult = null): Order
     {
-        return DB::transaction(function () use ($user, $event, $items) {
+        return DB::transaction(function () use ($user, $event, $items, $promoResult) {
             // ── 1. Acquire row-level locks on every affected ticket type ──────
             $types = TicketType::whereIn('id', array_column($items, 'ticket_type_id'))
                 ->lockForUpdate()
@@ -137,22 +137,32 @@ class CheckoutReservationService
             }
 
             // ── 3. Create order — sold is NOT incremented here ─────────────────
-            $subtotal = $this->pricing->calculateSubtotal($lineTotals);
-            $fee      = $this->pricing->calculatePlatformFee($event, $subtotal);
-            $total    = $this->pricing->calculateTotal($subtotal, $fee);
+            $subtotal       = $this->pricing->calculateSubtotal($lineTotals);
+            $fee            = $this->pricing->calculatePlatformFee($event, $subtotal);
+            $discountAmount = ($promoResult && $promoResult['success']) ? $promoResult['discount_amount'] : 0;
+            $total          = $this->pricing->calculateTotal($subtotal, $fee, $discountAmount);
 
-            $order = Order::create([
+            $orderData = [
                 'user_id'        => $user->id,
                 'event_id'       => $event->id,
                 'subtotal'       => $subtotal,
                 'fees'           => $fee,
-                'discount'       => 0,
+                'discount'       => $discountAmount,
                 'total'          => $total,
                 'currency'       => $currency,
                 'status'         => OrderStatus::PENDING,
                 'payment_status' => PaymentStatus::UNPAID,
                 'expires_at'     => now()->addMinutes(10),
-            ]);
+            ];
+
+            if ($promoResult && $promoResult['success']) {
+                $orderData['discount_code']  = $promoResult['promo_code'];
+                $orderData['discount_name']  = $promoResult['promo_name'];
+                $orderData['discount_type']  = $promoResult['promo_type'];
+                $orderData['discount_value'] = $promoResult['promo_value'];
+            }
+
+            $order = Order::create($orderData);
 
             $order->items()->createMany($orderItems);
 

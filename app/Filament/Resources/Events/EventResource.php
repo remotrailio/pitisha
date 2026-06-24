@@ -61,6 +61,7 @@ class EventResource extends Resource
     {
         return [
             RelationManagers\TicketTypesRelationManager::class,
+            RelationManagers\PromoCodesRelationManager::class,
         ];
     }
 

@@ -22,6 +22,10 @@ return new class extends Migration
             $table->decimal('subtotal', 10, 2);
             $table->decimal('fees', 10, 2)->default(0);
             $table->decimal('discount', 10, 2)->default(0);
+            $table->string('discount_code', 50)->nullable();
+            $table->string('discount_name', 100)->nullable();
+            $table->string('discount_type', 20)->nullable();
+            $table->decimal('discount_value', 10, 2)->nullable();
             $table->decimal('total', 10, 2);
             $table->string('currency', 3)->default('kes');
 

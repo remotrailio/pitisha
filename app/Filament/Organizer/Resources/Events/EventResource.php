@@ -55,7 +55,9 @@ class EventResource extends Resource
 
     public static function getRelations(): array
     {
-        return [];
+        return [
+            RelationManagers\PromoCodesRelationManager::class,
+        ];
     }
 
     public static function canCreate(): bool

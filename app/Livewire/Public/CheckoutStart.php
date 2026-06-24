@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Services\CheckoutService;
 use App\Services\MpesaService;
 use App\Services\OrderPricingService;
+use App\Services\PromoCodeEngine;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -24,6 +25,10 @@ class CheckoutStart extends Component
     public string $email = '';
 
     public string $phone = '';
+
+    public string $promoCodeInput = '';
+
+    public ?array $promoResult = null;
 
     // idle | processing | polling | success | failed
     public string $state = 'idle';
@@ -56,6 +61,30 @@ class CheckoutStart extends Component
         }
     }
 
+    public function applyPromo(): void
+    {
+        $code = trim($this->promoCodeInput);
+
+        if ($code === '') {
+            $this->promoResult = null;
+            return;
+        }
+
+        $ticketTypes = $this->event->ticketTypes()->get();
+        $summary     = app(OrderPricingService::class)
+            ->buildOrderSummary($this->event, $ticketTypes, $this->items);
+
+        $result = PromoCodeEngine::apply($this->event, $code, $summary['subtotal']);
+
+        $this->promoResult = $result;
+    }
+
+    public function removePromo(): void
+    {
+        $this->promoResult    = null;
+        $this->promoCodeInput = '';
+    }
+
     public function pay(): void
     {
         $rules = ['phone' => ['required', 'string', 'min:9']];
@@ -85,7 +114,7 @@ class CheckoutStart extends Component
                 ? Auth::user()
                 : $checkout->resolveGuestUser($this->email, $this->name);
 
-            $order = $checkout->checkout($user, $this->event, $checkoutItems);
+            $order = $checkout->checkout($user, $this->event, $checkoutItems, $this->promoResult);
 
             if (! Auth::check()) {
                 $this->guestToken = (string) \Illuminate\Support\Str::uuid();
@@ -157,21 +186,28 @@ class CheckoutStart extends Component
         $this->errorMessage = null;
         $this->orderId      = null;
         $this->pollCount    = 0;
+        $this->promoResult  = null;
+        $this->promoCodeInput = '';
     }
 
     public function render()
     {
-        $ticketTypes = $this->event->ticketTypes()->get();
-        $summary     = app(OrderPricingService::class)
-            ->buildOrderSummary($this->event, $ticketTypes, $this->items);
+        $ticketTypes    = $this->event->ticketTypes()->get();
+        $discountAmount = ($this->promoResult && $this->promoResult['success'])
+            ? $this->promoResult['discount_amount']
+            : 0;
+
+        $summary = app(OrderPricingService::class)
+            ->buildOrderSummary($this->event, $ticketTypes, $this->items, $discountAmount);
 
         return view('livewire.public.checkout-start', [
-            'itemSummary' => $summary['lines'],
-            'total'       => $summary['total'],
-            'subtotal'    => $summary['subtotal'],
-            'fee'         => $summary['fee'],
-            'currency'    => $summary['currency'],
-            'order'       => $this->orderId ? Order::find($this->orderId) : null,
+            'itemSummary'    => $summary['lines'],
+            'total'          => $summary['total'],
+            'subtotal'       => $summary['subtotal'],
+            'fee'            => $summary['fee'],
+            'currency'       => $summary['currency'],
+            'discountAmount' => $discountAmount,
+            'order'          => $this->orderId ? Order::find($this->orderId) : null,
         ]);
     }
 }

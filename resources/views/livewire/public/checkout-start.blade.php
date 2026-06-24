@@ -105,6 +105,12 @@
                         <span>Subtotal</span>
                         <span>{{ $currency }} {{ number_format($subtotal, 2) }}</span>
                     </div>
+                    @if($discountAmount > 0)
+                        <div class="flex items-center justify-between text-sm text-emerald-600">
+                            <span>Discount ({{ $promoResult['promo_code'] }})</span>
+                            <span>− {{ $currency }} {{ number_format($discountAmount, 2) }}</span>
+                        </div>
+                    @endif
                     <div class="flex items-center justify-between border-t border-gray-200 pt-2">
                         <span class="font-semibold text-gray-800">Total</span>
                         <span class="text-lg font-bold text-teal-600">
@@ -113,6 +119,43 @@
                     </div>
                 </div>
             </div>
+
+            {{-- Promo code --}}
+            @if(!$promoResult || !$promoResult['success'])
+                <div class="rounded-2xl border border-gray-200 bg-white px-6 py-5 shadow-md shadow-gray-100">
+                    <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-gray-500">Promo code</h2>
+                    <div class="flex gap-2">
+                        <input
+                            type="text"
+                            wire:model="promoCodeInput"
+                            placeholder="Enter code"
+                            class="block w-full rounded-xl border border-gray-200 bg-gray-50 py-2.5 px-3 text-sm text-gray-900 uppercase placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 hover:border-gray-300 transition-all duration-150"
+                        />
+                        <button
+                            wire:click="applyPromo"
+                            class="inline-flex items-center justify-center rounded-full border border-gray-200 h-10 px-4 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap"
+                        >
+                            Apply
+                        </button>
+                    </div>
+                    @if($promoResult && !$promoResult['success'])
+                        <p class="mt-2 text-xs text-red-600">{{ $promoResult['message'] }}</p>
+                    @endif
+                </div>
+            @else
+                <div class="flex items-center justify-between rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-3">
+                    <div class="flex items-center gap-2 text-sm text-emerald-700">
+                        <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span class="font-semibold">{{ $promoResult['promo_code'] }}</span>
+                        <span class="text-emerald-600">— {{ $promoResult['promo_name'] }}</span>
+                    </div>
+                    <button wire:click="removePromo" class="text-xs text-emerald-600 hover:text-emerald-800 font-medium transition-colors">
+                        Remove
+                    </button>
+                </div>
+            @endif
 
             {{-- Guest details --}}
             @guest

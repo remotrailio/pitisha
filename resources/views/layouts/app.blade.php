@@ -63,16 +63,20 @@
                 </a>
 
                 {{-- Top category quick links (md+) --}}
-                @if(!empty($__topCategories) && $__topCategories->isNotEmpty())
                 <div class="hidden md:flex items-center gap-0.5 shrink-0">
-                    @foreach($__topCategories as $cat)
-                    <a href="{{ route('events.index') . '?' . http_build_query(['selectedCategories' => [$cat->slug]]) }}"
+                    <a href="{{ route('events.index') }}"
                        class="whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium text-gray-600 hover:bg-forest-50 hover:text-forest-700 transition-colors">
-                        {{ $cat->name }}
+                        Events
                     </a>
-                    @endforeach
+                    @if(!empty($__topCategories) && $__topCategories->isNotEmpty())
+                        @foreach($__topCategories as $cat)
+                        <a href="{{ route('events.index') . '?' . http_build_query(['selectedCategories' => [$cat->slug]]) }}"
+                           class="whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium text-gray-600 hover:bg-forest-50 hover:text-forest-700 transition-colors">
+                            {{ $cat->name }}
+                        </a>
+                        @endforeach
+                    @endif
                 </div>
-                @endif
 
                 {{-- Centered search (md+) --}}
                 <div class="hidden md:flex flex-1 justify-center px-4">
@@ -84,8 +88,6 @@
 
                     {{-- Nav links (lg+) --}}
                     <nav class="hidden lg:flex items-center gap-5 mr-2">
-                        <a href="{{ route('events.index') }}"
-                            class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Browse</a>
                         @auth
                             @if (auth()->user()->isOrganizer())
                                 <a href="{{ url('/organizer') }}"
