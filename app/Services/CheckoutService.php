@@ -30,13 +30,13 @@ class CheckoutService
     /**
      * @param  array<array{ticket_type_id: int, quantity: int}>  $items
      */
-    public function checkout(User $user, Event $event, array $items, ?array $promoResult = null): Order
+    public function checkout(User $user, Event $event, array $items, ?array $promoResult = null, ?string $referrerCode = null): Order
     {
         $event->loadMissing('organizer');
 
         // Fast pre-flight check before acquiring any locks
         $this->reservation->validateAvailability($items);
 
-        return $this->reservation->createPendingOrder($user, $event, $items, $promoResult);
+        return $this->reservation->createPendingOrder($user, $event, $items, $promoResult, $referrerCode);
     }
 }

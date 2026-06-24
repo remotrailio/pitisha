@@ -16,7 +16,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
-#[Fillable(['name', 'email', 'password', 'role'])]
+#[Fillable(['name', 'email', 'password', 'role', 'referral_code'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 {
@@ -57,10 +57,28 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         return $this->role === UserRole::ATTENDEE;
     }
 
+    public function referralsGiven(): HasMany
+    {
+        return $this->hasMany(EventReferral::class, 'referrer_user_id');
+    }
+
+    public function referralRewards(): HasMany
+    {
+        return $this->hasMany(EventReferralReward::class);
+    }
+
     protected static function booted(): void
     {
         static::creating(function (User $user) {
             $user->uuid ??= (string) Str::uuid();
+
+            if (empty($user->referral_code)) {
+                do {
+                    $code = strtoupper(Str::random(8));
+                } while (static::where('referral_code', $code)->exists());
+
+                $user->referral_code = $code;
+            }
         });
     }
 

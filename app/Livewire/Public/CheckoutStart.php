@@ -39,6 +39,8 @@ class CheckoutStart extends Component
 
     public ?string $guestToken = null;
 
+    public ?string $referrerCode = null;
+
     public int $pollCount = 0;
 
     private const MAX_POLLS = 20; // ~60 seconds at 3s intervals
@@ -58,6 +60,11 @@ class CheckoutStart extends Component
             $this->name  = Auth::user()->name;
             $this->email = Auth::user()->email;
             $this->phone = Auth::user()->phone ?? '';
+        }
+
+        // Carry referral code from event page visit if it belongs to this event
+        if (session('referrer_event_id') === $this->event->id) {
+            $this->referrerCode = session('referrer_code');
         }
     }
 
@@ -114,7 +121,7 @@ class CheckoutStart extends Component
                 ? Auth::user()
                 : $checkout->resolveGuestUser($this->email, $this->name);
 
-            $order = $checkout->checkout($user, $this->event, $checkoutItems, $this->promoResult);
+            $order = $checkout->checkout($user, $this->event, $checkoutItems, $this->promoResult, $this->referrerCode);
 
             if (! Auth::check()) {
                 $this->guestToken = (string) \Illuminate\Support\Str::uuid();

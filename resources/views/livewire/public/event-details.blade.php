@@ -243,6 +243,92 @@
                     </div>
                 @endif
 
+                {{-- Referral widget --}}
+                @if ($event->enable_referrals && $isEligibleReferrer && $referralProgress)
+                    @php
+                        $refCount  = $referralProgress['count'];
+                        $refTarget = $referralProgress['target'];
+                        $refLink   = $referralProgress['link'];
+                        $refReward = $referralProgress['latest_reward'];
+                        $refPct    = $refTarget > 0 ? min(100, (int) round(($refCount / $refTarget) * 100)) : 0;
+                    @endphp
+                    <div class="mt-10 rounded-2xl border border-gray-200 bg-white p-5">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <p class="font-semibold text-gray-900">Invite friends</p>
+                                <p class="text-xs text-gray-500 mt-0.5">Share your link — earn rewards when friends buy tickets</p>
+                            </div>
+                            @if ($refReward)
+                                <span class="inline-flex items-center rounded-full bg-teal-50 border border-teal-100 px-3 py-1 text-xs font-semibold text-teal-700">
+                                    Reward earned!
+                                </span>
+                            @endif
+                        </div>
+
+                        @if ($refReward)
+                            {{-- Reward earned state --}}
+                            <div class="rounded-xl bg-teal-50 border border-teal-100 p-4 text-center mb-4">
+                                <p class="text-sm font-semibold text-teal-800">Congratulations!</p>
+                                <p class="text-xs text-teal-700 mt-1">You've earned:
+                                    @if ($refReward->reward_type->value === 'free_ticket' && $refReward->ticketType)
+                                        1 {{ $refReward->ticketType->name }}
+                                    @elseif ($refReward->reward_type->value === 'discount')
+                                        KES {{ number_format($refReward->reward_value, 0) }} discount
+                                    @else
+                                        {{ $refReward->reward_type->label() }}
+                                    @endif
+                                </p>
+                            </div>
+                        @endif
+
+                        {{-- Progress bar --}}
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between text-sm mb-1.5">
+                                <span class="font-medium text-gray-700">{{ $refCount }} / {{ $refTarget }} referrals</span>
+                                <span class="text-xs text-gray-400">{{ $refPct }}%</span>
+                            </div>
+                            <div class="h-2 w-full rounded-full bg-gray-100 overflow-hidden">
+                                <div class="h-2 rounded-full bg-teal-500 transition-all duration-500"
+                                    style="width: {{ $refPct }}%"></div>
+                            </div>
+                        </div>
+
+                        {{-- Reward label --}}
+                        @if ($event->reward_type)
+                            <p class="text-xs text-gray-500 mb-4">
+                                Reward:
+                                @if ($event->reward_type->value === 'free_ticket' && $event->reward_ticket_type_id)
+                                    @php $rwType = $event->ticketTypes->firstWhere('id', $event->reward_ticket_type_id) @endphp
+                                    1 {{ $rwType?->name ?? 'Free Ticket' }}
+                                @elseif ($event->reward_type->value === 'discount')
+                                    KES {{ number_format($event->reward_value, 0) }} discount
+                                @else
+                                    {{ $event->reward_type->label() }}
+                                @endif
+                            </p>
+                        @endif
+
+                        {{-- Referral link copy --}}
+                        <div class="flex items-center gap-2">
+                            <input type="text" readonly value="{{ $refLink }}"
+                                onclick="this.select()"
+                                class="flex-1 min-w-0 rounded-full border border-gray-200 bg-gray-50 px-4 h-10 text-xs text-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-300 cursor-pointer truncate">
+                            <button type="button"
+                                onclick="navigator.clipboard.writeText('{{ $refLink }}').then(() => { this.textContent = 'Copied!'; setTimeout(() => this.textContent = 'Copy', 2000); })"
+                                class="shrink-0 inline-flex items-center justify-center gap-3 rounded-full bg-teal-600 h-10 px-5 text-sm font-semibold text-white hover:bg-teal-700 transition-[color,background] duration-200">
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                @elseif ($event->enable_referrals && !auth()->check())
+                    <div class="mt-10 rounded-2xl border border-dashed border-gray-200 p-5 text-center">
+                        <p class="text-sm font-medium text-gray-700">Invite friends and earn rewards</p>
+                        <p class="text-xs text-gray-400 mt-1">
+                            <a href="{{ route('login') }}" class="text-teal-600 hover:underline">Sign in</a> to get your referral link
+                        </p>
+                    </div>
+                @endif
+
                 {{-- Venue map --}}
                 @if (!$event->is_online && $event->latitude && $event->longitude)
                     <div class="mt-10">

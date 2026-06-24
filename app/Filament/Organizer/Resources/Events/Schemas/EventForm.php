@@ -5,6 +5,7 @@ namespace App\Filament\Organizer\Resources\Events\Schemas;
 use App\Enums\Country;
 use App\Enums\EventStatus;
 use App\Enums\EventVisibility;
+use App\Enums\RewardType;
 use Cheesegrits\FilamentGoogleMaps\Fields\Map;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
@@ -159,6 +160,40 @@ class EventForm
             DateTimePicker::make('published_at')
                 ->nullable()
                 ->visible(fn (Get $get): bool => $get('status') === EventStatus::PUBLISHED->value),
+
+            Toggle::make('enable_referrals')
+                ->label('Enable Referral Program')
+                ->live()
+                ->default(false),
+
+            TextInput::make('referral_target')
+                ->label('Referral Target')
+                ->numeric()
+                ->minValue(1)
+                ->helperText('Number of successful referrals needed to earn the reward.')
+                ->visible(fn (Get $get): bool => (bool) $get('enable_referrals'))
+                ->required(fn (Get $get): bool => (bool) $get('enable_referrals')),
+
+            Select::make('reward_type')
+                ->label('Reward Type')
+                ->options(RewardType::options())
+                ->live()
+                ->visible(fn (Get $get): bool => (bool) $get('enable_referrals'))
+                ->required(fn (Get $get): bool => (bool) $get('enable_referrals')),
+
+            Select::make('reward_ticket_type_id')
+                ->label('Reward Ticket Type')
+                ->relationship('ticketTypes', 'name')
+                ->helperText('The ticket type the referrer will receive as a reward.')
+                ->visible(fn (Get $get): bool => (bool) $get('enable_referrals') && $get('reward_type') === RewardType::FREE_TICKET->value)
+                ->required(fn (Get $get): bool => (bool) $get('enable_referrals') && $get('reward_type') === RewardType::FREE_TICKET->value),
+
+            TextInput::make('reward_value')
+                ->label('Reward Value')
+                ->numeric()
+                ->minValue(0)
+                ->helperText('Discount amount (KES) or other reward value.')
+                ->visible(fn (Get $get): bool => (bool) $get('enable_referrals') && $get('reward_type') !== RewardType::FREE_TICKET->value && $get('reward_type') !== null),
         ]);
     }
 }

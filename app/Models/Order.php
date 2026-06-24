@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
     'payment_method', 'expires_at', 'paid_at',
     'mpesa_receipt_number', 'mpesa_checkout_request_id', 'mpesa_response', 'mpesa_phone',
     'discount_code', 'discount_name', 'discount_type', 'discount_value',
+    'referrer_code',
 ])]
 class Order extends Model
 {

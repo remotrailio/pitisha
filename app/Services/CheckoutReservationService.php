@@ -72,9 +72,9 @@ class CheckoutReservationService
      *
      * @param  array<array{ticket_type_id: int, quantity: int}>  $items
      */
-    public function createPendingOrder(User $user, Event $event, array $items, ?array $promoResult = null): Order
+    public function createPendingOrder(User $user, Event $event, array $items, ?array $promoResult = null, ?string $referrerCode = null): Order
     {
-        return DB::transaction(function () use ($user, $event, $items, $promoResult) {
+        return DB::transaction(function () use ($user, $event, $items, $promoResult, $referrerCode) {
             // ── 1. Acquire row-level locks on every affected ticket type ──────
             $types = TicketType::whereIn('id', array_column($items, 'ticket_type_id'))
                 ->lockForUpdate()
@@ -160,6 +160,10 @@ class CheckoutReservationService
                 $orderData['discount_name']  = $promoResult['promo_name'];
                 $orderData['discount_type']  = $promoResult['promo_type'];
                 $orderData['discount_value'] = $promoResult['promo_value'];
+            }
+
+            if ($referrerCode) {
+                $orderData['referrer_code'] = strtoupper($referrerCode);
             }
 
             $order = Order::create($orderData);

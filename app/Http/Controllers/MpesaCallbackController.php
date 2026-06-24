@@ -7,6 +7,7 @@ use App\Jobs\GenerateTicketsJob;
 use App\Models\Order;
 use App\Models\PromoCode;
 use App\Services\PromoCodeEngine;
+use App\Services\ReferralEngine;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
@@ -127,7 +128,10 @@ class MpesaCallbackController extends Controller
             }
         }
 
-        // ── I. Dispatch job — ticket generation runs asynchronously ────────
+        // ── I. Record referral if order came through a referral link ────────
+        ReferralEngine::record($order);
+
+        // ── J. Dispatch job — ticket generation runs asynchronously ────────
         GenerateTicketsJob::dispatch($order->id);
 
         return response('', 200);

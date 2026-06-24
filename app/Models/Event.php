@@ -6,6 +6,7 @@ use App\Enums\EventStatus;
 use App\Enums\EventVisibility;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
+use App\Enums\RewardType;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +22,7 @@ use Illuminate\Support\Str;
     'banner_image', 'venue_name', 'venue_address', 'destination_id', 'country',
     'latitude', 'longitude', 'is_online', 'meeting_url',
     'timezone', 'start_at', 'end_at', 'visibility', 'status', 'published_at',
+    'enable_referrals', 'referral_target', 'reward_type', 'reward_ticket_type_id', 'reward_value',
 ])]
 class Event extends Model
 {
@@ -64,14 +66,17 @@ class Event extends Model
     protected function casts(): array
     {
         return [
-            'is_online'    => 'boolean',
-            'start_at'     => 'datetime',
-            'end_at'       => 'datetime',
-            'published_at' => 'datetime',
-            'latitude'     => 'decimal:7',
-            'longitude'    => 'decimal:7',
-            'visibility'   => EventVisibility::class,
-            'status'       => EventStatus::class,
+            'is_online'        => 'boolean',
+            'enable_referrals' => 'boolean',
+            'start_at'         => 'datetime',
+            'end_at'           => 'datetime',
+            'published_at'     => 'datetime',
+            'latitude'         => 'decimal:7',
+            'longitude'        => 'decimal:7',
+            'reward_value'     => 'decimal:2',
+            'reward_type'      => RewardType::class,
+            'visibility'       => EventVisibility::class,
+            'status'           => EventStatus::class,
         ];
     }
 
@@ -90,6 +95,16 @@ class Event extends Model
     public function promoCodes(): HasMany
     {
         return $this->hasMany(PromoCode::class);
+    }
+
+    public function referrals(): HasMany
+    {
+        return $this->hasMany(EventReferral::class);
+    }
+
+    public function referralRewards(): HasMany
+    {
+        return $this->hasMany(EventReferralReward::class);
     }
 
     public function organizer(): BelongsTo

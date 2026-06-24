@@ -5,7 +5,8 @@ namespace App\Livewire\Public;
 use App\Enums\EventStatus;
 use App\Enums\EventVisibility;
 use App\Models\Event;
-use Livewire\Attributes\Layout;
+use App\Services\ReferralEngine;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class EventDetails extends Component
@@ -21,11 +22,36 @@ class EventDetails extends Component
             ->where('status', EventStatus::PUBLISHED)
             ->where('visibility', EventVisibility::PUBLIC)
             ->firstOrFail();
+
+        // Capture referral code from ?ref= and store in session for checkout
+        $ref = request()->query('ref');
+
+        if ($ref) {
+            session([
+                'referrer_code'    => $ref,
+                'referrer_event_id' => $this->event->id,
+            ]);
+        }
     }
 
     public function render()
     {
-        return view('livewire.public.event-details')
+        $referralProgress = null;
+        $isEligibleReferrer = false;
+
+        if ($this->event->enable_referrals && Auth::check()) {
+            $user = Auth::user();
+            $isEligibleReferrer = ReferralEngine::isEligible($user, $this->event);
+
+            if ($isEligibleReferrer) {
+                $referralProgress = ReferralEngine::getProgress($this->event, $user);
+            }
+        }
+
+        return view('livewire.public.event-details', [
+            'referralProgress'   => $referralProgress,
+            'isEligibleReferrer' => $isEligibleReferrer,
+        ])
             ->layout('layouts.app', [
                 'title'       => $this->event->title . ' – ' . config('app.name'),
                 'description' => $this->event->excerpt ?? '',
