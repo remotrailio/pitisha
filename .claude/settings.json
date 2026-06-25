@@ -4,7 +4,17 @@
       "Bash(grep -n 'dragend\\\\|drag\\\\|afterStateUpdated\\\\|$wire\\\\|statePath\\\\|dispatch\\\\|set\\(' /Users/kiptoo/Documents/personal/pitisha/vendor/cheesegrits/filament-google-maps/resources/js/filament-google-maps.js)",
       "Bash(grep -n 'markerMoved\\\\|$wire\\\\|livewire\\\\|set\\\\b' /Users/kiptoo/Documents/personal/pitisha/vendor/cheesegrits/filament-google-maps/resources/js/filament-google-maps.js)",
       "Bash(php artisan tinker '--execute= *)",
-      "Bash(php artisan *)"
+      "Bash(php artisan *)",
+      "Bash(sed -i '' 's|background: rgba\\(255, 255, 255, 0.067\\); border: 1px solid rgba\\(255, 255, 255, 0.11\\)|background: #f0faf9; border: 1px solid #d1fae5|g' /Users/kiptoo/Documents/personal/pitisha/resources/views/public/why.blade.php)",
+      "Bash(sed -i '' 's|background: rgba\\(255, 255, 255, 0.05\\); border: 1px solid rgba\\(255, 255, 255, 0.09\\)|background: #f0faf9; border: 1px solid #d1fae5|g' /Users/kiptoo/Documents/personal/pitisha/resources/views/public/why.blade.php)",
+      "Bash(sed -i '' 's|background: rgba\\(255, 255, 255, 0.14\\); border: 2px solid rgba\\(255, 255, 255, 0.24\\)|background: #e6f7f5; border: 2px solid #a7f3d0|g' /Users/kiptoo/Documents/personal/pitisha/resources/views/public/why.blade.php)",
+      "Bash(sed -i '' 's|background: rgba\\(255, 255, 255, 0.11\\); max-width: 80%|background: #e6f7f5; max-width: 80%|g' /Users/kiptoo/Documents/personal/pitisha/resources/views/public/why.blade.php)",
+      "Bash(sed -i '' 's|background: rgba\\(255, 255, 255, 0.11\\); max-width: 85%|background: #e6f7f5; max-width: 85%|g' /Users/kiptoo/Documents/personal/pitisha/resources/views/public/why.blade.php)",
+      "Bash(sed -i '' 's|color: rgba\\(255, 255, 255, 0.38\\)|color: #6b7280|g' /Users/kiptoo/Documents/personal/pitisha/resources/views/public/why.blade.php)",
+      "Bash(sed -i '' 's|color: rgba\\(255, 255, 255, 0.52\\)|color: #6b7280|g' /Users/kiptoo/Documents/personal/pitisha/resources/views/public/why.blade.php)",
+      "Bash(sed -i '' 's|color: rgba\\(255, 255, 255, 0.45\\)|color: #6b7280|g' /Users/kiptoo/Documents/personal/pitisha/resources/views/public/why.blade.php)",
+      "Bash(sed -i '' 's|color: rgba\\(255, 255, 255, 0.44\\)|color: #6b7280|g' /Users/kiptoo/Documents/personal/pitisha/resources/views/public/why.blade.php)",
+      "Bash(sed -i '' 's|color: rgba\\(255, 255, 255, 0.42\\)|color: #6b7280|g' /Users/kiptoo/Documents/personal/pitisha/resources/views/public/why.blade.php)"
     ]
   }
 }
