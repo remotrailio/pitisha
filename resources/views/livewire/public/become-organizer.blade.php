@@ -113,7 +113,7 @@
                                                                             Park Amphitheater</div>
                                                                     </div>
                                                                     <div class="flex flex-col items-end gap-1.5"><span
-                                                                            class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold"
+                                                                            class="inline-flex items-center text-nowrap gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold"
                                                                             style="background-color: #C8450A; color: white;">🔥
                                                                             Trending</span>
                                                                         <div class="text-xs" style="color: #6b7280;">3 days
