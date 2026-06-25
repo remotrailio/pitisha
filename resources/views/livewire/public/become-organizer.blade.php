@@ -1,33 +1,54 @@
 <div>
     {{-- Hero --}}
-    <section class="py-20 text-white" style="background: linear-gradient(135deg, #0f766e, #0d9488, #14b8a6);">
-        <div class="mx-auto max-w-7xl px-4">
-            <div class="max-w-7xl mx-auto text-center">
-                <h1 class="text-4xl md:text-6xl font-bold mb-6">Turn Your Events Into Success Stories</h1>
-                <p class="text-xl md:text-2xl mb-8 text-white/90">Join Kenya's leading event platform and reach thousands
-                    of eager attendees</p>
-                @auth
-                    <a href="{{ route('organizer.onboard') }}"
-                        class="inline-flex items-center justify-center gap-3 rounded-full bg-white h-10 px-5 text-sm font-semibold text-brand-700 text-nowrap hover:bg-brand-50 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
-                        Get Started Free
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" stroke="currentColor"
-                            stroke-width="2" viewBox="0 0 24 24">
-                            <path d="M5 12h14" />
-                            <path d="m12 5 7 7-7 7" />
-                        </svg>
-                    </a>
-                @else
-                    <a href="#signup"
-                        class="inline-flex items-center justify-center gap-3 rounded-full bg-white h-10 px-5 text-sm font-semibold text-brand-700 text-nowrap hover:bg-brand-50 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
-                        Get Started Free
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" stroke="currentColor"
-                            stroke-width="2" viewBox="0 0 24 24">
-                            <path d="M5 12h14" />
-                            <path d="m12 5 7 7-7 7" />
-                        </svg>
-                    </a>
-                @endauth
-                <p class="mt-4 text-sm text-white/80">No credit card required · Free to start · 2.5% platform fee</p>
+    <section class="relative py-6 overflow-hidden" style="background: #0f766e;">
+        {{-- Bottom fade into white --}}
+        <div class="absolute bottom-0 inset-x-0 h-24 bg-linear-to-t from-white to-transparent pointer-events-none"></div>
+
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center gap-10">
+
+                {{-- Left: copy + CTA --}}
+                <div class="lg:w-5/12 shrink-0">
+                    <span class="inline-flex items-center gap-2 rounded-full bg-white/20 border border-white/30 px-3 py-1 text-xs font-semibold text-white mb-6">
+                        <span class="h-1.5 w-1.5 rounded-full bg-white"></span>
+                        Fast no fuss
+                    </span>
+                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight mb-6">
+                        <span class="block whitespace-nowrap">Turn Your Events Into</span>
+                        <span class="block text-white/80 whitespace-nowrap">Success Stories</span>
+                    </h1>
+                    <p class="text-lg text-white/80 mb-8 leading-relaxed">
+                        Join Kenya's leading event platform and reach thousands of eager attendees. Sell tickets, manage check-ins, and grow your audience — all in one place.
+                    </p>
+                    <div class="flex flex-wrap items-center gap-4 mb-4">
+                        @auth
+                            <a href="{{ route('organizer.onboard') }}"
+                                class="inline-flex items-center justify-center gap-3 rounded-full bg-accent-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-accent-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
+                                Get Started Free
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+                                </svg>
+                            </a>
+                        @else
+                            <a href="#signup"
+                                class="inline-flex items-center justify-center gap-3 rounded-full bg-accent-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-accent-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
+                                Get Started Free
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+                                </svg>
+                            </a>
+                        @endauth
+                        <a href="#how-it-works" class="text-sm font-semibold text-white/80 hover:text-white transition-colors">
+                            See how it works →
+                        </a>
+                    </div>
+                </div>
+
+                {{-- Right: hero visual --}}
+                <div class="lg:w-7/12 w-full">
+                    <img src="{{ asset('images/ticketeke-app-hero-teal.png') }}" alt="Ticketeke app hero" class="w-full h-auto">
+                </div>
+
             </div>
         </div>
     </section>
@@ -37,19 +58,19 @@
         <div class="mx-auto max-w-7xl px-4">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
                 <div class="text-center">
-                    <div class="text-3xl md:text-4xl font-bold text-brand-600 mb-2">5,000+</div>
+                    <div class="text-2xl md:text-3xl font-bold text-brand-600 mb-2">5,000+</div>
                     <div class="text-sm text-gray-500">Active Organizers</div>
                 </div>
                 <div class="text-center">
-                    <div class="text-3xl md:text-4xl font-bold text-brand-600 mb-2">250K+</div>
+                    <div class="text-2xl md:text-3xl font-bold text-brand-600 mb-2">250K+</div>
                     <div class="text-sm text-gray-500">Tickets Sold Monthly</div>
                 </div>
                 <div class="text-center">
-                    <div class="text-3xl md:text-4xl font-bold text-brand-600 mb-2">4.8/5</div>
+                    <div class="text-2xl md:text-3xl font-bold text-brand-600 mb-2">4.8/5</div>
                     <div class="text-sm text-gray-500">Organizer Rating</div>
                 </div>
                 <div class="text-center">
-                    <div class="text-3xl md:text-4xl font-bold text-brand-600 mb-2">2.5%</div>
+                    <div class="text-2xl md:text-3xl font-bold text-brand-600 mb-2">10%</div>
                     <div class="text-sm text-gray-500">Platform Fee</div>
                 </div>
             </div>
@@ -60,9 +81,9 @@
     <section class="py-16 bg-white">
         <div class="mx-auto max-w-7xl px-4">
             <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Why Organizers Choose
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Why Organizers Choose
                     {{ $__settings->app_name }}</h2>
-                <p class="text-xl text-gray-500 max-w-2xl mx-auto">Everything you need to create, promote, and manage
+                <p class="text-base text-gray-500 max-w-2xl mx-auto">Everything you need to create, promote, and manage
                     successful events</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
@@ -82,7 +103,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="{{ $feature['icon'] }}" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ $feature['title'] }}</h3>
+                        <h3 class="text-base font-semibold text-gray-900 mb-2">{{ $feature['title'] }}</h3>
                         <p class="text-gray-500">{{ $feature['desc'] }}</p>
                     </div>
                 @endforeach
@@ -95,9 +116,8 @@
         <div class="mx-auto max-w-7xl px-4">
             <div class="max-w-5xl mx-auto">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Powerful Features for Every Event
-                    </h2>
-                    <p class="text-xl text-gray-500">From small meetups to large festivals, we've got you covered</p>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Powerful Features for Every Event</h2>
+                    <p class="text-base text-gray-500">From small meetups to large festivals, we've got you covered</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     @foreach (['Customizable event pages with rich media', 'Flexible ticket types and pricing', 'Built-in email marketing tools', 'Real-time sales reporting', 'QR code check-in system', 'Attendee management dashboard', 'Mobile-optimized checkout', 'Multiple payment gateways (M-Pesa, Card, etc.)', 'Social media integration', 'Discount codes and promotions', 'Waitlist management', 'Automated reminders and updates'] as $item)
@@ -119,8 +139,7 @@
     <section class="py-16 bg-brand-50">
         <div class="mx-auto max-w-7xl px-4">
             <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Trusted by Event Organizers Across Kenya
-                </h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Trusted by Event Organizers Across Kenya</h2>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                 @php
@@ -168,12 +187,12 @@
     </section>
 
     {{-- How it works --}}
-    <section class="py-16 bg-white">
+    <section id="how-it-works" class="py-16 bg-white">
         <div class="mx-auto max-w-7xl px-4">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
-                    <p class="text-xl text-gray-500">Get started in 3 simple steps</p>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">How It Works</h2>
+                    <p class="text-base text-gray-500">Get started in 3 simple steps</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     @foreach ([['step' => '1', 'title' => 'Create Your Account', 'desc' => 'Sign up and set up your organizer profile in minutes'], ['step' => '2', 'title' => 'Promote & Sell', 'desc' => 'Share your event and start selling tickets immediately'], ['step' => '3', 'title' => 'Manage & Grow', 'desc' => 'Track sales, manage attendees, and grow your audience']] as $step)
@@ -182,7 +201,7 @@
                                 class="h-16 w-16 rounded-2xl bg-brand-600 text-white flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-md shadow-brand-200">
                                 {{ $step['step'] }}
                             </div>
-                            <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ $step['title'] }}</h3>
+                            <h3 class="text-base font-semibold text-gray-900 mb-2">{{ $step['title'] }}</h3>
                             <p class="text-gray-500">{{ $step['desc'] }}</p>
                         </div>
                     @endforeach
@@ -197,7 +216,7 @@
             <div
                 class="bg-white rounded-2xl border border-gray-200 shadow-xl shadow-gray-200/60 max-w-2xl mx-auto p-8">
                 <div class="text-center mb-8">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Ready to Get Started?</h2>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Ready to Get Started?</h2>
                     <p class="text-gray-500">Create your organizer account and list your first event today</p>
                 </div>
 
