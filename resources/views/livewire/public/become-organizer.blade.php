@@ -54,24 +54,24 @@
     </section>
 
     {{-- Stats --}}
-    <section class="py-16 bg-white border-b border-gray-100">
+    <section class="py-12 bg-white">
         <div class="mx-auto max-w-7xl px-4">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
-                <div class="text-center">
-                    <div class="text-2xl md:text-3xl font-bold text-brand-600 mb-2">5,000+</div>
-                    <div class="text-sm text-gray-500">Active Organizers</div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="rounded-2xl p-8 py-10 text-center" style="background: #e6f7f5;">
+                    <div class="text-2xl md:text-3xl font-bold mb-2" style="color: #0f766e;">5,000+</div>
+                    <div class="text-xs font-semibold tracking-widest uppercase text-gray-500">Active Organizers</div>
                 </div>
-                <div class="text-center">
-                    <div class="text-2xl md:text-3xl font-bold text-brand-600 mb-2">250K+</div>
-                    <div class="text-sm text-gray-500">Tickets Sold Monthly</div>
+                <div class="rounded-2xl p-8 py-10 text-center" style="background: #e6f7f5;">
+                    <div class="text-2xl md:text-3xl font-bold mb-2" style="color: #0f766e;">250K+</div>
+                    <div class="text-xs font-semibold tracking-widest uppercase text-gray-500">Tickets Sold Monthly</div>
                 </div>
-                <div class="text-center">
-                    <div class="text-2xl md:text-3xl font-bold text-brand-600 mb-2">4.8/5</div>
-                    <div class="text-sm text-gray-500">Organizer Rating</div>
+                <div class="rounded-2xl p-8 py-10 text-center" style="background: #e6f7f5;">
+                    <div class="text-2xl md:text-3xl font-bold mb-2" style="color: #0f766e;">4.8/5</div>
+                    <div class="text-xs font-semibold tracking-widest uppercase text-gray-500">Organizer Rating</div>
                 </div>
-                <div class="text-center">
-                    <div class="text-2xl md:text-3xl font-bold text-brand-600 mb-2">10%</div>
-                    <div class="text-sm text-gray-500">Platform Fee</div>
+                <div class="rounded-2xl p-8 py-10 text-center" style="background: #e6f7f5;">
+                    <div class="text-2xl md:text-3xl font-bold mb-2" style="color: #0f766e;">10%</div>
+                    <div class="text-xs font-semibold tracking-widest uppercase text-gray-500">Platform Fee</div>
                 </div>
             </div>
         </div>
