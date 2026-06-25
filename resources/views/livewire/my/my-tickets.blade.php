@@ -10,7 +10,7 @@
     <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
 
         {{-- Filter tabs --}}
-        <div class="mb-6 inline-flex rounded-full bg-gray-100 p-1 gap-1">
+        <div class="mb-6 inline-flex rounded-full bg-white border border-gray-200 p-1 gap-1">
             @foreach (['all' => 'All', 'upcoming' => 'Upcoming', 'past' => 'Past'] as $value => $label)
                 <button wire:click="$set('filter', '{{ $value }}')"
                     class="rounded-full px-4 h-8 text-sm font-medium transition-all duration-200 {{ $filter === $value ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700' }}">
@@ -101,17 +101,17 @@
                                 <div class="flex flex-wrap items-center gap-2">
                                     @if ($event)
                                         <a href="{{ route('events.show', $event->slug) }}"
-                                            class="inline-flex items-center justify-center gap-3 rounded-full border border-gray-200 h-9 px-4 text-xs font-semibold text-gray-700 text-nowrap hover:bg-gray-50 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
+                                            class="inline-flex items-center justify-center gap-3 rounded-full border border-gray-200 h-9 px-4 text-xs font-semibold text-gray-700 text-nowrap hover:bg-white transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                                             View Event
                                         </a>
                                     @endif
                                     <a href="{{ route('orders.confirmation', $order->uuid) }}"
-                                        class="inline-flex items-center justify-center gap-3 rounded-full border border-gray-200 h-9 px-4 text-xs font-semibold text-gray-700 text-nowrap hover:bg-gray-50 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
+                                        class="inline-flex items-center justify-center gap-3 rounded-full border border-gray-200 h-9 px-4 text-xs font-semibold text-gray-700 text-nowrap hover:bg-white transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                                         Order Details
                                     </a>
                                     @if ($order->tickets->isNotEmpty())
                                         <a href="{{ route('orders.tickets.download', $order->uuid) }}"
-                                            class="inline-flex items-center justify-center gap-2 rounded-full bg-teal-600 h-9 px-4 text-xs font-semibold text-white text-nowrap hover:bg-teal-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
+                                            class="inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 h-9 px-4 text-xs font-semibold text-white text-nowrap hover:bg-brand-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                                             <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor"
                                                 stroke-width="2" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -146,7 +146,7 @@
                     @endif
                 </p>
                 <a href="{{ route('events.index') }}"
-                    class="mt-4 inline-flex items-center justify-center gap-3 rounded-full bg-teal-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-teal-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
+                    class="mt-4 inline-flex items-center justify-center gap-3 rounded-full bg-brand-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-brand-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                     Browse Events
                 </a>
             </div>

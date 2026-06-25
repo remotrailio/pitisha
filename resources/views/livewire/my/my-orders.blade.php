@@ -1,5 +1,5 @@
 <div>
-    <div class="bg-gray-50 border-b border-gray-100 py-10">
+    <div class="bg-white border-b border-gray-100 py-10">
         <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
             <h1 class="text-3xl font-bold text-gray-900">My Orders</h1>
             <p class="mt-1 text-sm text-gray-500">Your order history.</p>
@@ -52,7 +52,7 @@
         @else
         <div class="rounded-xl border border-dashed border-gray-200 py-20 text-center text-gray-400">
             <p class="text-sm font-medium">No orders yet.</p>
-            <a href="{{ route('events.index') }}" class="mt-3 inline-block text-xs text-teal-600 hover:underline">
+            <a href="{{ route('events.index') }}" class="mt-3 inline-block text-xs text-brand-600 hover:underline">
                 Browse events →
             </a>
         </div>

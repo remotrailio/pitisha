@@ -65,7 +65,7 @@
 
                             @foreach($event->categories as $cat)
                                 <a href="{{ route('events.index') . '?' . http_build_query(['selectedCategories' => [$cat->slug]]) }}"
-                                    class="inline-flex items-center rounded-full bg-teal-50 border border-teal-100 px-3 py-1 text-xs font-semibold text-teal-700 hover:bg-teal-100 transition-colors w-fit">
+                                    class="inline-flex items-center rounded-full bg-brand-50 border border-brand-100 px-3 py-1 text-xs font-semibold text-brand-700 hover:bg-brand-100 transition-colors w-fit">
                                     {{ $cat->name }}
                                 </a>
                             @endforeach
@@ -73,7 +73,7 @@
 
                         <div class="pt-1">
                             <a href="#tickets"
-                                class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-teal-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-teal-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
+                                class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-accent-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-accent-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                                 Book Tickets
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -160,7 +160,7 @@
                                 </a>
                                 <!-- Email -->
                                 <a href="mailto:?subject={{ $shareEmailSubject }}&body={{ $shareEmailBody }}"
-                                    class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-500 hover:opacity-80 transition-opacity"
+                                    class="flex items-center justify-center w-8 h-8 rounded-full bg-white0 hover:opacity-80 transition-opacity"
                                     title="Share via Email">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
                                         viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
@@ -220,20 +220,20 @@
 
                 {{-- Organizer --}}
                 @if ($event->organizer)
-                    <div class="mt-10 rounded-2xl border border-gray-200 bg-gray-50 p-5 flex items-center gap-4">
+                    <div class="mt-10 rounded-2xl border border-gray-200 bg-white p-5 flex items-center gap-4">
                         @if ($event->organizer->logo_url)
                             <img src="{{ $event->organizer->logo_url }}" alt="{{ $event->organizer->display_name }}"
                                 class="h-12 w-12 rounded-full object-cover border-2 border-white shadow-sm">
                         @else
                             <div
-                                class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-teal-100 text-teal-600 font-bold text-lg border-2 border-white shadow-sm">
+                                class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-600 font-bold text-lg border-2 border-white shadow-sm">
                                 {{ mb_substr($event->organizer->display_name, 0, 1) }}
                             </div>
                         @endif
                         <div>
                             <p class="text-xs text-gray-400 uppercase tracking-wide">Organised by</p>
                             <a href="{{ route('organizers.show', $event->organizer->slug) }}"
-                                class="font-semibold text-gray-900 hover:text-teal-600 transition-colors">
+                                class="font-semibold text-gray-900 hover:text-brand-600 transition-colors">
                                 {{ $event->organizer->display_name }}
                             </a>
                             @if ($event->organizer->bio)
@@ -259,7 +259,7 @@
                                 <p class="text-xs text-gray-500 mt-0.5">Share your link — earn rewards when friends buy tickets</p>
                             </div>
                             @if ($refReward)
-                                <span class="inline-flex items-center rounded-full bg-teal-50 border border-teal-100 px-3 py-1 text-xs font-semibold text-teal-700">
+                                <span class="inline-flex items-center rounded-full bg-brand-50 border border-brand-100 px-3 py-1 text-xs font-semibold text-brand-700">
                                     Reward earned!
                                 </span>
                             @endif
@@ -267,9 +267,9 @@
 
                         @if ($refReward)
                             {{-- Reward earned state --}}
-                            <div class="rounded-xl bg-teal-50 border border-teal-100 p-4 text-center mb-4">
-                                <p class="text-sm font-semibold text-teal-800">Congratulations!</p>
-                                <p class="text-xs text-teal-700 mt-1">You've earned:
+                            <div class="rounded-xl bg-brand-50 border border-brand-100 p-4 text-center mb-4">
+                                <p class="text-sm font-semibold text-brand-800">Congratulations!</p>
+                                <p class="text-xs text-brand-700 mt-1">You've earned:
                                     @if ($refReward->reward_type->value === 'free_ticket' && $refReward->ticketType)
                                         1 {{ $refReward->ticketType->name }}
                                     @elseif ($refReward->reward_type->value === 'discount')
@@ -288,7 +288,7 @@
                                 <span class="text-xs text-gray-400">{{ $refPct }}%</span>
                             </div>
                             <div class="h-2 w-full rounded-full bg-gray-100 overflow-hidden">
-                                <div class="h-2 rounded-full bg-teal-500 transition-all duration-500"
+                                <div class="h-2 rounded-full bg-brand-600 transition-all duration-500"
                                     style="width: {{ $refPct }}%"></div>
                             </div>
                         </div>
@@ -312,10 +312,10 @@
                         <div class="flex items-center gap-2">
                             <input type="text" readonly value="{{ $refLink }}"
                                 onclick="this.select()"
-                                class="flex-1 min-w-0 rounded-full border border-gray-200 bg-gray-50 px-4 h-10 text-xs text-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-300 cursor-pointer truncate">
+                                class="flex-1 min-w-0 rounded-full border border-gray-200 bg-white px-4 h-10 text-xs text-gray-600 focus:outline-none focus:ring-2 focus:ring-brand-300 cursor-pointer truncate">
                             <button type="button"
                                 onclick="navigator.clipboard.writeText('{{ $refLink }}').then(() => { this.textContent = 'Copied!'; setTimeout(() => this.textContent = 'Copy', 2000); })"
-                                class="shrink-0 inline-flex items-center justify-center gap-3 rounded-full bg-teal-600 h-10 px-5 text-sm font-semibold text-white hover:bg-teal-700 transition-[color,background] duration-200">
+                                class="shrink-0 inline-flex items-center justify-center gap-3 rounded-full bg-brand-600 h-10 px-5 text-sm font-semibold text-white hover:bg-brand-700 transition-[color,background] duration-200">
                                 Copy
                             </button>
                         </div>
@@ -324,7 +324,7 @@
                     <div class="mt-10 rounded-2xl border border-dashed border-gray-200 p-5 text-center">
                         <p class="text-sm font-medium text-gray-700">Invite friends and earn rewards</p>
                         <p class="text-xs text-gray-400 mt-1">
-                            <a href="{{ route('login') }}" class="text-teal-600 hover:underline">Sign in</a> to get your referral link
+                            <a href="{{ route('login') }}" class="text-brand-600 hover:underline">Sign in</a> to get your referral link
                         </p>
                     </div>
                 @endif
@@ -362,7 +362,7 @@
                                     </div>
                                     <a href="https://www.google.com/maps/dir/?api=1&destination={{ $event->latitude }},{{ $event->longitude }}"
                                         target="_blank" rel="noopener"
-                                        class="ml-auto inline-flex items-center justify-center gap-3 rounded-full border border-gray-200 h-10 px-5 text-sm font-semibold text-gray-700 text-nowrap hover:bg-gray-50 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1 shrink-0">
+                                        class="ml-auto inline-flex items-center justify-center gap-3 rounded-full border border-gray-200 h-10 px-5 text-sm font-semibold text-gray-700 text-nowrap hover:bg-white transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1 shrink-0">
                                         Get directions
                                     </a>
                                 </div>

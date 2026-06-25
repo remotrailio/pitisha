@@ -7,8 +7,8 @@
                   d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
         </svg>
         <h1 class="text-2xl font-bold">You're going!</h1>
-        <p class="mt-1 text-teal-100">{{ $order->event->title }}</p>
-        <p class="mt-3 text-xs text-teal-200">Order #{{ $order->order_number }}</p>
+        <p class="mt-1 text-brand-100">{{ $order->event->title }}</p>
+        <p class="mt-3 text-xs text-brand-200">Order #{{ $order->order_number }}</p>
     </div>
 
     {{-- Event details --}}
@@ -78,7 +78,7 @@
             @endif
             <div class="flex justify-between border-t border-gray-100 pt-2 font-semibold">
                 <span>Total paid</span>
-                <span class="text-teal-600">KES {{ number_format($order->total, 2) }}</span>
+                <span class="text-gold-600">KES {{ number_format($order->total, 2) }}</span>
             </div>
             @if($order->mpesa_receipt_number)
                 <div class="flex justify-between text-xs text-gray-400 pt-1">
@@ -93,7 +93,7 @@
     <div class="flex flex-col gap-3 sm:flex-row">
         @if($order->tickets->isNotEmpty())
         <a href="{{ route('orders.tickets.download', $order->uuid) . ($order->guest_token ? '?token=' . $order->guest_token : '') }}"
-           class="inline-flex w-full sm:flex-1 items-center justify-center gap-3 rounded-full bg-teal-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-teal-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
+           class="inline-flex w-full sm:flex-1 items-center justify-center gap-3 rounded-full bg-brand-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-brand-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>

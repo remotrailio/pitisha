@@ -95,7 +95,7 @@
         </div>
 
         {{-- Stats panel --}}
-        <div class="mt-auto rounded-2xl bg-gray-50 px-3 py-2.5 flex items-center divide-x divide-gray-200">
+        <div class="mt-auto rounded-2xl bg-white px-3 py-2.5 flex items-center divide-x divide-gray-200">
 
             {{-- Attendees --}}
             <div class="flex flex-1 flex-col items-center gap-0.5 pr-3">

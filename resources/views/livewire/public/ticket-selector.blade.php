@@ -12,7 +12,7 @@
                     @if($type->description)
                     <p class="mt-0.5 text-xs text-gray-400 line-clamp-2">{{ $type->description }}</p>
                     @endif
-                    <p class="mt-1 text-sm font-semibold text-teal-600">
+                    <p class="mt-1 text-sm font-semibold text-gold-600">
                         @if($type->price > 0)
                             {{ strtoupper($type->currency) }} {{ number_format($type->price, 2) }}
                             @if($type->isGroupTicket())
@@ -38,7 +38,7 @@
 
                 <div class="flex shrink-0 items-center gap-2">
                     <button wire:click="decrement({{ $type->id }})"
-                            class="flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:border-teal-400 hover:text-teal-600 transition-all disabled:opacity-40"
+                            class="flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:border-brand-500 hover:text-brand-600 transition-all disabled:opacity-40"
                             @if(($quantities[$type->id] ?? 0) <= 0) disabled @endif>
                         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
@@ -51,7 +51,7 @@
 
                     <button wire:click="increment({{ $type->id }})"
                             @if(!$type->isOnSale()) disabled @endif
-                            class="flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:border-teal-400 hover:text-teal-600 transition-all disabled:opacity-40 disabled:cursor-not-allowed">
+                            class="flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:border-brand-500 hover:text-brand-600 transition-all disabled:opacity-40 disabled:cursor-not-allowed">
                         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                         </svg>
@@ -82,7 +82,7 @@
     <div class="px-5 pb-5 {{ $hasSelection ? 'pt-3' : 'pt-5' }}">
         <button wire:click="proceedToCheckout"
                 @if(!$hasSelection) disabled @endif
-                class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-teal-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-teal-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1 disabled:cursor-not-allowed disabled:opacity-50">
+                class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-accent-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-accent-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1 disabled:cursor-not-allowed disabled:opacity-50">
             @if($hasSelection)
                 Proceed to Checkout
             @else

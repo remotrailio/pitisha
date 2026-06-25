@@ -22,7 +22,7 @@
                         class="h-28 w-28 rounded-2xl border-4 border-white object-cover shadow-lg shadow-gray-200/60">
                 @else
                     <div
-                        class="flex h-28 w-28 items-center justify-center rounded-2xl border-4 border-white bg-teal-100 text-3xl font-bold text-teal-600 shadow-lg shadow-gray-200/60">
+                        class="flex h-28 w-28 items-center justify-center rounded-2xl border-4 border-white bg-brand-100 text-3xl font-bold text-brand-600 shadow-lg shadow-gray-200/60">
                         {{ mb_substr($organizer->display_name, 0, 1) }}
                     </div>
                 @endif
@@ -31,7 +31,7 @@
                 <h1 class="text-2xl font-extrabold text-gray-900">{{ $organizer->display_name }}</h1>
                 @if ($organizer->website)
                     <a href="{{ $organizer->website }}" target="_blank" rel="noopener"
-                        class="mt-1 inline-flex items-center gap-1 text-sm text-teal-600 hover:text-teal-700 transition-colors">
+                        class="mt-1 inline-flex items-center gap-1 text-sm text-brand-600 hover:text-brand-700 transition-colors">
                         {{ parse_url($organizer->website, PHP_URL_HOST) }}
                         <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

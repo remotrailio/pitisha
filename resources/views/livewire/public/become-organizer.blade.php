@@ -8,7 +8,7 @@
                     of eager attendees</p>
                 @auth
                     <a href="{{ route('organizer.onboard') }}"
-                        class="inline-flex items-center justify-center gap-3 rounded-full bg-white h-10 px-5 text-sm font-semibold text-teal-700 text-nowrap hover:bg-teal-50 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
+                        class="inline-flex items-center justify-center gap-3 rounded-full bg-white h-10 px-5 text-sm font-semibold text-brand-700 text-nowrap hover:bg-brand-50 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                         Get Started Free
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" stroke="currentColor"
                             stroke-width="2" viewBox="0 0 24 24">
@@ -18,7 +18,7 @@
                     </a>
                 @else
                     <a href="#signup"
-                        class="inline-flex items-center justify-center gap-3 rounded-full bg-white h-10 px-5 text-sm font-semibold text-teal-700 text-nowrap hover:bg-teal-50 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
+                        class="inline-flex items-center justify-center gap-3 rounded-full bg-white h-10 px-5 text-sm font-semibold text-brand-700 text-nowrap hover:bg-brand-50 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                         Get Started Free
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" stroke="currentColor"
                             stroke-width="2" viewBox="0 0 24 24">
@@ -37,19 +37,19 @@
         <div class="mx-auto max-w-7xl px-4">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
                 <div class="text-center">
-                    <div class="text-3xl md:text-4xl font-bold text-teal-600 mb-2">5,000+</div>
+                    <div class="text-3xl md:text-4xl font-bold text-brand-600 mb-2">5,000+</div>
                     <div class="text-sm text-gray-500">Active Organizers</div>
                 </div>
                 <div class="text-center">
-                    <div class="text-3xl md:text-4xl font-bold text-teal-600 mb-2">250K+</div>
+                    <div class="text-3xl md:text-4xl font-bold text-brand-600 mb-2">250K+</div>
                     <div class="text-sm text-gray-500">Tickets Sold Monthly</div>
                 </div>
                 <div class="text-center">
-                    <div class="text-3xl md:text-4xl font-bold text-teal-600 mb-2">4.8/5</div>
+                    <div class="text-3xl md:text-4xl font-bold text-brand-600 mb-2">4.8/5</div>
                     <div class="text-sm text-gray-500">Organizer Rating</div>
                 </div>
                 <div class="text-center">
-                    <div class="text-3xl md:text-4xl font-bold text-teal-600 mb-2">2.5%</div>
+                    <div class="text-3xl md:text-4xl font-bold text-brand-600 mb-2">2.5%</div>
                     <div class="text-sm text-gray-500">Platform Fee</div>
                 </div>
             </div>
@@ -76,7 +76,7 @@
     ] as $feature)
                     <div
                         class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
-                        <div class="h-12 w-12 rounded-xl bg-teal-50 flex items-center justify-center mb-4">
+                        <div class="h-12 w-12 rounded-xl bg-brand-50 flex items-center justify-center mb-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none"
                                 stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="{{ $feature['icon'] }}" />
@@ -116,7 +116,7 @@
     </section>
 
     {{-- Testimonials --}}
-    <section class="py-16 bg-teal-50">
+    <section class="py-16 bg-brand-50">
         <div class="mx-auto max-w-7xl px-4">
             <div class="text-center mb-12">
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Trusted by Event Organizers Across Kenya
@@ -179,7 +179,7 @@
                     @foreach ([['step' => '1', 'title' => 'Create Your Account', 'desc' => 'Sign up and set up your organizer profile in minutes'], ['step' => '2', 'title' => 'Promote & Sell', 'desc' => 'Share your event and start selling tickets immediately'], ['step' => '3', 'title' => 'Manage & Grow', 'desc' => 'Track sales, manage attendees, and grow your audience']] as $step)
                         <div class="text-center">
                             <div
-                                class="h-16 w-16 rounded-2xl bg-teal-600 text-white flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-md shadow-teal-200">
+                                class="h-16 w-16 rounded-2xl bg-brand-600 text-white flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-md shadow-brand-200">
                                 {{ $step['step'] }}
                             </div>
                             <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ $step['title'] }}</h3>
@@ -207,7 +207,7 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Full name</label>
                                 <input wire:model="name" type="text" autocomplete="name" placeholder="John Doe"
-                                    class="mt-1 block w-full rounded-xl border bg-gray-50 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 hover:border-gray-300 transition-all duration-150 {{ $errors->has('name') ? 'border-red-400' : 'border-gray-200' }}">
+                                    class="mt-1 block w-full rounded-xl border bg-white px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-600/20 focus:border-brand-500 hover:border-gray-300 transition-all duration-150 {{ $errors->has('name') ? 'border-red-400' : 'border-gray-200' }}">
                                 @error('name')
                                     <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                                 @enderror
@@ -215,7 +215,7 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Organization name</label>
                                 <input wire:model.blur="display_name" type="text" placeholder="Nairobi Events Co."
-                                    class="mt-1 block w-full rounded-xl border bg-gray-50 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 hover:border-gray-300 transition-all duration-150 {{ $errors->has('display_name') ? 'border-red-400' : 'border-gray-200' }}">
+                                    class="mt-1 block w-full rounded-xl border bg-white px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-600/20 focus:border-brand-500 hover:border-gray-300 transition-all duration-150 {{ $errors->has('display_name') ? 'border-red-400' : 'border-gray-200' }}">
                                 @error('display_name')
                                     <p class="mt-1 text-xs text-red-600 flex items-center gap-1">
                                         <svg class="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor"
@@ -242,7 +242,7 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Email address</label>
                             <input wire:model="email" type="email" autocomplete="email" placeholder="you@example.com"
-                                class="mt-1 block w-full rounded-xl border bg-gray-50 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 hover:border-gray-300 transition-all duration-150 {{ $errors->has('email') ? 'border-red-400' : 'border-gray-200' }}">
+                                class="mt-1 block w-full rounded-xl border bg-white px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-600/20 focus:border-brand-500 hover:border-gray-300 transition-all duration-150 {{ $errors->has('email') ? 'border-red-400' : 'border-gray-200' }}">
                             @error('email')
                                 <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                             @enderror
@@ -252,7 +252,7 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Password</label>
                                 <input wire:model="password" type="password" autocomplete="new-password"
-                                    class="mt-1 block w-full rounded-xl border bg-gray-50 px-3 py-2.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 hover:border-gray-300 transition-all duration-150 {{ $errors->has('password') ? 'border-red-400' : 'border-gray-200' }}">
+                                    class="mt-1 block w-full rounded-xl border bg-white px-3 py-2.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-600/20 focus:border-brand-500 hover:border-gray-300 transition-all duration-150 {{ $errors->has('password') ? 'border-red-400' : 'border-gray-200' }}">
                                 @error('password')
                                     <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                                 @enderror
@@ -260,19 +260,19 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Confirm password</label>
                                 <input wire:model="password_confirmation" type="password" autocomplete="new-password"
-                                    class="mt-1 block w-full rounded-xl border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 hover:border-gray-300 transition-all duration-150">
+                                    class="mt-1 block w-full rounded-xl border border-gray-300 bg-white px-3 py-2.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-600/20 focus:border-brand-500 hover:border-gray-300 transition-all duration-150">
                             </div>
                         </div>
 
                         <button type="submit"
-                            class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-teal-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-teal-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
+                            class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-brand-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-brand-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                             Create organizer account
                         </button>
 
                         <p class="text-xs text-center text-gray-400">
                             By signing up, you agree to our Terms of Service and Privacy Policy.
                             Already have an account? <a href="{{ route('login') }}"
-                                class="text-teal-600 hover:text-teal-700 transition-colors">Sign in</a>
+                                class="text-brand-600 hover:text-brand-700 transition-colors">Sign in</a>
                         </p>
                     </form>
                 @else
@@ -280,7 +280,7 @@
                         <p class="text-gray-600 mb-4">You're already signed in. Head to your organizer dashboard to get
                             started.</p>
                         <a href="{{ route('organizer.onboard') }}"
-                            class="inline-flex items-center justify-center gap-3 rounded-full bg-teal-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-teal-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
+                            class="inline-flex items-center justify-center gap-3 rounded-full bg-brand-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-brand-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                             Go to onboarding
                         </a>
                     </div>

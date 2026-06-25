@@ -7,7 +7,7 @@
     <title>Ticket Check-In — {{ $__settings->app_name }}</title>
     @vite(['resources/css/app.css'])
 </head>
-<body class="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+<body class="min-h-screen bg-white flex items-center justify-center p-4">
 
     <div class="w-full max-w-sm">
         {{-- Status card --}}
@@ -47,7 +47,7 @@
                 ])>{{ $message }}</p>
 
                 @if($valid && isset($ticket))
-                    <div class="divide-y divide-gray-100 rounded-xl bg-gray-50 text-sm">
+                    <div class="divide-y divide-gray-100 rounded-xl bg-white text-sm">
                         <div class="flex justify-between px-4 py-3">
                             <span class="text-gray-500">Event</span>
                             <span class="font-medium text-gray-900">{{ $ticket['event'] }}</span>
@@ -58,7 +58,7 @@
                         </div>
                         <div class="flex justify-between px-4 py-3">
                             <span class="text-gray-500">Ticket</span>
-                            <span class="font-mono text-xs font-semibold tracking-widest text-teal-600">{{ $ticket['ticket_code'] }}</span>
+                            <span class="font-mono text-xs font-semibold tracking-widest text-brand-600">{{ $ticket['ticket_code'] }}</span>
                         </div>
                     </div>
                 @endif
@@ -69,7 +69,7 @@
             </div>
 
             {{-- Footer --}}
-            <div class="bg-gray-50 px-6 py-3 text-center text-xs text-gray-400">
+            <div class="bg-white px-6 py-3 text-center text-xs text-gray-400">
                 {{ $__settings->app_name }}
             </div>
         </div>

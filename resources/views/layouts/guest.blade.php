@@ -24,7 +24,7 @@
                 @if($__settings->logo_url)
                     <img src="{{ $__settings->logo_url }}" alt="{{ $__settings->app_name }}" class="h-10 w-auto">
                 @else
-                    <span class="text-2xl font-extrabold text-teal-600">{{ $__settings->app_name }}</span>
+                    <span class="text-2xl font-extrabold text-brand-600">{{ $__settings->app_name }}</span>
                 @endif
             </a>
         </div>

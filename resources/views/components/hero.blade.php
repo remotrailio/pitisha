@@ -12,7 +12,7 @@
 
                 <div class="relative mx-auto mb-6">
                     <x-search-input placeholder="Search events, experiences, safaris..."
-                        inputClass="bg-white shadow-sm py-3 text-base rounded-xl border-gray-200 focus:border-teal-500" />
+                        inputClass="bg-white shadow-sm py-3 text-base rounded-xl border-gray-200 focus:border-brand-500" />
                 </div>
 
                 @if ($heroCategories->isNotEmpty())
@@ -64,7 +64,7 @@
                                     <!-- Badges -->
                                     <div class="flex items-center gap-2 flex-wrap">
                                         <span
-                                            class="hidden md:inline-flex items-center gap-1 bg-teal-600 text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full shadow-sm shadow-teal-600/30">
+                                            class="hidden md:inline-flex items-center gap-1 bg-accent-600 text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full shadow-sm shadow-accent-600/30">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-2.5 w-2.5"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -137,7 +137,7 @@
                                 <!-- CTA -->
                                 <div class="hidden md:block">
                                     <a :href="'/events/' + event.slug"
-                                        class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-teal-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-teal-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
+                                        class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-accent-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-accent-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                                         Get Tickets
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24"
                                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -170,7 +170,7 @@
                     <div class="flex items-center gap-2">
                         <template x-for="(event, i) in events" :key="i">
                             <button @click="goTo(i)"
-                                :class="i === active ? 'bg-teal-600 w-6 h-2.5' : 'bg-gray-200 hover:bg-gray-300 w-2.5 h-2.5'"
+                                :class="i === active ? 'bg-brand-600 w-6 h-2.5' : 'bg-gray-200 hover:bg-gray-300 w-2.5 h-2.5'"
                                 class="rounded-full transition-all duration-300" :aria-label="`Go to event ${i + 1}`">
                             </button>
                         </template>

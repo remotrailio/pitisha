@@ -9,14 +9,73 @@
     --font-sans: 'Open Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 
-    /* mustard — primary accent (#E0962D on white = 2.33:1; always pair with text-gray-900 on bg-mustard-500) */
-    --color-mustard-50:  #FEF7EC;
-    --color-mustard-500: #E0962D;
-    --color-mustard-600: #C4811F;
-    --color-mustard-700: #8F5D09; /* 5.6:1 on white — AA for all text sizes */
+    /* brand — Deep Teal (primary: nav, primary buttons, links) */
+    --color-brand-50:  #EBF3F2;
+    --color-brand-100: #C9E3E0;
+    --color-brand-200: #93C7C2;
+    --color-brand-300: #5DABA4;
+    --color-brand-400: #288F87;
+    --color-brand-500: #105B55;   /* --color-primary */
+    --color-brand-600: #105B55;
+    --color-brand-700: #0D4A45;   /* --color-primary-hover */
+    --color-brand-800: #0A3935;
+    --color-brand-900: #072C29;
 
-    /* forest — secondary accent (#1B5C50 on white = 7.0:1; white text on bg-forest-700 passes AAA) */
-    --color-forest-50:  #EEF6F4;
-    --color-forest-700: #1B5C50;
-    --color-forest-800: #144440;
+    /* accent — Rust Orange (high-priority CTAs only: Buy Ticket, Book Now, Pay) */
+    --color-accent-50:  #FDF0EB;
+    --color-accent-100: #FAD5C3;
+    --color-accent-200: #F5AB8A;
+    --color-accent-300: #EF8152;
+    --color-accent-400: #D8631E;
+    --color-accent-500: #C8450A;  /* --color-accent */
+    --color-accent-600: #C8450A;
+    --color-accent-700: #A8390A;  /* --color-accent-hover */
+    --color-accent-800: #842C07;
+    --color-accent-900: #5F1F05;
+
+    /* gold — Amber Gold (price tags, badges, highlights) */
+    --color-gold-50:  #FEF6E7;
+    --color-gold-100: #FDE5B3;
+    --color-gold-200: #FACB7A;
+    --color-gold-300: #F6B042;
+    --color-gold-400: #EF9B1E;
+    --color-gold-500: #E08C12;    /* --color-secondary */
+    --color-gold-600: #C47A0E;
+    --color-gold-700: #8F5D09;    /* 5.6:1 on white — AA for all text */
+    --color-gold-800: #5E3D06;
+    --color-gold-900: #2E1E03;
+
+    /* warm — page background & card surfaces */
+    --color-warm-50:  #FAF6F0;   /* --color-background  (page bg) */
+    --color-warm-100: #F4E9DC;   /* --color-surface     (cards, panels) */
+    --color-warm-200: #EBD8C4;
+
+    /* muted — borders & dividers */
+    --color-muted-100: #E8ECEC;
+    --color-muted-200: #D8DED9;  /* --color-border */
+    --color-muted-300: #C2CDCF;
+
+    /* ink — near-black Navy body text */
+    --color-ink: #0A0F14;        /* --color-text */
+}
+
+/* CSS custom properties for direct reference in non-Tailwind contexts */
+:root {
+    --color-primary:        #105B55;
+    --color-primary-hover:  #0D4A45;
+    --color-accent:         #C8450A;
+    --color-accent-hover:   #A8390A;
+    --color-secondary:      #E08C12;
+    --color-text:           #0A0F14;
+    --color-background:     #FAF6F0;
+    --color-surface:        #F4E9DC;
+    --color-border:         #D8DED9;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-background: #10161C;
+        --color-surface:    #1A2228;
+        --color-text:       #F4E9DC;
+    }
 }

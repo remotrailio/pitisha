@@ -54,17 +54,17 @@
 
     {{-- Polling --}}
     @elseif($state === 'polling')
-        <div class="rounded-2xl border border-teal-200 bg-teal-50 p-8 text-center"
+        <div class="rounded-2xl border border-brand-100 bg-brand-50 p-8 text-center"
              wire:poll.3000ms="poll">
-            <svg class="mx-auto mb-4 h-16 w-16 animate-spin text-teal-500" fill="none" viewBox="0 0 24 24">
+            <svg class="mx-auto mb-4 h-16 w-16 animate-spin text-brand-500" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
             </svg>
-            <h2 class="text-xl font-bold text-teal-900">Waiting for payment</h2>
-            <p class="mt-2 text-sm text-teal-700">
+            <h2 class="text-xl font-bold text-brand-900">Waiting for payment</h2>
+            <p class="mt-2 text-sm text-brand-700">
                 Check your phone for the M-Pesa PIN prompt and enter your PIN to complete payment.
             </p>
-            <p class="mt-4 text-xs text-teal-500">This page will update automatically…</p>
+            <p class="mt-4 text-xs text-brand-500">This page will update automatically…</p>
         </div>
 
     {{-- Processing --}}
@@ -113,7 +113,7 @@
                     @endif
                     <div class="flex items-center justify-between border-t border-gray-200 pt-2">
                         <span class="font-semibold text-gray-800">Total</span>
-                        <span class="text-lg font-bold text-teal-600">
+                        <span class="text-lg font-bold text-gold-600">
                             {{ $currency }} {{ number_format($total, 2) }}
                         </span>
                     </div>
@@ -129,11 +129,11 @@
                             type="text"
                             wire:model="promoCodeInput"
                             placeholder="Enter code"
-                            class="block w-full rounded-xl border border-gray-200 bg-gray-50 py-2.5 px-3 text-sm text-gray-900 uppercase placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 hover:border-gray-300 transition-all duration-150"
+                            class="block w-full rounded-xl border border-gray-200 bg-white py-2.5 px-3 text-sm text-gray-900 uppercase placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-600/20 focus:border-brand-500 hover:border-gray-300 transition-all duration-150"
                         />
                         <button
                             wire:click="applyPromo"
-                            class="inline-flex items-center justify-center rounded-full border border-gray-200 h-10 px-4 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap"
+                            class="inline-flex items-center justify-center rounded-full border border-gray-200 h-10 px-4 text-sm font-semibold text-gray-700 hover:bg-white transition-colors whitespace-nowrap"
                         >
                             Apply
                         </button>
@@ -169,7 +169,7 @@
                         type="text"
                         wire:model="name"
                         placeholder="Jane Doe"
-                        class="mt-1.5 block w-full rounded-xl border border-gray-200 bg-gray-50 py-2.5 px-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 hover:border-gray-300 transition-all duration-150"
+                        class="mt-1.5 block w-full rounded-xl border border-gray-200 bg-white py-2.5 px-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-600/20 focus:border-brand-500 hover:border-gray-300 transition-all duration-150"
                     />
                     @error('name') <p class="mt-1.5 text-xs text-red-600">{{ $message }}</p> @enderror
                 </div>
@@ -181,7 +181,7 @@
                         type="email"
                         wire:model="email"
                         placeholder="jane@example.com"
-                        class="mt-1.5 block w-full rounded-xl border border-gray-200 bg-gray-50 py-2.5 px-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 hover:border-gray-300 transition-all duration-150"
+                        class="mt-1.5 block w-full rounded-xl border border-gray-200 bg-white py-2.5 px-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-600/20 focus:border-brand-500 hover:border-gray-300 transition-all duration-150"
                     />
                     @error('email') <p class="mt-1.5 text-xs text-red-600">{{ $message }}</p> @enderror
                     <p class="mt-1.5 text-xs text-gray-400">Your tickets will be sent to this address.</p>
@@ -196,8 +196,8 @@
                 <label for="phone" class="block text-sm font-medium text-gray-700">
                     M-Pesa phone number
                 </label>
-                <div class="mt-1.5 flex rounded-xl border border-gray-200 bg-gray-50 shadow-sm focus-within:ring-2 focus-within:ring-teal-500/20 focus-within:border-teal-400 hover:border-gray-300 transition-all duration-150">
-                    <span class="inline-flex items-center rounded-l-xl border-r border-gray-300 bg-gray-50 px-3 text-sm text-gray-500">
+                <div class="mt-1.5 flex rounded-xl border border-gray-200 bg-white shadow-sm focus-within:ring-2 focus-within:ring-brand-600/20 focus-within:border-brand-500 hover:border-gray-300 transition-all duration-150">
+                    <span class="inline-flex items-center rounded-l-xl border-r border-gray-300 bg-white px-3 text-sm text-gray-500">
                         +254
                     </span>
                     <input
@@ -222,7 +222,7 @@
                 wire:click="pay"
                 wire:loading.attr="disabled"
                 wire:target="pay"
-                class="relative w-full inline-flex items-center justify-center rounded-full bg-teal-600 h-10 px-5 text-sm font-semibold text-white hover:bg-teal-700 transition disabled:opacity-60"
+                class="relative w-full inline-flex items-center justify-center rounded-full bg-accent-600 h-10 px-5 text-sm font-semibold text-white hover:bg-accent-700 transition disabled:opacity-60"
             >
                 <!-- Normal state -->
                 <span wire:loading.remove wire:target="pay" class="whitespace-nowrap">

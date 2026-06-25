@@ -34,9 +34,9 @@
     @stack('schema-org')
 </head>
 
-<body class="min-h-screen bg-white font-sans text-gray-900 antialiased flex flex-col">
+<body class="min-h-screen bg-white font-sans text-ink antialiased flex flex-col">
 
-    <nav class="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/90 backdrop-blur-md shadow-sm"
+    <nav class="sticky top-0 z-50 w-full border-b border-brand-500/30 bg-brand-600/90 shadow-sm backdrop-blur-md"
         x-data="{ open: false }" x-init="$watch('open', v => document.body.classList.toggle('overflow-hidden', v))" @keydown.escape.window="open = false">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="flex h-16 items-center gap-4">
@@ -46,7 +46,7 @@
                     @if ($__settings->logo_url)
                         <img src="{{ $__settings->logo_url }}" alt="{{ $__settings->app_name }}" class="h-10 w-auto">
                     @else
-                        <div class="h-10 w-10 rounded-xl bg-teal-600 flex items-center justify-center shadow-sm">
+                        <div class="h-10 w-10 rounded-xl bg-white/20 flex items-center justify-center shadow-sm">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="lucide lucide-ticket h-5 w-5 text-white">
@@ -58,20 +58,20 @@
                                 <path d="M13 11v2"></path>
                             </svg>
                         </div>
-                        <span class="text-2xl font-bold tracking-tight text-gray-900">{{ $__settings->app_name }}</span>
+                        <span class="text-2xl font-bold tracking-tight text-white">{{ $__settings->app_name }}</span>
                     @endif
                 </a>
 
                 {{-- Top category quick links (md+) --}}
                 <div class="hidden md:flex items-center gap-0.5 shrink-0">
                     <a href="{{ route('events.index') }}"
-                       class="whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium text-gray-600 hover:bg-forest-50 hover:text-forest-700 transition-colors">
+                       class="whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium text-white/80 hover:bg-white/10 hover:text-white transition-colors">
                         Events
                     </a>
                     @if(!empty($__topCategories) && $__topCategories->isNotEmpty())
                         @foreach($__topCategories as $cat)
                         <a href="{{ route('events.index') . '?' . http_build_query(['selectedCategories' => [$cat->slug]]) }}"
-                           class="whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium text-gray-600 hover:bg-forest-50 hover:text-forest-700 transition-colors">
+                           class="whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium text-white/80 hover:bg-white/10 hover:text-white transition-colors">
                             {{ $cat->name }}
                         </a>
                         @endforeach
@@ -91,29 +91,26 @@
                         @auth
                             @if (auth()->user()->isOrganizer())
                                 <a href="{{ url('/organizer') }}"
-                                    class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Dashboard</a>
+                                    class="text-sm font-medium text-white/80 hover:text-white transition-colors">Dashboard</a>
                             @elseif(auth()->user()->isAdmin())
                                 <a href="{{ url('/admin') }}"
-                                    class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Admin</a>
+                                    class="text-sm font-medium text-white/80 hover:text-white transition-colors">Admin</a>
                             @else
                                 <a href="{{ route('my.tickets') }}"
-                                    class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">My
-                                    Tickets</a>
+                                    class="text-sm font-medium text-white/80 hover:text-white transition-colors">My Tickets</a>
                                 <a href="{{ route('organizers.become') }}"
-                                    class="text-sm font-medium text-teal-600 hover:text-teal-700 transition-colors">Host
-                                    an Event</a>
+                                    class="text-sm font-semibold text-white hover:text-white/80 transition-colors">Host an Event</a>
                             @endif
                         @else
                             <a href="{{ route('organizers.become') }}"
-                                class="text-sm font-medium text-teal-600 hover:text-teal-700 transition-colors">Host an
-                                Event</a>
+                                class="text-sm font-semibold text-white hover:text-white/80 transition-colors">Host an Event</a>
                         @endauth
                     </nav>
 
                     @auth
                         <div class="relative hidden sm:block" x-data="{ userMenu: false }">
                             <button @click="userMenu = !userMenu" @click.away="userMenu = false"
-                                class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-gray-400 transition-colors hover:text-gray-600 hover:bg-gray-50"
+                                class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-white/70 transition-colors hover:text-white hover:bg-white/10"
                                 title="Account">
                                 <svg class="h-4.5 w-4.5" fill="none" stroke="currentColor" stroke-width="2"
                                     viewBox="0 0 24 24">
@@ -131,8 +128,7 @@
                                 class="absolute right-0 top-full mt-2 w-52 origin-top-right rounded-xl border border-gray-200 bg-white shadow-lg shadow-gray-200/60 z-50"
                                 style="display: none;">
                                 <div class="border-b border-gray-100 px-4 py-3">
-                                    <p class="text-xs font-semibold text-gray-900 truncate">{{ auth()->user()->name }}
-                                    </p>
+                                    <p class="text-xs font-semibold text-gray-900 truncate">{{ auth()->user()->name }}</p>
                                     <p class="text-xs text-gray-400 truncate">{{ auth()->user()->email }}</p>
                                 </div>
                                 <div class="p-1">
@@ -155,17 +151,17 @@
 
                     @guest
                         <a href="{{ route('login') }}"
-                            class="hidden sm:inline-flex text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
+                            class="hidden sm:inline-flex text-sm font-medium text-white/80 hover:text-white transition-colors">
                             Log in
                         </a>
                         <a href="{{ route('register') }}"
-                            class="hidden sm:inline-flex items-center justify-center gap-3 rounded-full bg-teal-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-teal-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
+                            class="hidden sm:inline-flex items-center justify-center gap-3 rounded-full bg-accent-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-accent-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                             Sign up
                         </a>
                     @endguest
 
                     <button @click="open = !open"
-                        class="sm:hidden p-2 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors">
+                        class="sm:hidden p-2 rounded-md text-white/70 hover:text-white hover:bg-white/10 transition-colors">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 6h16M4 12h16M4 18h16" />
@@ -197,7 +193,7 @@
                     @if ($__settings->logo_url)
                         <img src="{{ $__settings->logo_url }}" alt="{{ $__settings->app_name }}" class="h-10 w-auto">
                     @else
-                        <div class="h-10 w-10 rounded-xl bg-teal-600 flex items-center justify-center shadow-sm">
+                        <div class="h-10 w-10 rounded-xl bg-brand-600 flex items-center justify-center shadow-sm">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="h-5 w-5 text-white">
@@ -223,7 +219,7 @@
                 <div class="mb-1">
                     @foreach($__topCategories as $cat)
                     <a href="{{ route('events.index') . '?' . http_build_query(['selectedCategories' => [$cat->slug]]) }}" @click="open = false"
-                       class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-forest-50 hover:text-forest-700 transition-colors">
+                       class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-brand-50 hover:text-brand-700 transition-colors">
                         {{ $cat->name }}
                     </a>
                     @endforeach
@@ -232,8 +228,7 @@
                 @endif
 
                 <a href="{{ route('events.index') }}" @click="open = false"
-                    class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors">Browse
-                    Events</a>
+                    class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors">Browse Events</a>
                 @auth
                     @if (auth()->user()->isOrganizer())
                         <a href="{{ url('/organizer') }}" @click="open = false"
@@ -243,19 +238,15 @@
                             class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors">Admin</a>
                     @else
                         <a href="{{ route('my.tickets') }}" @click="open = false"
-                            class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors">My
-                            Tickets</a>
+                            class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors">My Tickets</a>
                         <a href="{{ route('organizers.become') }}" @click="open = false"
-                            class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors">Become
-                            an Organizer</a>
+                            class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors">Become an Organizer</a>
                     @endif
                 @else
                     <a href="{{ route('login') }}" @click="open = false"
-                        class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors">Log
-                        in</a>
+                        class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors">Log in</a>
                     <a href="{{ route('organizers.become') }}" @click="open = false"
-                        class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors">Become
-                        an Organizer</a>
+                        class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors">Become an Organizer</a>
                 @endauth
             </div>
 
@@ -270,7 +261,7 @@
                     </form>
                 @else
                     <a href="{{ route('register') }}"
-                        class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-teal-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-teal-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
+                        class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-accent-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-accent-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                         Sign up
                     </a>
                 @endauth
@@ -282,14 +273,14 @@
         {{ $slot }}
     </main>
 
-    <footer class="border-t border-gray-200 bg-white">
+    <footer class="border-t border-muted-200 bg-white">
         <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             <div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
                 @if ($__settings->logo_url)
                     <img src="{{ $__settings->logo_url }}" alt="{{ $__settings->app_name }}" class="h-10 w-auto">
                 @else
                     <a href="{{ route('home') }}" class="flex items-center gap-2">
-                        <div class="h-10 w-10 rounded-xl bg-teal-600 flex items-center justify-center shadow-sm">
+                        <div class="h-10 w-10 rounded-xl bg-brand-600 flex items-center justify-center shadow-sm">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="h-5 w-5 text-white">
@@ -300,8 +291,7 @@
                         <span class="text-2xl font-bold tracking-tight text-gray-900">{{ $__settings->app_name }}</span>
                     </a>
                 @endif
-                <p class="text-xs text-gray-400">&copy; {{ date('Y') }} {{ $__settings->app_name }}. All rights
-                    reserved.</p>
+                <p class="text-xs text-gray-400">&copy; {{ date('Y') }} {{ $__settings->app_name }}. All rights reserved.</p>
                 <div class="flex gap-4 text-xs text-gray-400">
                     <a href="#" class="hover:text-gray-600 transition-colors">Privacy</a>
                     <a href="#" class="hover:text-gray-600 transition-colors">Terms</a>
