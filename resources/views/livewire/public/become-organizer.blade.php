@@ -86,25 +86,24 @@
                 <p class="text-base text-gray-500 max-w-2xl mx-auto">Everything you need to create, promote, and manage
                     successful events</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                 @foreach ([
-        ['icon' => 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 8 0 4 4 0 0 0-8 0M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75', 'title' => 'Reach Thousands', 'desc' => 'Connect with engaged audiences across Kenya and beyond'],
-        ['icon' => 'M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6', 'title' => 'Secure Payments', 'desc' => 'Fast, reliable payouts with multiple payment options'],
-        ['icon' => 'M22 7 13.5 15.5 8.5 10.5 2 17M16 7h6v6', 'title' => 'Grow Your Business', 'desc' => 'Access analytics and tools to scale your events'],
-        ['icon' => 'M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z', 'title' => 'Fraud Protection', 'desc' => 'Advanced security to protect you and your attendees'],
-        ['icon' => 'M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3', 'title' => '24/7 Support', 'desc' => 'Dedicated support team to help you succeed'],
-        ['icon' => 'M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z', 'title' => 'Easy Setup', 'desc' => 'Create and publish events in minutes, not hours'],
-    ] as $feature)
-                    <div
-                        class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
-                        <div class="h-12 w-12 rounded-xl bg-brand-50 flex items-center justify-center mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none"
-                                stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="{{ $feature['icon'] }}" />
-                            </svg>
+                    ['label' => 'Fill More Seats', 'title' => 'Reach Thousands of Attendees', 'desc' => 'Connect with engaged audiences across Kenya. Your events get discovered by buyers actively looking for what you offer.', 'image' => 'featured-event.png'],
+                    ['label' => 'Get Paid Faster', 'title' => 'Secure & Fast Payments', 'desc' => 'Reliable payouts with M-Pesa, card, and more. Track every transaction and get paid on your schedule.', 'image' => 'revenue-today.png'],
+                    ['label' => 'Understand Your Audience', 'title' => 'Grow With Real Insights', 'desc' => 'Real-time analytics on who is buying, when, and where — so you can make smarter decisions every event.', 'image' => 'sales-trend.png'],
+                    ['label' => 'Keep Fake Tickets Out', 'title' => 'Built-In Fraud Protection', 'desc' => 'QR-code check-in and ticket verification stop counterfeits at the door and protect your revenue.', 'image' => 'live-checkin.png'],
+                    ['label' => "We're Here When You Need Us", 'title' => '24/7 Dedicated Support', 'desc' => 'Our team is always on standby to help you and your attendees — before, during, and after the event.', 'image' => "We're Here When You Need Us.png"],
+                    ['label' => 'Launch in Minutes', 'title' => 'Effortless Event Setup', 'desc' => 'Create, configure tickets, and publish your event in minutes. No technical knowledge required.', 'image' => 'Launch in Minutes.png'],
+                ] as $feature)
+                    <div class="rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+                        <div class="p-5">
+                            <div class="text-xs font-semibold tracking-widest uppercase mb-1.5 text-gray-400">{{ $feature['label'] }}</div>
+                            <h3 class="text-base font-semibold text-gray-900 mb-1">{{ $feature['title'] }}</h3>
+                            <p class="text-sm text-gray-500">{{ $feature['desc'] }}</p>
                         </div>
-                        <h3 class="text-base font-semibold text-gray-900 mb-2">{{ $feature['title'] }}</h3>
-                        <p class="text-gray-500">{{ $feature['desc'] }}</p>
+                        <div class="overflow-hidden" style="aspect-ratio: 16 / 10;">
+                            <img src="{{ asset('images/' . $feature['image']) }}" alt="{{ $feature['title'] }}" class="w-full h-full object-cover">
+                        </div>
                     </div>
                 @endforeach
             </div>

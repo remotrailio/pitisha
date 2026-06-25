@@ -89,9 +89,6 @@
 
                     {{-- Nav links (lg+) --}}
                     <nav class="hidden lg:flex items-center gap-5 mr-2">
-                        {{-- TODO: remove --}}
-                        <a href="{{ route('why') }}"
-                            class="text-sm font-medium text-gray-600 hover:text-brand-700 transition-colors">Why</a>
                         @auth
                             @if (auth()->user()->isOrganizer())
                                 <a href="{{ url('/organizer') }}"
