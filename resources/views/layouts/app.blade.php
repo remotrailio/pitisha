@@ -36,7 +36,7 @@
 
 <body class="min-h-screen bg-white font-sans text-ink antialiased flex flex-col">
 
-    <nav class="sticky top-0 z-50 w-full border-b border-brand-500/30 bg-brand-600/50 shadow-sm backdrop-blur-xl"
+    <nav class="sticky top-0 z-50 w-full border-b border-brand-500/30 bg-brand-600/80 shadow-sm backdrop-blur-md"
         x-data="{ open: false }" x-init="$watch('open', v => document.body.classList.toggle('overflow-hidden', v))" @keydown.escape.window="open = false">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="flex h-16 items-center gap-4">
