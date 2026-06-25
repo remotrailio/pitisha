@@ -13,10 +13,12 @@ use App\Livewire\Public\EventDetails;
 use App\Livewire\Public\Homepage;
 use App\Livewire\Public\OrderConfirmation;
 use App\Livewire\Public\OrganizerProfile;
+use App\Livewire\Public\Solutions;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', Homepage::class)->name('home');
+Route::get('/solutions', Solutions::class)->name('solutions');
 Route::get('/for-organizers', BecomeOrganizer::class)->name('organizers.become');
 Route::get('/events', BrowseEvents::class)->name('events.index');
 Route::redirect('/browse', '/events');
