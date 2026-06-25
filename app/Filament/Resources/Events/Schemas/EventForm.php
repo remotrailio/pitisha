@@ -170,7 +170,8 @@ class EventForm
             Toggle::make('enable_referrals')
                 ->label('Enable Referral Program')
                 ->live()
-                ->default(false),
+                ->default(false)
+                ->hiddenOn('create'),
 
             TextInput::make('referral_target')
                 ->label('Referral Target')
@@ -178,28 +179,24 @@ class EventForm
                 ->minValue(1)
                 ->helperText('Number of successful referrals needed to earn the reward.')
                 ->visible(fn (Get $get): bool => (bool) $get('enable_referrals'))
-                ->required(fn (Get $get): bool => (bool) $get('enable_referrals')),
+                ->required(fn (Get $get): bool => (bool) $get('enable_referrals'))
+                ->hiddenOn('create'),
 
             Select::make('reward_type')
                 ->label('Reward Type')
                 ->options(RewardType::options())
                 ->live()
                 ->visible(fn (Get $get): bool => (bool) $get('enable_referrals'))
-                ->required(fn (Get $get): bool => (bool) $get('enable_referrals')),
-
-            Select::make('reward_ticket_type_id')
-                ->label('Reward Ticket Type')
-                ->relationship('ticketTypes', 'name')
-                ->helperText('The ticket type the referrer will receive as a reward.')
-                ->visible(fn (Get $get): bool => (bool) $get('enable_referrals') && $get('reward_type') === RewardType::FREE_TICKET->value)
-                ->required(fn (Get $get): bool => (bool) $get('enable_referrals') && $get('reward_type') === RewardType::FREE_TICKET->value),
+                ->required(fn (Get $get): bool => (bool) $get('enable_referrals'))
+                ->hiddenOn('create'),
 
             TextInput::make('reward_value')
                 ->label('Reward Value')
                 ->numeric()
                 ->minValue(0)
                 ->helperText('Discount amount (KES) or other reward value.')
-                ->visible(fn (Get $get): bool => (bool) $get('enable_referrals') && $get('reward_type') !== RewardType::FREE_TICKET->value && $get('reward_type') !== null),
+                ->visible(fn (Get $get): bool => (bool) $get('enable_referrals') && $get('reward_type') !== null)
+                ->hiddenOn('create'),
         ]);
     }
 }
