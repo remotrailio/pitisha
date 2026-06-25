@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', Homepage::class)->name('home');
 Route::get('/solutions', Solutions::class)->name('solutions');
+Route::view('/hero-image', 'public.hero-image')->name('hero-image');
 Route::get('/for-organizers', BecomeOrganizer::class)->name('organizers.become');
 Route::get('/events', BrowseEvents::class)->name('events.index');
 Route::redirect('/browse', '/events');

@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\Enums\EventStatus;
 use App\Enums\EventVisibility;
+use App\Enums\NavCategory;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Enums\RewardType;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -45,6 +47,17 @@ class Event extends Model
 
             if ($event->orders()->where('payment_status', PaymentStatus::PAID)->exists()) {
                 throw new \RuntimeException('Cannot delete an event that has paid orders.');
+            }
+
+            // Bust nav cache before pivot rows are removed by cascade.
+            if ($event->categories()->whereIn('name', NavCategory::names())->exists()) {
+                Cache::forget('nav.top_categories');
+            }
+        });
+
+        static::saved(function (Event $event) {
+            if ($event->categories()->whereIn('name', NavCategory::names())->exists()) {
+                Cache::forget('nav.top_categories');
             }
         });
 
