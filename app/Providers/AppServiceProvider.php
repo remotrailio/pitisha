@@ -36,29 +36,15 @@ class AppServiceProvider extends ServiceProvider
             $topCategories = Cache::remember('nav.top_categories', now()->addHour(), function () {
                 $priorityNames = NavCategory::names();
 
-                // Priority enum categories that are active and have at least one published event.
-                $priority = \App\Models\Category::withCount(['events' => fn ($q) => $q->where('status', 'published')])
+                // Only show the enum-defined categories — active and with at least one published event.
+                return \App\Models\Category::withCount(['events' => fn ($q) => $q->where('status', 'published')])
                     ->where('is_active', true)
                     ->whereIn('name', $priorityNames)
                     ->get()
                     ->filter(fn ($cat) => $cat->events_count > 0)
                     ->sortBy(fn ($cat) => array_search($cat->name, $priorityNames))
-                    ->values();
-
-                // Fill remaining slots with other active categories that have events.
-                $needed = 4 - $priority->count();
-                $filler = $needed > 0
-                    ? \App\Models\Category::withCount(['events' => fn ($q) => $q->where('status', 'published')])
-                        ->where('is_active', true)
-                        ->whereNotIn('name', $priorityNames)
-                        ->having('events_count', '>', 0)
-                        ->orderByDesc('events_count')
-                        ->limit($needed)
-                        ->get()
-                    : collect();
-
-                return $priority->concat($filler)
                     ->map(fn ($cat) => ['name' => $cat->name, 'slug' => $cat->slug])
+                    ->values()
                     ->all();
             });
 
