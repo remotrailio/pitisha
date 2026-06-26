@@ -869,54 +869,15 @@
         </div>
     </section>
 
-    {{-- Testimonials --}}
+    {{-- Customer story --}}
     <section class="py-16 bg-brand-50">
         <div class="mx-auto max-w-7xl px-4">
-            <div class="text-center mb-12">
+            <div class="text-center mb-10">
                 <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Trusted by Event Organizers Across Kenya</h2>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                @php
-                    $testimonials = [
-                        [
-                            'quote' =>
-                                '"' .
-                                $__settings->app_name .
-                                ' has transformed our business. We\'ve doubled our bookings and the platform makes everything so easy to manage."',
-                            'name' => 'Sarah Kamau',
-                            'role' => 'Founder, Nairobi Food Tours',
-                            'img' => 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400',
-                        ],
-                        [
-                            'quote' =>
-                                '"The support team is incredible and the platform is so intuitive. Our attendees love how easy it is to buy tickets."',
-                            'name' => 'David Omondi',
-                            'role' => 'Event Director, Coast Music Festival',
-                            'img' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400',
-                        ],
-                        [
-                            'quote' =>
-                                '"Best decision we made for our safari business. The analytics help us understand our customers better."',
-                            'name' => 'Grace Wanjiku',
-                            'role' => 'Founder, Safari Experiences Ltd',
-                            'img' => 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400',
-                        ],
-                    ];
-                @endphp
-                @foreach ($testimonials as $testimonial)
-                    <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-                        <p class="text-gray-600 italic mb-6">{{ $testimonial['quote'] }}</p>
-                        <div class="flex items-center gap-3">
-                            <img src="{{ $testimonial['img'] }}" alt="{{ $testimonial['name'] }}"
-                                class="h-12 w-12 rounded-full object-cover border-2 border-gray-100">
-                            <div>
-                                <div class="font-semibold text-gray-900">{{ $testimonial['name'] }}</div>
-                                <div class="text-sm text-gray-500">{{ $testimonial['role'] }}</div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
+            <video autoplay muted loop playsinline class="w-full h-auto shadow-lg">
+                <source src="{{ asset('customer-story.webm') }}" type="video/webm">
+            </video>
         </div>
     </section>
 
