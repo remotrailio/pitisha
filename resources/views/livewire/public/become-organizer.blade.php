@@ -919,76 +919,6 @@
                             <video src="{{ asset('TicketSalesCard.mp4') }}"
                                 class="absolute inset-0 h-full w-full object-cover" autoplay loop muted
                                 playsinline></video>
-
-                            <div
-                                class="absolute bottom-6 left-6 right-6 rounded-2xl border border-white/20 bg-black/30 p-4 backdrop-blur-xl">
-                                <!-- Metric row -->
-                                <div class="flex items-start justify-between mb-4">
-                                    <div>
-                                        <p class="text-[10px] font-semibold uppercase tracking-[0.15em] text-white/50">
-                                            Ticket Sales</p>
-                                        <p class="mt-1 text-3xl font-bold text-white leading-none tracking-tight">248
-                                        </p>
-                                        <p class="mt-1.5 text-[11px] font-semibold" style="color: #E08C12;">↑ +32
-                                            today</p>
-                                    </div>
-                                    <div
-                                        class="h-9 w-9 rounded-xl border border-white/20 bg-white/10 flex items-center justify-center text-sm">
-                                        🎟️</div>
-                                </div>
-                                <!-- Bar chart -->
-                                <div class="relative">
-                                    <div
-                                        class="absolute inset-x-0 top-0 bottom-5 pointer-events-none flex flex-col justify-between">
-                                        <div class="h-px bg-white/[0.07]"></div>
-                                        <div class="h-px bg-white/[0.07]"></div>
-                                        <div class="h-px bg-white/[0.07]"></div>
-                                        <div class="h-px bg-white/[0.07]"></div>
-                                    </div>
-                                    <div class="flex items-end gap-1 h-14">
-                                        <div class="flex-1 flex items-end">
-                                            <div class="w-full rounded-t-sm bg-gradient-to-t from-white/25 to-white/10"
-                                                style="height:32%"></div>
-                                        </div>
-                                        <div class="flex-1 flex items-end">
-                                            <div class="w-full rounded-t-sm bg-gradient-to-t from-white/25 to-white/10"
-                                                style="height:48%"></div>
-                                        </div>
-                                        <div class="flex-1 flex items-end">
-                                            <div class="w-full rounded-t-sm bg-gradient-to-t from-white/25 to-white/10"
-                                                style="height:58%"></div>
-                                        </div>
-                                        <div class="flex-1 flex items-end">
-                                            <div class="w-full rounded-t-sm bg-gradient-to-t from-white/25 to-white/10"
-                                                style="height:44%"></div>
-                                        </div>
-                                        <div class="flex-1 flex items-end">
-                                            <div class="w-full rounded-t-sm bg-gradient-to-t from-white/25 to-white/10"
-                                                style="height:70%"></div>
-                                        </div>
-                                        <div class="flex-1 flex items-end">
-                                            <div class="w-full rounded-t-sm bg-gradient-to-t from-white/25 to-white/10"
-                                                style="height:85%"></div>
-                                        </div>
-                                        <!-- Active bar (today) -->
-                                        <div class="flex-1 flex items-end">
-                                            <div class="w-full rounded-t-sm"
-                                                style="height:100%; background: linear-gradient(to top, #E08C12, #f5b942); box-shadow: 0 0 12px 2px rgba(224,140,18,0.45);">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex gap-1 mt-1.5">
-                                        <p class="flex-1 text-center text-[9px] font-medium text-white/30">M</p>
-                                        <p class="flex-1 text-center text-[9px] font-medium text-white/30">T</p>
-                                        <p class="flex-1 text-center text-[9px] font-medium text-white/30">W</p>
-                                        <p class="flex-1 text-center text-[9px] font-medium text-white/30">T</p>
-                                        <p class="flex-1 text-center text-[9px] font-medium text-white/30">F</p>
-                                        <p class="flex-1 text-center text-[9px] font-medium text-white/30">S</p>
-                                        <p class="flex-1 text-center text-[9px] font-bold" style="color: #E08C12;">S
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div class="mt-6">
                             <h3 class="text-lg font-semibold text-gray-900">Promote &amp; Sell</h3>
@@ -1003,30 +933,6 @@
                             <video src="{{ asset('ManageGrowCard.mp4') }}"
                                 class="absolute inset-0 h-full w-full object-cover" autoplay loop muted
                                 playsinline></video>
-
-                            <div
-                                class="absolute bottom-6 left-6 right-6 rounded-2xl border border-white/20 bg-black/30 p-4 backdrop-blur-xl">
-                                <div class="mb-4 inline-flex rounded-full px-3 py-1 text-xs"
-                                    style="background: rgba(224,140,18,0.2); color: #f5cc6e;">
-                                    📈 Growth Insight
-                                </div>
-                                <p class="text-sm font-medium leading-6 text-white">Your event is gaining momentum with
-                                    higher engagement this week.</p>
-                                <ul class="mt-4 space-y-2 text-xs text-white/80">
-                                    <li>🎟️ 248 Tickets Sold</li>
-                                    <li>👥 1,240 Event Page Visits</li>
-                                    <li>📣 18% More Shares This Week</li>
-                                </ul>
-                                <div class="mt-5 rounded-xl bg-white/10 p-3">
-                                    <div class="flex items-center justify-between text-xs text-white/70">
-                                        <span>Conversion Rate</span>
-                                        <span class="font-medium" style="color: #E08C12;">20%</span>
-                                    </div>
-                                    <div class="mt-2 h-2 overflow-hidden rounded-full bg-white/10">
-                                        <div class="h-full w-1/5 rounded-full" style="background: #E08C12;"></div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div class="mt-6">
                             <h3 class="text-lg font-semibold text-gray-900">Manage &amp; Grow</h3>
@@ -1041,7 +947,7 @@
     </section>
 
     {{-- CTA / Signup --}}
-    <section id="signup" class="py-20 bg-white">
+    <section id="signup" class="py-20" style="background: #e6f7f5;">
         <div class="mx-auto max-w-7xl px-4">
             <div
                 class="bg-white rounded-2xl border border-gray-200 shadow-xl shadow-gray-200/60 max-w-2xl mx-auto p-8">
