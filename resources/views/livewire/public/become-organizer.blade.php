@@ -46,7 +46,10 @@
 
                 {{-- Right: hero visual --}}
                 <div class="lg:w-7/12 w-full">
-                    <img src="{{ asset('images/ticketeke-app-hero-teal.png') }}" alt="Ticketeke app hero" class="w-full h-auto">
+                    <video autoplay muted loop playsinline class="w-full h-auto rounded-2xl">
+                        <source src="{{ asset('hero-vedio.webm') }}" type="video/webm">
+                        <source src="{{ asset('hero-vedio.mp4') }}" type="video/mp4">
+                    </video>
                 </div>
 
             </div>
