@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Public;
 
-use App\Jobs\InitiateStkPushJob;
+use App\Jobs\CheckPaymentStatusJob;
 use App\Models\Event;
 use App\Services\MpesaService;
 use App\Services\OrderPricingService;
@@ -90,6 +90,8 @@ class CheckoutStart extends Component
 
         $this->errorMessage = null;
 
+        $order = null;
+
         try {
             $normalizedPhone = MpesaService::normalizePhone($this->phone);
 
@@ -113,7 +115,20 @@ class CheckoutStart extends Component
                 $order->update(['guest_token' => $guestToken]);
             }
 
-            InitiateStkPushJob::dispatch($order->id, $normalizedPhone);
+            // Store phone before the API call so SMS works on the reconciliation path
+            $order->update(['mpesa_phone' => $normalizedPhone]);
+
+            $response = app(MpesaService::class)->initiateStkPush($order, $normalizedPhone);
+
+            if (! isset($response['CheckoutRequestID'])) {
+                $reason = $response['errorMessage'] ?? $response['ResultDesc'] ?? 'M-Pesa did not accept the request. Please try again.';
+                $order->markFailed($reason);
+                $this->errorMessage = $reason;
+                return;
+            }
+
+            CheckPaymentStatusJob::dispatch($order->id, attempt: 1)
+                ->delay(now()->addSeconds(30));
 
             session()->forget(['checkout_items', 'checkout_event_id']);
 
@@ -124,6 +139,7 @@ class CheckoutStart extends Component
 
             $this->redirect($url, navigate: false);
         } catch (\Throwable $e) {
+            $order?->markFailed('Payment request failed. Please try again.');
             $this->errorMessage = $e->getMessage();
         }
     }

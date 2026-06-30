@@ -4,7 +4,7 @@ namespace App\Livewire\Public;
 
 use App\Enums\OrderStatus as OrderStatusEnum;
 use App\Enums\PaymentStatus;
-use App\Jobs\InitiateStkPushJob;
+use App\Jobs\CheckPaymentStatusJob;
 use App\Models\Order;
 use App\Services\MpesaService;
 use Illuminate\Support\Facades\Auth;
@@ -40,12 +40,14 @@ class OrderStatus extends Component
         $stored      = $this->order->mpesa_phone ?? '';
         $this->phone = str_starts_with($stored, '254') ? substr($stored, 3) : $stored;
         $this->expireIfDue();
+        $this->maybeTriggerStatusCheck();
     }
 
     public function checkStatus(): void
     {
         $this->order->refresh();
         $this->expireIfDue();
+        $this->maybeTriggerStatusCheck();
     }
 
     public function requestPaymentPrompt(): void
@@ -63,10 +65,25 @@ class OrderStatus extends Component
 
         $normalizedPhone = MpesaService::normalizePhone($this->phone);
 
-        InitiateStkPushJob::dispatch($this->order->id, $normalizedPhone);
+        $this->order->update(['mpesa_phone' => $normalizedPhone]);
+
+        try {
+            $response = app(MpesaService::class)->initiateStkPush($this->order, $normalizedPhone);
+        } catch (\Throwable $e) {
+            $this->addError('phone', 'M-Pesa is unreachable. Please try again shortly.');
+            return;
+        }
+
+        if (! isset($response['CheckoutRequestID'])) {
+            $reason = $response['errorMessage'] ?? $response['ResultDesc'] ?? 'M-Pesa did not accept the request.';
+            $this->addError('phone', $reason);
+            return;
+        }
+
+        CheckPaymentStatusJob::dispatch($this->order->id, attempt: 1)
+            ->delay(now()->addSeconds(30));
 
         $this->showRetryForm = false;
-
         $this->order->refresh();
     }
 
@@ -100,5 +117,33 @@ class OrderStatus extends Component
         ) {
             $this->order->markExpired();
         }
+    }
+
+    private function maybeTriggerStatusCheck(): void
+    {
+        // Only relevant for PROCESSING orders with an STK push in flight
+        if (
+            $this->order->payment_status !== PaymentStatus::PROCESSING
+            || ! $this->order->mpesa_checkout_request_id
+        ) {
+            return;
+        }
+
+        $lastQuery = $this->order->last_status_query_at;
+
+        // Give the user at least 30 s to enter their PIN before the first query
+        if ($this->order->updated_at->diffInSeconds(now()) < 30) {
+            return;
+        }
+
+        // Don't dispatch more than once every 30 s to avoid hammering the API
+        if ($lastQuery && $lastQuery->diffInSeconds(now()) < 30) {
+            return;
+        }
+
+        CheckPaymentStatusJob::dispatch(
+            $this->order->id,
+            attempt: max(1, ($this->order->status_query_attempts ?? 0) + 1)
+        );
     }
 }
