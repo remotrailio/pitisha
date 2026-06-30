@@ -34,7 +34,8 @@ class OrganizerStatsWidget extends StatsOverviewWidget
 
         $totalRevenue = Order::whereIn('event_id', $eventIds)
             ->where('payment_status', PaymentStatus::PAID)
-            ->sum('total');
+            ->selectRaw('SUM(total - fees) as net')
+            ->value('net') ?? 0;
 
         $totalOrders = Order::whereIn('event_id', $eventIds)
             ->where('payment_status', PaymentStatus::PAID)

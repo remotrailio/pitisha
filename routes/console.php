@@ -12,3 +12,6 @@ Schedule::command('app:expire-orders')->everyTenMinutes();
 
 Schedule::job(new \App\Jobs\MarkEventsAsLiveJob)->hourly()->onOneServer();
 Schedule::job(new \App\Jobs\MarkEventsAsEndedJob)->hourly()->onOneServer();
+
+// Catch any payments whose STK push callback was never received
+Schedule::job(new \App\Jobs\ReconcilePendingPaymentsJob)->everyThirtyMinutes()->onOneServer();

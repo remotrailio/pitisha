@@ -2,14 +2,13 @@
 
 namespace App\Livewire\Public;
 
-use App\Enums\PaymentStatus;
+use App\Jobs\InitiateStkPushJob;
 use App\Models\Event;
-use App\Models\Order;
-use App\Services\CheckoutService;
 use App\Services\MpesaService;
 use App\Services\OrderPricingService;
 use App\Services\PromoCodeEngine;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -30,20 +29,9 @@ class CheckoutStart extends Component
 
     public ?array $promoResult = null;
 
-    // idle | processing | polling | success | failed
-    public string $state = 'idle';
-
     public ?string $errorMessage = null;
 
-    public ?int $orderId = null;
-
-    public ?string $guestToken = null;
-
     public ?string $referrerCode = null;
-
-    public int $pollCount = 0;
-
-    private const MAX_POLLS = 20; // ~60 seconds at 3s intervals
 
     public function mount(string $slug): void
     {
@@ -62,7 +50,6 @@ class CheckoutStart extends Component
             $this->phone = Auth::user()->phone ?? '';
         }
 
-        // Carry referral code from event page visit if it belongs to this event
         if (session('referrer_event_id') === $this->event->id) {
             $this->referrerCode = session('referrer_code');
         }
@@ -81,9 +68,7 @@ class CheckoutStart extends Component
         $summary     = app(OrderPricingService::class)
             ->buildOrderSummary($this->event, $ticketTypes, $this->items);
 
-        $result = PromoCodeEngine::apply($this->event, $code, $summary['subtotal']);
-
-        $this->promoResult = $result;
+        $this->promoResult = PromoCodeEngine::apply($this->event, $code, $summary['subtotal']);
     }
 
     public function removePromo(): void
@@ -103,7 +88,6 @@ class CheckoutStart extends Component
 
         $this->validate($rules);
 
-        $this->state        = 'processing';
         $this->errorMessage = null;
 
         try {
@@ -114,8 +98,7 @@ class CheckoutStart extends Component
                 $checkoutItems[] = ['ticket_type_id' => (int) $typeId, 'quantity' => (int) $qty];
             }
 
-            /** @var CheckoutService $checkout */
-            $checkout = app(CheckoutService::class);
+            $checkout = app(\App\Services\CheckoutService::class);
 
             $user = Auth::check()
                 ? Auth::user()
@@ -123,78 +106,26 @@ class CheckoutStart extends Component
 
             $order = $checkout->checkout($user, $this->event, $checkoutItems, $this->promoResult, $this->referrerCode);
 
+            $guestToken = null;
+
             if (! Auth::check()) {
-                $this->guestToken = (string) \Illuminate\Support\Str::uuid();
-                $order->update(['guest_token' => $this->guestToken]);
+                $guestToken = (string) Str::uuid();
+                $order->update(['guest_token' => $guestToken]);
             }
 
-            $this->orderId = $order->id;
-
-            /** @var MpesaService $mpesa */
-            $mpesa    = app(MpesaService::class);
-            $response = $mpesa->initiateStkPush($order, $normalizedPhone);
-
-            $order->update(['mpesa_phone' => $normalizedPhone]);
-
-            if (! isset($response['CheckoutRequestID'])) {
-                $this->state        = 'failed';
-                $this->errorMessage = $response['errorMessage']
-                    ?? $response['ResultDesc']
-                    ?? 'M-Pesa did not accept the request. Please try again.';
-                return;
-            }
-
-            $this->state     = 'polling';
-            $this->pollCount = 0;
+            InitiateStkPushJob::dispatch($order->id, $normalizedPhone);
 
             session()->forget(['checkout_items', 'checkout_event_id']);
+
+            $url = route('orders.status', $order->uuid);
+            if ($guestToken) {
+                $url .= '?token=' . $guestToken;
+            }
+
+            $this->redirect($url, navigate: false);
         } catch (\Throwable $e) {
-            $this->state        = 'failed';
             $this->errorMessage = $e->getMessage();
         }
-    }
-
-    public function poll(): void
-    {
-        if ($this->state !== 'polling' || ! $this->orderId) {
-            return;
-        }
-
-        $this->pollCount++;
-
-        $order = Order::find($this->orderId);
-
-        if (! $order) {
-            $this->state        = 'failed';
-            $this->errorMessage = 'Order not found.';
-            return;
-        }
-
-        if ($order->payment_status === PaymentStatus::PAID) {
-            $this->state = 'success';
-            return;
-        }
-
-        if ($order->payment_status === PaymentStatus::FAILED) {
-            $this->state        = 'failed';
-            $this->errorMessage = 'Payment was not completed. Please try again.';
-            return;
-        }
-
-        if ($this->pollCount >= self::MAX_POLLS) {
-            $this->state        = 'failed';
-            $this->errorMessage = 'Payment confirmation timed out. If your money was deducted, contact support with your order number: ' . $order->order_number;
-        }
-    }
-
-    public function retry(): void
-    {
-        $this->state        = 'idle';
-        $this->errorMessage = null;
-        $this->orderId      = null;
-        $this->pollCount    = 0;
-        $this->promoResult  = null;
-        $this->promoCodeInput = '';
     }
 
     public function render()
@@ -214,7 +145,6 @@ class CheckoutStart extends Component
             'fee'            => $summary['fee'],
             'currency'       => $summary['currency'],
             'discountAmount' => $discountAmount,
-            'order'          => $this->orderId ? Order::find($this->orderId) : null,
         ]);
     }
 }

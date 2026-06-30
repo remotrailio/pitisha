@@ -15,7 +15,9 @@ use Illuminate\Support\Str;
     'user_id', 'event_id', 'guest_token', 'subtotal', 'fees', 'discount', 'total', 'currency',
     'status', 'payment_status', 'payment_provider', 'payment_reference',
     'payment_method', 'expires_at', 'paid_at',
-    'mpesa_receipt_number', 'mpesa_checkout_request_id', 'mpesa_response', 'mpesa_phone',
+    'mpesa_receipt_number', 'mpesa_checkout_request_id', 'merchant_request_id',
+    'mpesa_response', 'mpesa_phone',
+    'status_query_attempts', 'last_status_query_at', 'callback_received_at', 'failure_reason',
     'discount_code', 'discount_name', 'discount_type', 'discount_value',
     'referrer_code',
 ])]
@@ -34,15 +36,17 @@ class Order extends Model
     protected function casts(): array
     {
         return [
-            'subtotal'       => 'decimal:2',
-            'fees'           => 'decimal:2',
-            'discount'       => 'decimal:2',
-            'total'          => 'decimal:2',
-            'status'          => OrderStatus::class,
-            'payment_status'  => PaymentStatus::class,
-            'expires_at'      => 'datetime',
-            'paid_at'         => 'datetime',
-            'mpesa_response'  => 'array',
+            'subtotal'              => 'decimal:2',
+            'fees'                  => 'decimal:2',
+            'discount'              => 'decimal:2',
+            'total'                 => 'decimal:2',
+            'status'                => OrderStatus::class,
+            'payment_status'        => PaymentStatus::class,
+            'expires_at'            => 'datetime',
+            'paid_at'               => 'datetime',
+            'last_status_query_at'  => 'datetime',
+            'callback_received_at'  => 'datetime',
+            'mpesa_response'        => 'array',
         ];
     }
 
@@ -86,12 +90,22 @@ class Order extends Model
         return (float) ($this->subtotal + $this->fees - $this->discount);
     }
 
+    public function markFailed(string $reason): void
+    {
+        $this->update([
+            'status'         => OrderStatus::CANCELLED,
+            'payment_status' => PaymentStatus::FAILED,
+            'failure_reason' => $reason,
+        ]);
+    }
+
     public function markPaid(string $paymentReference, ?string $mpesaReceipt = null, ?array $callbackPayload = null): void
     {
         $this->update(array_filter([
             'payment_status'       => PaymentStatus::PAID,
             'status'               => OrderStatus::COMPLETED,
             'paid_at'              => now(),
+            'callback_received_at' => now(),
             'payment_reference'    => $paymentReference,
             'mpesa_receipt_number' => $mpesaReceipt,
             'mpesa_response'       => $callbackPayload,

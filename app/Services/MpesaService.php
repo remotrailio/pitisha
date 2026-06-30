@@ -66,7 +66,7 @@ class MpesaService
             $response = Http::withToken($token)
                 ->asJson()
                 ->acceptJson()
-                ->timeout(30)
+                ->timeout(15)
                 ->post(config('mpesa.base_url') . '/mpesa/stkpush/v1/processrequest', $payload);
         } catch (ConnectionException $e) {
             Log::error('M-Pesa STK push connection error', ['error' => $e->getMessage()]);
@@ -80,6 +80,7 @@ class MpesaService
         if (isset($data['CheckoutRequestID'])) {
             $order->update([
                 'mpesa_checkout_request_id' => $data['CheckoutRequestID'],
+                'merchant_request_id'       => $data['MerchantRequestID'] ?? null,
                 'mpesa_response'            => $data,
                 'payment_provider'          => 'mpesa',
                 'payment_method'            => 'stk_push',
@@ -95,6 +96,17 @@ class MpesaService
         return $data;
     }
 
+    /**
+     * Query M-Pesa for the current status of an STK push transaction.
+     *
+     * Normalised return shape:
+     *   resolved    bool   – true when we have a definitive answer (success or failure)
+     *   paid        bool   – true only when ResultCode === 0
+     *   result_code int|null
+     *   result_desc string|null
+     *   receipt     string|null  – MpesaReceiptNumber on success
+     *   raw         array  – original response
+     */
     public function queryStatus(Order $order): array
     {
         $token     = $this->getAccessToken();
@@ -106,7 +118,7 @@ class MpesaService
         $response = Http::withToken($token)
             ->asJson()
             ->acceptJson()
-            ->timeout(30)
+            ->timeout(15)
             ->post(config('mpesa.base_url') . '/mpesa/stkpushquery/v1/query', [
                 'BusinessShortCode' => config('mpesa.shortcode'),
                 'Password'          => $password,
@@ -114,14 +126,56 @@ class MpesaService
                 'CheckoutRequestID' => $order->mpesa_checkout_request_id,
             ]);
 
-        $data = $response->json();
+        $data = $response->json() ?? [];
 
         Log::info('M-Pesa status query', [
             'order'    => $order->order_number,
             'response' => $data,
         ]);
 
-        return $data;
+        // Safaricom returns ResultCode as a string in query responses
+        $resultCode = isset($data['ResultCode']) ? (int) $data['ResultCode'] : null;
+
+        // "The transaction is being processed" comes back as an HTTP error body
+        // with an errorCode key and no ResultCode — treat as still-pending
+        $stillPending = ($resultCode === null && isset($data['errorCode']));
+
+        if ($resultCode === 0) {
+            // Extract receipt from CallbackMetadata if present
+            $metadata = collect($data['CallbackMetadata']['Item'] ?? [])
+                ->keyBy('Name')
+                ->map(fn ($item) => $item['Value'] ?? null);
+
+            return [
+                'resolved'    => true,
+                'paid'        => true,
+                'result_code' => 0,
+                'result_desc' => $data['ResultDesc'] ?? null,
+                'receipt'     => $metadata->get('MpesaReceiptNumber') ? (string) $metadata->get('MpesaReceiptNumber') : null,
+                'raw'         => $data,
+            ];
+        }
+
+        if ($stillPending) {
+            return [
+                'resolved'    => false,
+                'paid'        => false,
+                'result_code' => null,
+                'result_desc' => $data['errorMessage'] ?? 'Transaction still being processed',
+                'receipt'     => null,
+                'raw'         => $data,
+            ];
+        }
+
+        // Non-zero ResultCode = definitive failure
+        return [
+            'resolved'    => $resultCode !== null,
+            'paid'        => false,
+            'result_code' => $resultCode,
+            'result_desc' => $data['ResultDesc'] ?? null,
+            'receipt'     => null,
+            'raw'         => $data,
+        ];
     }
 
     public static function normalizePhone(string $phone): string

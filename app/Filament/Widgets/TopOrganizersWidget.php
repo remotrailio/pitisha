@@ -22,16 +22,9 @@ class TopOrganizersWidget extends TableWidget
             ->query(
                 Organizer::query()
                     ->select('organizers.*')
-                    ->selectRaw('COUNT(DISTINCT events.id) as events_count')
-                    ->selectRaw('COUNT(tickets.id) as tickets_count')
-                    ->selectRaw(
-                        'COALESCE(SUM(CASE WHEN orders.payment_status = ? THEN orders.total ELSE 0 END), 0) as revenue',
-                        ['paid']
-                    )
-                    ->leftJoin('events', 'events.organizer_id', '=', 'organizers.id')
-                    ->leftJoin('orders', 'orders.event_id', '=', 'events.id')
-                    ->leftJoin('tickets', 'tickets.order_id', '=', 'orders.id')
-                    ->groupBy('organizers.id')
+                    ->selectRaw('(SELECT COUNT(DISTINCT e.id) FROM events e WHERE e.organizer_id = organizers.id) as events_count')
+                    ->selectRaw('(SELECT COUNT(t.id) FROM tickets t INNER JOIN orders o ON o.id = t.order_id INNER JOIN events e ON e.id = o.event_id WHERE e.organizer_id = organizers.id) as tickets_count')
+                    ->selectRaw('(SELECT COALESCE(SUM(o.total - o.fees), 0) FROM orders o INNER JOIN events e ON e.id = o.event_id WHERE e.organizer_id = organizers.id AND o.payment_status = ?) as revenue', ['paid'])
                     ->orderByDesc('revenue')
                     ->limit(10)
             )

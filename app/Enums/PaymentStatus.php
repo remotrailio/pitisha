@@ -9,4 +9,5 @@ enum PaymentStatus: string
     case PAID       = 'paid';
     case FAILED     = 'failed';
     case REFUNDED   = 'refunded';
+    case UNKNOWN    = 'unknown'; // STK push sent but reconciliation exhausted without a definitive result
 }

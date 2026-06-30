@@ -38,7 +38,7 @@ class OrganizerRevenueChartWidget extends ChartWidget
             ->whereIn('event_id', $eventIds)
             ->where('payment_status', PaymentStatus::PAID)
             ->where('paid_at', '>=', $start)
-            ->selectRaw('DATE(paid_at) as date, SUM(total) as revenue')
+            ->selectRaw('DATE(paid_at) as date, SUM(total - fees) as revenue')
             ->groupBy('date')
             ->orderBy('date')
             ->pluck('revenue', 'date');

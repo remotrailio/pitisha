@@ -55,6 +55,12 @@ class MpesaCallbackController extends Controller
             return response('', 200);
         }
 
+        Log::info('M-Pesa callback: processing', [
+            'order'          => $order->order_number,
+            'payment_status' => $order->payment_status->value,
+            'result_code'    => $resultCode,
+        ]);
+
         // ── D. Validate ResultCode ──────────────────────────────────────────
         if ($resultCode !== 0) {
             Log::warning('M-Pesa callback: payment failed', [

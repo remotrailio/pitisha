@@ -17,11 +17,18 @@ class AdminStatsOverviewWidget extends StatsOverviewWidget
 
     protected function getStats(): array
     {
-        $revenue = Order::where('payment_status', PaymentStatus::PAID)->sum('total');
+        $paidOrders = Order::where('payment_status', PaymentStatus::PAID);
+
+        $revenue    = (clone $paidOrders)->sum('total');
+        $commission = (clone $paidOrders)->sum('fees');
 
         return [
-            Stat::make('Total Revenue', 'KES ' . number_format($revenue, 2))
+            Stat::make('Ticket Sales', 'KES ' . number_format($revenue, 2))
                 ->icon('heroicon-o-banknotes')
+                ->color('success'),
+
+            Stat::make('Commission Earned', 'KES ' . number_format($commission, 2))
+                ->icon('heroicon-o-currency-dollar')
                 ->color('success'),
 
             Stat::make('Total Orders', number_format(Order::count()))

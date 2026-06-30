@@ -12,75 +12,14 @@
         <p class="mt-1 text-sm text-gray-500">{{ $event->title }}</p>
     </div>
 
-    {{-- Success --}}
-    @if($state === 'success')
-        <div class="rounded-2xl border border-emerald-200 bg-emerald-50 p-8 text-center">
-            <svg class="mx-auto mb-4 h-16 w-16 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            <h2 class="text-xl font-bold text-emerald-800">Payment confirmed!</h2>
-            <p class="mt-2 text-sm text-emerald-700">Your tickets are ready.</p>
-            @if($order)
-                <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
-                    <a href="{{ route('orders.confirmation', $order->uuid) . ($guestToken ? '?token=' . $guestToken : '') }}"
-                       class="inline-flex items-center justify-center gap-3 rounded-full bg-emerald-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-emerald-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
-                        View tickets
-                    </a>
-                    @auth
-                    <a href="{{ route('my.tickets') }}"
-                       class="inline-flex items-center justify-center gap-3 rounded-full border border-emerald-300 bg-white h-10 px-5 text-sm font-semibold text-emerald-700 text-nowrap hover:bg-emerald-50 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
-                        My tickets
-                    </a>
-                    @endauth
-                </div>
-            @endif
+    {{-- Validation / order error --}}
+    @if($errorMessage)
+        <div class="mb-6 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700">
+            {{ $errorMessage }}
         </div>
+    @endif
 
-    {{-- Failed --}}
-    @elseif($state === 'failed')
-        <div class="rounded-2xl border border-red-200 bg-red-50 p-8 text-center">
-            <svg class="mx-auto mb-4 h-16 w-16 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            <h2 class="text-xl font-bold text-red-800">Payment failed</h2>
-            <p class="mt-2 text-sm text-red-700">{{ $errorMessage }}</p>
-            <button wire:click="retry"
-                    class="mt-6 inline-flex items-center justify-center gap-3 rounded-full bg-red-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-red-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
-                Try again
-            </button>
-        </div>
-
-    {{-- Polling --}}
-    @elseif($state === 'polling')
-        <div class="rounded-2xl border border-brand-100 bg-brand-50 p-8 text-center"
-             wire:poll.3000ms="poll">
-            <svg class="mx-auto mb-4 h-16 w-16 animate-spin text-brand-500" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
-            </svg>
-            <h2 class="text-xl font-bold text-brand-900">Waiting for payment</h2>
-            <p class="mt-2 text-sm text-brand-700">
-                Check your phone for the M-Pesa PIN prompt and enter your PIN to complete payment.
-            </p>
-            <p class="mt-4 text-xs text-brand-500">This page will update automatically…</p>
-        </div>
-
-    {{-- Processing --}}
-    @elseif($state === 'processing')
-        <div class="rounded-2xl border border-gray-200 bg-white p-8 text-center">
-            <svg class="mx-auto mb-4 h-16 w-16 animate-pulse text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            <h2 class="text-xl font-bold text-gray-700">Initiating payment…</h2>
-            <p class="mt-2 text-sm text-gray-500">Please wait while we contact M-Pesa.</p>
-        </div>
-
-    {{-- Idle (default) --}}
-    @else
-        <div class="space-y-6">
+    <div class="space-y-6">
 
             {{-- Order summary --}}
             <div class="rounded-2xl border border-gray-200 bg-white shadow-md shadow-gray-100">
@@ -222,33 +161,14 @@
                 wire:click="pay"
                 wire:loading.attr="disabled"
                 wire:target="pay"
-                class="relative w-full inline-flex items-center justify-center rounded-full bg-accent-600 h-10 px-5 text-sm font-semibold text-white hover:bg-accent-700 transition disabled:opacity-60"
+                class="w-full inline-flex items-center justify-center rounded-full bg-accent-600 h-10 px-5 text-sm font-semibold text-white hover:bg-accent-700 transition disabled:opacity-60"
             >
-                <!-- Normal state -->
-                <span wire:loading.remove wire:target="pay" class="whitespace-nowrap">
-                    Pay {{ $currency }} {{ number_format($total, 2) }} via M-Pesa
-                </span>
-
-                <!-- Loading state -->
-                <span
-                    wire:loading
-                    wire:target="pay"
-                    class="absolute inset-0 flex items-center justify-center whitespace-nowrap"
-                >
-                    <span class="absolute inset-0 inline-flex items-center justify-center gap-2">
-                        <svg class="h-4 w-4 shrink-0 animate-spin" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
-                        </svg>
-                        <span>Processing…</span>
-                    </span>
-                </span>
+                <span class="whitespace-nowrap">Pay {{ $currency }} {{ number_format($total, 2) }} via M-Pesa</span>
             </button>
 
             <p class="text-center text-xs text-gray-400">
                 Secured by Safaricom M-Pesa. Your payment is encrypted and safe.
             </p>
         </div>
-    @endif
 
 </div>

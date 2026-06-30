@@ -12,6 +12,7 @@ use App\Livewire\Public\CheckoutStart;
 use App\Livewire\Public\EventDetails;
 use App\Livewire\Public\Homepage;
 use App\Livewire\Public\OrderConfirmation;
+use App\Livewire\Public\OrderStatus;
 use App\Livewire\Public\OrganizerProfile;
 use App\Livewire\Public\Solutions;
 use App\Models\Category;
@@ -39,6 +40,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::get('/checkout/{slug}', CheckoutStart::class)->name('checkout.start');
 Route::get('/orders/{uuid}/confirmation', OrderConfirmation::class)->name('orders.confirmation');
+Route::get('/orders/{uuid}/status', OrderStatus::class)->name('orders.status');
 Route::get('/orders/{uuid}/tickets/download', DownloadTicketsPdfController::class)->name('orders.tickets.download');
 
 Route::middleware(['auth', 'verified'])->group(function () {

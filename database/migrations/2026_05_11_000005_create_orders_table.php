@@ -32,7 +32,7 @@ return new class extends Migration
             // Order state
             $table->enum('status', ['pending', 'completed', 'cancelled', 'expired', 'refunded'])
                 ->default('pending');
-            $table->enum('payment_status', ['unpaid', 'processing', 'paid', 'failed', 'refunded'])
+            $table->enum('payment_status', ['unpaid', 'processing', 'paid', 'failed', 'refunded', 'unknown'])
                 ->default('unpaid');
 
             // Payment details
@@ -43,8 +43,15 @@ return new class extends Migration
             // Mpesa-specific fields
             $table->string('mpesa_receipt_number')->nullable();
             $table->string('mpesa_checkout_request_id')->nullable();
+            $table->string('merchant_request_id')->nullable();
             $table->string('mpesa_phone', 20)->nullable();
             $table->json('mpesa_response')->nullable();
+
+            // Payment reconciliation tracking
+            $table->tinyInteger('status_query_attempts')->unsigned()->default(0);
+            $table->dateTime('last_status_query_at')->nullable();
+            $table->dateTime('callback_received_at')->nullable();
+            $table->string('failure_reason', 500)->nullable();
 
             // Timing
             $table->dateTime('expires_at')->nullable();
