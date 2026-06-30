@@ -40,14 +40,14 @@ class OrderStatus extends Component
         $stored      = $this->order->mpesa_phone ?? '';
         $this->phone = str_starts_with($stored, '254') ? substr($stored, 3) : $stored;
         $this->expireIfDue();
-        $this->maybeTriggerStatusCheck();
+        $this->queryStatusIfDue();   // synchronous on page load — resolves without queue
     }
 
     public function checkStatus(): void
     {
         $this->order->refresh();
         $this->expireIfDue();
-        $this->maybeTriggerStatusCheck();
+        $this->maybeTriggerStatusCheck(); // async job for background polling
     }
 
     public function requestPaymentPrompt(): void
@@ -69,7 +69,7 @@ class OrderStatus extends Component
 
         try {
             $response = app(MpesaService::class)->initiateStkPush($this->order, $normalizedPhone);
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             $this->addError('phone', 'M-Pesa is unreachable. Please try again shortly.');
             return;
         }
@@ -116,6 +116,50 @@ class OrderStatus extends Component
             && $this->order->expires_at?->isPast()
         ) {
             $this->order->markExpired();
+        }
+    }
+
+    private function queryStatusIfDue(): void
+    {
+        if (
+            $this->order->payment_status !== PaymentStatus::PROCESSING
+            || ! $this->order->mpesa_checkout_request_id
+        ) {
+            return;
+        }
+
+        // Give the user at least 30 s to enter their PIN
+        if ($this->order->updated_at->diffInSeconds(now()) < 30) {
+            return;
+        }
+
+        // Don't re-query if one ran in the last 30 s
+        $lastQuery = $this->order->last_status_query_at;
+        if ($lastQuery && $lastQuery->diffInSeconds(now()) < 30) {
+            return;
+        }
+
+        $mpesa  = app(MpesaService::class);
+        $result = $mpesa->queryStatus($this->order);
+
+        $this->order->update([
+            'status_query_attempts' => ($this->order->status_query_attempts ?? 0) + 1,
+            'last_status_query_at'  => now(),
+        ]);
+
+        if ($result['paid']) {
+            $this->order->markPaid(
+                paymentReference: $result['receipt'] ?? 'RECONCILED-' . $this->order->order_number,
+                mpesaReceipt: $result['receipt'],
+            );
+            \App\Jobs\GenerateTicketsJob::dispatch($this->order->id);
+            $this->order->refresh();
+            return;
+        }
+
+        if ($result['resolved'] && ! $result['paid']) {
+            $this->order->markFailed($result['result_desc'] ?? 'Payment declined');
+            $this->order->refresh();
         }
     }
 
