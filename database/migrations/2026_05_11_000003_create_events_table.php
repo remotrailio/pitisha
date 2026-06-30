@@ -44,7 +44,7 @@ return new class extends Migration
 
             // Publishing
             $table->enum('visibility', ['public', 'private', 'unlisted'])->default('public');
-            $table->enum('status', ['draft', 'published', 'cancelled', 'completed'])->default('draft');
+            $table->enum('status', ['draft', 'published', 'live', 'cancelled', 'completed', 'ended'])->default('draft');
             $table->dateTime('published_at')->nullable();
 
             $table->timestamps();
