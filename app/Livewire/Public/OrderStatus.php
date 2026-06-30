@@ -37,7 +37,8 @@ class OrderStatus extends Component
 
         $this->order = $query->firstOrFail();
 
-        $this->phone = $this->order->mpesa_phone ?? '';
+        $stored      = $this->order->mpesa_phone ?? '';
+        $this->phone = str_starts_with($stored, '254') ? substr($stored, 3) : $stored;
         $this->expireIfDue();
     }
 
