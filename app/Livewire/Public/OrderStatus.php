@@ -78,7 +78,9 @@ class OrderStatus extends Component
             return;
         }
 
-        CheckPaymentStatusJob::dispatch($this->order->id, attempt: 1)
+        $payment = $this->order->payments()->latest()->firstOrFail();
+
+        CheckPaymentStatusJob::dispatch($payment->id, attempt: 1)
             ->delay(now()->addSeconds(30));
 
         $this->showRetryForm = false;

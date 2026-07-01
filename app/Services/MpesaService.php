@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Enums\PaymentStatus;
-use App\Models\MpesaShortcode;
 use App\Models\Order;
 use App\Models\Payment;
 use Illuminate\Http\Client\ConnectionException;
@@ -34,16 +33,15 @@ class MpesaService
 
     public function initiateStkPush(Order $order, string $phone): array
     {
-        $shortcode = MpesaShortcode::active()->firstOr(
-            fn () => (object) ['id' => null, 'shortcode' => config('mpesa.shortcode'), 'passkey' => config('mpesa.passkey')]
-        );
+        $shortcodeValue = config('mpesa.shortcode');
+        $passkey        = config('mpesa.passkey');
 
         $token     = $this->getAccessToken();
         $timestamp = now()->format('YmdHis');
-        $password  = base64_encode($shortcode->shortcode . $shortcode->passkey . $timestamp);
+        $password  = base64_encode($shortcodeValue . $passkey . $timestamp);
 
         $payload = [
-            'BusinessShortCode' => $shortcode->shortcode,
+            'BusinessShortCode' => $shortcodeValue,
             'Password'          => $password,
             'Timestamp'         => $timestamp,
             'TransactionType'   => 'CustomerPayBillOnline',
@@ -51,7 +49,7 @@ class MpesaService
                 ? (string) (int) ceil((float) $order->total)
                 : '1',
             'PartyA'            => $phone,
-            'PartyB'            => $shortcode->shortcode,
+            'PartyB'            => $shortcodeValue,
             'PhoneNumber'       => $phone,
             'CallBackURL'       => config('mpesa.callback_url'),
             'AccountReference'  => $order->order_number,
@@ -83,7 +81,7 @@ class MpesaService
 
         if (isset($data['CheckoutRequestID'])) {
             $order->payments()->create(array_filter([
-                'mpesa_shortcode_id'  => $shortcode->id ?? null,
+                'shortcode'           => $shortcodeValue,
                 'status'              => PaymentStatus::PROCESSING,
                 'provider'            => 'mpesa',
                 'amount'              => $order->total,
@@ -120,21 +118,19 @@ class MpesaService
      */
     public function queryStatus(Payment $payment): array
     {
-        $shortcode = $payment->shortcode
-            ?? MpesaShortcode::active()->firstOr(
-                fn () => (object) ['shortcode' => config('mpesa.shortcode'), 'passkey' => config('mpesa.passkey')]
-            );
+        $shortcodeValue = $payment->shortcode ?? config('mpesa.shortcode');
+        $passkey        = config('mpesa.passkey');
 
         $token     = $this->getAccessToken();
         $timestamp = now()->format('YmdHis');
-        $password  = base64_encode($shortcode->shortcode . $shortcode->passkey . $timestamp);
+        $password  = base64_encode($shortcodeValue . $passkey . $timestamp);
 
         $response = Http::withToken($token)
             ->asJson()
             ->acceptJson()
             ->timeout(15)
             ->post(config('mpesa.base_url') . '/mpesa/stkpushquery/v1/query', [
-                'BusinessShortCode' => $shortcode->shortcode,
+                'BusinessShortCode' => $shortcodeValue,
                 'Password'          => $password,
                 'Timestamp'         => $timestamp,
                 'CheckoutRequestID' => $payment->checkout_request_id,

@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete();
-            $table->foreignId('mpesa_shortcode_id')->nullable()->constrained('mpesa_shortcodes')->nullOnDelete();
+            $table->string('shortcode', 20)->nullable();
 
             $table->enum('status', ['processing', 'paid', 'failed', 'unknown', 'refunded'])->default('processing');
             $table->string('provider', 50)->nullable();

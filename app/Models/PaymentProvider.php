@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable(['name', 'slug', 'description', 'logo_path', 'is_active', 'sort_order'])]
 class PaymentProvider extends Model
@@ -16,11 +15,6 @@ class PaymentProvider extends Model
             'is_active'  => 'boolean',
             'sort_order' => 'integer',
         ];
-    }
-
-    public function shortcodes(): HasMany
-    {
-        return $this->hasMany(MpesaShortcode::class);
     }
 
     public function scopeActive(Builder $query): Builder

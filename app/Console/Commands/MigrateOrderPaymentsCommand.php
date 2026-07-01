@@ -19,7 +19,7 @@ class MigrateOrderPaymentsCommand extends Command
         'payment_provider',
         'payment_reference',
         'payment_method',
-        'mpesa_shortcode_id',
+        'mpesa_shortcode_id',  // old FK column — dropped if present
         'mpesa_receipt_number',
         'mpesa_checkout_request_id',
         'merchant_request_id',
@@ -153,9 +153,8 @@ class MigrateOrderPaymentsCommand extends Command
             $status = self::STATUS_MAP[$order['payment_status']] ?? 'failed';
 
             DB::table('payments')->insert([
-                'order_id'              => $order['id'],
-                'mpesa_shortcode_id'    => $order['mpesa_shortcode_id'] ?? null,
-                'status'                => $status,
+                'order_id' => $order['id'],
+                'status'   => $status,
                 'provider'              => $order['payment_provider'] ?? null,
                 'amount'                => $order['total'],
                 'currency'              => $order['currency'],

@@ -38,10 +38,6 @@ class PaymentProvidersTable
                     ->trueColor('success')
                     ->falseColor('gray'),
 
-                TextColumn::make('shortcodes_count')
-                    ->label('Shortcodes')
-                    ->counts('shortcodes'),
-
                 TextColumn::make('sort_order')
                     ->label('Order')
                     ->sortable(),

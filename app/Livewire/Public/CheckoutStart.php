@@ -4,6 +4,7 @@ namespace App\Livewire\Public;
 
 use App\Jobs\CheckPaymentStatusJob;
 use App\Models\Event;
+use App\Models\Order;
 use App\Models\PaymentProvider;
 use App\Services\MpesaService;
 use App\Services\OrderPricingService;
@@ -57,6 +58,7 @@ class CheckoutStart extends Component
             $this->referrerCode = session('referrer_code');
         }
 
+        // Auto-select when only one provider is active
         $providers = PaymentProvider::active()->get();
         if ($providers->count() === 1) {
             $this->selectedProviderId = $providers->first()->id;
@@ -87,11 +89,27 @@ class CheckoutStart extends Component
 
     public function pay(): void
     {
-        $rules = ['phone' => ['required', 'string', 'min:9']];
+        if (! $this->selectedProviderId) {
+            $this->errorMessage = 'Please select a payment method.';
+            return;
+        }
+
+        $provider = PaymentProvider::find($this->selectedProviderId);
+
+        if (! $provider) {
+            $this->errorMessage = 'Invalid payment provider.';
+            return;
+        }
+
+        $rules = [];
 
         if (! Auth::check()) {
             $rules['name']  = ['required', 'string', 'min:2'];
             $rules['email'] = ['required', 'email'];
+        }
+
+        if ($provider->slug === 'mpesa') {
+            $rules['phone'] = ['required', 'string', 'min:9'];
         }
 
         $this->validate($rules);
@@ -101,8 +119,6 @@ class CheckoutStart extends Component
         $order = null;
 
         try {
-            $normalizedPhone = MpesaService::normalizePhone($this->phone);
-
             $checkoutItems = [];
             foreach ($this->items as $typeId => $qty) {
                 $checkoutItems[] = ['ticket_type_id' => (int) $typeId, 'quantity' => (int) $qty];
@@ -123,30 +139,46 @@ class CheckoutStart extends Component
                 $order->update(['guest_token' => $guestToken]);
             }
 
-            $response = app(MpesaService::class)->initiateStkPush($order, $normalizedPhone);
+            match ($provider->slug) {
+                'mpesa' => $this->payWithMpesa($order),
+                default => throw new \RuntimeException("{$provider->name} payments are not yet supported."),
+            };
 
-            if (! isset($response['CheckoutRequestID'])) {
-                $reason = $response['errorMessage'] ?? $response['ResultDesc'] ?? 'M-Pesa did not accept the request. Please try again.';
-                $order->markFailed($reason);
-                $this->errorMessage = $reason;
-                return;
-            }
-
-            CheckPaymentStatusJob::dispatch($order->id, attempt: 1)
-                ->delay(now()->addSeconds(30));
-
-            session()->forget(['checkout_items', 'checkout_event_id']);
-
-            $url = route('orders.status', $order->uuid);
-            if ($guestToken) {
-                $url .= '?token=' . $guestToken;
-            }
-
-            $this->redirect($url, navigate: false);
+            // payWithMpesa handles redirect internally on success — only reach here on failure
         } catch (\Throwable $e) {
             $order?->markFailed('Payment request failed. Please try again.');
             $this->errorMessage = $e->getMessage();
         }
+    }
+
+    private function payWithMpesa(Order $order): void
+    {
+        $normalizedPhone = MpesaService::normalizePhone($this->phone);
+
+        $response = app(MpesaService::class)->initiateStkPush($order, $normalizedPhone);
+
+        if (! isset($response['CheckoutRequestID'])) {
+            $reason = $response['errorMessage'] ?? $response['ResultDesc'] ?? 'M-Pesa did not accept the request. Please try again.';
+            $order->markFailed($reason);
+            $this->errorMessage = $reason;
+            return;
+        }
+
+        $payment = $order->payments()->latest()->firstOrFail();
+
+        CheckPaymentStatusJob::dispatch($payment->id, attempt: 1)
+            ->delay(now()->addSeconds(30));
+
+        session()->forget(['checkout_items', 'checkout_event_id']);
+
+        $url = route('orders.status', $order->uuid);
+
+        $guestToken = $order->guest_token;
+        if ($guestToken) {
+            $url .= '?token=' . $guestToken;
+        }
+
+        $this->redirect($url, navigate: false);
     }
 
     public function render()
@@ -159,14 +191,18 @@ class CheckoutStart extends Component
         $summary = app(OrderPricingService::class)
             ->buildOrderSummary($this->event, $ticketTypes, $this->items, $discountAmount);
 
+        $providers        = PaymentProvider::active()->get();
+        $selectedProvider = $providers->firstWhere('id', $this->selectedProviderId);
+
         return view('livewire.public.checkout-start', [
-            'itemSummary'    => $summary['lines'],
-            'total'          => $summary['total'],
-            'subtotal'       => $summary['subtotal'],
-            'fee'            => $summary['fee'],
-            'currency'       => $summary['currency'],
-            'discountAmount' => $discountAmount,
-            'providers'      => PaymentProvider::active()->get(),
+            'itemSummary'      => $summary['lines'],
+            'total'            => $summary['total'],
+            'subtotal'         => $summary['subtotal'],
+            'fee'              => $summary['fee'],
+            'currency'         => $summary['currency'],
+            'discountAmount'   => $discountAmount,
+            'providers'        => $providers,
+            'selectedProvider' => $selectedProvider,
         ]);
     }
 }

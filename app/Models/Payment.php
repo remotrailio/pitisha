@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[Fillable([
-    'order_id', 'mpesa_shortcode_id',
+    'order_id', 'shortcode',
     'status', 'provider', 'amount', 'currency', 'method',
     'reference', 'phone',
     'checkout_request_id', 'merchant_request_id', 'receipt_number',
@@ -34,10 +34,5 @@ class Payment extends Model
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
-    }
-
-    public function shortcode(): BelongsTo
-    {
-        return $this->belongsTo(MpesaShortcode::class, 'mpesa_shortcode_id');
     }
 }
