@@ -24,9 +24,9 @@ class SendTicketsSmsJob implements ShouldQueue
 
     public function handle(AfricasTalkingService $sms): void
     {
-        $order = Order::with(['tickets', 'event', 'user'])->findOrFail($this->orderId);
+        $order = Order::with(['tickets', 'event', 'user', 'payments'])->findOrFail($this->orderId);
 
-        $phone = $order->mpesa_phone;
+        $phone = $order->latestPayment?->phone;
 
         if (! $phone) {
             Log::warning('SendTicketsSmsJob: no phone on order, skipping', [
