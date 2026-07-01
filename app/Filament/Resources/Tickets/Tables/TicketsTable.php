@@ -5,7 +5,6 @@ namespace App\Filament\Resources\Tickets\Tables;
 use App\Enums\TicketStatus;
 use App\Models\Event;
 use App\Models\Ticket;
-use Filament\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
@@ -81,17 +80,7 @@ class TicketsTable
                         );
                     }),
             ])
-            ->recordActions([
-                Action::make('check_in')
-                    ->label('Check In')
-                    ->icon('heroicon-o-check-circle')
-                    ->color('success')
-                    ->requiresConfirmation()
-                    ->visible(fn (Ticket $record): bool => $record->status === TicketStatus::VALID)
-                    ->action(function (Ticket $record): void {
-                        $record->checkIn();
-                    }),
-            ])
+            ->recordActions([])
             ->defaultSort('created_at', 'desc');
     }
 }
