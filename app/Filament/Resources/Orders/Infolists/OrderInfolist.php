@@ -45,15 +45,23 @@ class OrderInfolist
             TextEntry::make('total')
                 ->money(fn (Order $record): string => $record->currency),
 
-            TextEntry::make('payment_provider')
+            TextEntry::make('latestPayment.provider')
+                ->label('Provider')
                 ->placeholder('—'),
 
-            TextEntry::make('payment_reference')
+            TextEntry::make('latestPayment.reference')
+                ->label('Payment Reference')
                 ->placeholder('—')
                 ->copyable(),
 
-            TextEntry::make('payment_method')
+            TextEntry::make('latestPayment.method')
+                ->label('Method')
                 ->placeholder('—'),
+
+            TextEntry::make('latestPayment.receipt_number')
+                ->label('Receipt #')
+                ->placeholder('—')
+                ->copyable(),
 
             TextEntry::make('expires_at')
                 ->dateTime(),

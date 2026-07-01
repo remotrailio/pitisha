@@ -37,7 +37,6 @@ class ExpireOrdersCommand extends Command
             $unpaidQuery = Order::where('status', OrderStatus::PENDING)
                 ->where('expires_at', '<', now())
                 ->where('payment_status', PaymentStatus::UNPAID->value)
-                ->whereNull('mpesa_checkout_request_id')
                 ->whereNotIn('payment_status', $neverExpire);
 
             // ── 2. Force-expire stale PROCESSING/UNKNOWN orders (>24 h old) ───
@@ -48,7 +47,7 @@ class ExpireOrdersCommand extends Command
                     PaymentStatus::UNKNOWN->value,
                 ])
                 ->whereNotIn('payment_status', $neverExpire)
-                ->where('created_at', '<', now()->subDay());
+                ->where('updated_at', '<', now()->subDay());
 
             // ── 3. Fix orphaned FAILED orders still marked PENDING ─────────────
             // A pending order cannot have a failed payment — bring them in line.

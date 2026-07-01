@@ -37,7 +37,7 @@ class OrderStatus extends Component
 
         $this->order = $query->firstOrFail();
 
-        $stored      = $this->order->mpesa_phone ?? '';
+        $stored      = $this->order->latestPayment?->phone ?? '';
         $this->phone = str_starts_with($stored, '254') ? substr($stored, 3) : $stored;
         $this->expireIfDue();
         $this->queryStatusIfDue();   // synchronous on page load — resolves without queue
@@ -64,8 +64,6 @@ class OrderStatus extends Component
         }
 
         $normalizedPhone = MpesaService::normalizePhone($this->phone);
-
-        $this->order->update(['mpesa_phone' => $normalizedPhone]);
 
         try {
             $response = app(MpesaService::class)->initiateStkPush($this->order, $normalizedPhone);
@@ -112,7 +110,6 @@ class OrderStatus extends Component
         if (
             $this->order->status === OrderStatusEnum::PENDING
             && $this->order->payment_status === PaymentStatus::UNPAID
-            && $this->order->mpesa_checkout_request_id === null
             && $this->order->expires_at?->isPast()
         ) {
             $this->order->markExpired();
@@ -121,29 +118,30 @@ class OrderStatus extends Component
 
     private function queryStatusIfDue(): void
     {
-        if (
-            $this->order->payment_status !== PaymentStatus::PROCESSING
-            || ! $this->order->mpesa_checkout_request_id
-        ) {
+        if ($this->order->payment_status !== PaymentStatus::PROCESSING) {
+            return;
+        }
+
+        $payment = $this->order->payments()->latest()->first();
+
+        if (! $payment?->checkout_request_id) {
             return;
         }
 
         // Give the user at least 30 s to enter their PIN
-        if ($this->order->updated_at->diffInSeconds(now()) < 30) {
+        if ($payment->created_at->diffInSeconds(now()) < 30) {
             return;
         }
 
         // Don't re-query if one ran in the last 30 s
-        $lastQuery = $this->order->last_status_query_at;
-        if ($lastQuery && $lastQuery->diffInSeconds(now()) < 30) {
+        if ($payment->last_status_query_at?->diffInSeconds(now()) < 30) {
             return;
         }
 
-        $mpesa  = app(MpesaService::class);
-        $result = $mpesa->queryStatus($this->order);
+        $result = app(MpesaService::class)->queryStatus($payment);
 
-        $this->order->update([
-            'status_query_attempts' => ($this->order->status_query_attempts ?? 0) + 1,
+        $payment->update([
+            'status_query_attempts' => ($payment->status_query_attempts ?? 0) + 1,
             'last_status_query_at'  => now(),
         ]);
 
@@ -151,6 +149,7 @@ class OrderStatus extends Component
             $this->order->markPaid(
                 paymentReference: $result['receipt'] ?? 'RECONCILED-' . $this->order->order_number,
                 mpesaReceipt: $result['receipt'],
+                payment: $payment,
             );
             \App\Jobs\GenerateTicketsJob::dispatch($this->order->id);
             $this->order->refresh();
@@ -158,36 +157,36 @@ class OrderStatus extends Component
         }
 
         if ($result['resolved'] && ! $result['paid']) {
-            $this->order->markFailed($result['result_desc'] ?? 'Payment declined');
+            $this->order->markFailed($result['result_desc'] ?? 'Payment declined', payment: $payment);
             $this->order->refresh();
         }
     }
 
     private function maybeTriggerStatusCheck(): void
     {
-        // Only relevant for PROCESSING orders with an STK push in flight
-        if (
-            $this->order->payment_status !== PaymentStatus::PROCESSING
-            || ! $this->order->mpesa_checkout_request_id
-        ) {
+        if ($this->order->payment_status !== PaymentStatus::PROCESSING) {
             return;
         }
 
-        $lastQuery = $this->order->last_status_query_at;
+        $payment = $this->order->payments()->latest()->first();
+
+        if (! $payment?->checkout_request_id) {
+            return;
+        }
 
         // Give the user at least 30 s to enter their PIN before the first query
-        if ($this->order->updated_at->diffInSeconds(now()) < 30) {
+        if ($payment->created_at->diffInSeconds(now()) < 30) {
             return;
         }
 
         // Don't dispatch more than once every 30 s to avoid hammering the API
-        if ($lastQuery && $lastQuery->diffInSeconds(now()) < 30) {
+        if ($payment->last_status_query_at?->diffInSeconds(now()) < 30) {
             return;
         }
 
         CheckPaymentStatusJob::dispatch(
-            $this->order->id,
-            attempt: max(1, ($this->order->status_query_attempts ?? 0) + 1)
+            $payment->id,
+            attempt: max(1, ($payment->status_query_attempts ?? 0) + 1)
         );
     }
 }

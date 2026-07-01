@@ -193,6 +193,7 @@
                                     />
                                 </div>
                                 @error('phone') <p class="mt-1.5 text-xs text-red-600">{{ $message }}</p> @enderror
+                                <p class="mt-1.5 text-xs text-gray-400">Safaricom numbers only.</p>
                                 <div class="mt-3 flex gap-2">
                                     <button wire:click="requestPaymentPrompt"
                                             wire:loading.attr="disabled"

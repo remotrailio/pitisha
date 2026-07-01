@@ -50,9 +50,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('organizer.onboard.store');
 });
 
-// Check-in: no auth required — staff scan from any device via signed URL
+// Check-in: no auth required — ticket_code is a random 12-char alphanumeric secret
 Route::get('/check-in/{ticket_code}', TicketVerificationController::class)
-    ->name('tickets.verify')
-    ->middleware('signed');
+    ->name('tickets.verify');
 
 require __DIR__.'/auth.php';

@@ -4,6 +4,7 @@ namespace App\Livewire\Public;
 
 use App\Jobs\CheckPaymentStatusJob;
 use App\Models\Event;
+use App\Models\PaymentProvider;
 use App\Services\MpesaService;
 use App\Services\OrderPricingService;
 use App\Services\PromoCodeEngine;
@@ -33,6 +34,8 @@ class CheckoutStart extends Component
 
     public ?string $referrerCode = null;
 
+    public ?int $selectedProviderId = null;
+
     public function mount(string $slug): void
     {
         $this->event = Event::with('ticketTypes')->where('slug', $slug)->firstOrFail();
@@ -52,6 +55,11 @@ class CheckoutStart extends Component
 
         if (session('referrer_event_id') === $this->event->id) {
             $this->referrerCode = session('referrer_code');
+        }
+
+        $providers = PaymentProvider::active()->get();
+        if ($providers->count() === 1) {
+            $this->selectedProviderId = $providers->first()->id;
         }
     }
 
@@ -115,9 +123,6 @@ class CheckoutStart extends Component
                 $order->update(['guest_token' => $guestToken]);
             }
 
-            // Store phone before the API call so SMS works on the reconciliation path
-            $order->update(['mpesa_phone' => $normalizedPhone]);
-
             $response = app(MpesaService::class)->initiateStkPush($order, $normalizedPhone);
 
             if (! isset($response['CheckoutRequestID'])) {
@@ -161,6 +166,7 @@ class CheckoutStart extends Component
             'fee'            => $summary['fee'],
             'currency'       => $summary['currency'],
             'discountAmount' => $discountAmount,
+            'providers'      => PaymentProvider::active()->get(),
         ]);
     }
 }

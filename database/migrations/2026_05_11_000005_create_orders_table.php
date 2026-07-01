@@ -13,6 +13,7 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->string('order_number')->unique();
+            $table->string('guest_token')->nullable()->unique();
 
             // Relationships
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
@@ -26,6 +27,7 @@ return new class extends Migration
             $table->string('discount_name', 100)->nullable();
             $table->string('discount_type', 20)->nullable();
             $table->decimal('discount_value', 10, 2)->nullable();
+            $table->string('referrer_code', 50)->nullable();
             $table->decimal('total', 10, 2);
             $table->string('currency', 3)->default('kes');
 
@@ -35,22 +37,7 @@ return new class extends Migration
             $table->enum('payment_status', ['unpaid', 'processing', 'paid', 'failed', 'refunded', 'unknown'])
                 ->default('unpaid');
 
-            // Payment details
-            $table->string('payment_provider')->nullable();
-            $table->string('payment_reference')->nullable();
-            $table->string('payment_method')->nullable();
-
-            // Mpesa-specific fields
-            $table->string('mpesa_receipt_number')->nullable();
-            $table->string('mpesa_checkout_request_id')->nullable();
-            $table->string('merchant_request_id')->nullable();
-            $table->string('mpesa_phone', 20)->nullable();
-            $table->json('mpesa_response')->nullable();
-
-            // Payment reconciliation tracking
-            $table->tinyInteger('status_query_attempts')->unsigned()->default(0);
-            $table->dateTime('last_status_query_at')->nullable();
-            $table->dateTime('callback_received_at')->nullable();
+            // Denormalized for quick display; detail lives in payments table
             $table->string('failure_reason', 500)->nullable();
 
             // Timing

@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Enums\PaymentStatus;
+use App\Models\MpesaShortcode;
 use App\Models\Order;
+use App\Models\Payment;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -32,14 +34,16 @@ class MpesaService
 
     public function initiateStkPush(Order $order, string $phone): array
     {
-        $token     = $this->getAccessToken();
-        $timestamp = now()->format('YmdHis');
-        $password  = base64_encode(
-            config('mpesa.shortcode') . config('mpesa.passkey') . $timestamp
+        $shortcode = MpesaShortcode::active()->firstOr(
+            fn () => (object) ['id' => null, 'shortcode' => config('mpesa.shortcode'), 'passkey' => config('mpesa.passkey')]
         );
 
+        $token     = $this->getAccessToken();
+        $timestamp = now()->format('YmdHis');
+        $password  = base64_encode($shortcode->shortcode . $shortcode->passkey . $timestamp);
+
         $payload = [
-            'BusinessShortCode' => config('mpesa.shortcode'),
+            'BusinessShortCode' => $shortcode->shortcode,
             'Password'          => $password,
             'Timestamp'         => $timestamp,
             'TransactionType'   => 'CustomerPayBillOnline',
@@ -47,7 +51,7 @@ class MpesaService
                 ? (string) (int) ceil((float) $order->total)
                 : '1',
             'PartyA'            => $phone,
-            'PartyB'            => config('mpesa.shortcode'),
+            'PartyB'            => $shortcode->shortcode,
             'PhoneNumber'       => $phone,
             'CallBackURL'       => config('mpesa.callback_url'),
             'AccountReference'  => $order->order_number,
@@ -78,14 +82,21 @@ class MpesaService
         Log::info('M-Pesa STK push response', ['order' => $order->order_number, 'response' => $data]);
 
         if (isset($data['CheckoutRequestID'])) {
-            $order->update([
-                'mpesa_checkout_request_id' => $data['CheckoutRequestID'],
-                'merchant_request_id'       => $data['MerchantRequestID'] ?? null,
-                'mpesa_response'            => $data,
-                'payment_provider'          => 'mpesa',
-                'payment_method'            => 'stk_push',
-                'payment_status'            => PaymentStatus::PROCESSING,
-            ]);
+            $order->payments()->create(array_filter([
+                'mpesa_shortcode_id'  => $shortcode->id ?? null,
+                'status'              => PaymentStatus::PROCESSING,
+                'provider'            => 'mpesa',
+                'amount'              => $order->total,
+                'currency'            => $order->currency,
+                'method'              => 'stk_push',
+                'phone'               => $phone,
+                'checkout_request_id' => $data['CheckoutRequestID'],
+                'merchant_request_id' => $data['MerchantRequestID'] ?? null,
+                'response'            => $data,
+                'initiated_at'        => now(),
+            ], fn ($v) => $v !== null));
+
+            $order->update(['payment_status' => PaymentStatus::PROCESSING]);
         } else {
             Log::error('M-Pesa STK push did not return CheckoutRequestID', [
                 'order'    => $order->order_number,
@@ -107,29 +118,33 @@ class MpesaService
      *   receipt     string|null  – MpesaReceiptNumber on success
      *   raw         array  – original response
      */
-    public function queryStatus(Order $order): array
+    public function queryStatus(Payment $payment): array
     {
+        $shortcode = $payment->shortcode
+            ?? MpesaShortcode::active()->firstOr(
+                fn () => (object) ['shortcode' => config('mpesa.shortcode'), 'passkey' => config('mpesa.passkey')]
+            );
+
         $token     = $this->getAccessToken();
         $timestamp = now()->format('YmdHis');
-        $password  = base64_encode(
-            config('mpesa.shortcode') . config('mpesa.passkey') . $timestamp
-        );
+        $password  = base64_encode($shortcode->shortcode . $shortcode->passkey . $timestamp);
 
         $response = Http::withToken($token)
             ->asJson()
             ->acceptJson()
             ->timeout(15)
             ->post(config('mpesa.base_url') . '/mpesa/stkpushquery/v1/query', [
-                'BusinessShortCode' => config('mpesa.shortcode'),
+                'BusinessShortCode' => $shortcode->shortcode,
                 'Password'          => $password,
                 'Timestamp'         => $timestamp,
-                'CheckoutRequestID' => $order->mpesa_checkout_request_id,
+                'CheckoutRequestID' => $payment->checkout_request_id,
             ]);
 
         $data = $response->json() ?? [];
 
         Log::info('M-Pesa status query', [
-            'order'    => $order->order_number,
+            'order'    => $payment->order->order_number,
+            'payment'  => $payment->id,
             'response' => $data,
         ]);
 

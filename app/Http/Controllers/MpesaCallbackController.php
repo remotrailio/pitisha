@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\PaymentStatus;
 use App\Jobs\GenerateTicketsJob;
 use App\Models\Order;
+use App\Models\Payment;
 use App\Models\PromoCode;
 use App\Services\PromoCodeEngine;
 use App\Services\ReferralEngine;
@@ -37,15 +38,19 @@ class MpesaCallbackController extends Controller
             return response('', 200);
         }
 
-        // ── B. Find order ───────────────────────────────────────────────────
-        $order = Order::where('mpesa_checkout_request_id', $checkoutRequestId)->first();
+        // ── B. Find payment (and its order) ────────────────────────────────
+        $payment = Payment::where('checkout_request_id', $checkoutRequestId)
+            ->with('order')
+            ->first();
 
-        if (! $order) {
-            Log::error('M-Pesa callback: order not found', [
+        if (! $payment) {
+            Log::error('M-Pesa callback: payment not found', [
                 'checkout_request_id' => $checkoutRequestId,
             ]);
             return response('', 200);
         }
+
+        $order = $payment->order;
 
         // ── C. Idempotency ──────────────────────────────────────────────────
         if ($order->isPaid()) {
@@ -69,10 +74,14 @@ class MpesaCallbackController extends Controller
                 'result_desc' => $resultDesc,
             ]);
 
-            $order->update([
-                'payment_status' => PaymentStatus::FAILED,
-                'mpesa_response' => $payload,
+            $payment->update([
+                'status'              => PaymentStatus::FAILED,
+                'response'            => $payload,
+                'failure_reason'      => $resultDesc,
+                'callback_received_at' => now(),
             ]);
+
+            $order->update(['payment_status' => PaymentStatus::FAILED]);
 
             return response('', 200);
         }
@@ -116,6 +125,7 @@ class MpesaCallbackController extends Controller
             paymentReference: $mpesaReceiptNumber,
             mpesaReceipt: $mpesaReceiptNumber,
             callbackPayload: $payload,
+            payment: $payment,
         );
 
         Log::info('M-Pesa callback: order marked paid — dispatching OrderPaid event', [

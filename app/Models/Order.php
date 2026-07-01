@@ -9,17 +9,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 
 #[Fillable([
-    'user_id', 'event_id', 'guest_token', 'subtotal', 'fees', 'discount', 'total', 'currency',
-    'status', 'payment_status', 'payment_provider', 'payment_reference',
-    'payment_method', 'expires_at', 'paid_at',
-    'mpesa_receipt_number', 'mpesa_checkout_request_id', 'merchant_request_id',
-    'mpesa_response', 'mpesa_phone',
-    'status_query_attempts', 'last_status_query_at', 'callback_received_at', 'failure_reason',
-    'discount_code', 'discount_name', 'discount_type', 'discount_value',
-    'referrer_code',
+    'user_id', 'event_id', 'guest_token',
+    'subtotal', 'fees', 'discount', 'discount_code', 'discount_name', 'discount_type', 'discount_value',
+    'referrer_code', 'total', 'currency',
+    'status', 'payment_status', 'failure_reason',
+    'expires_at', 'paid_at',
 ])]
 class Order extends Model
 {
@@ -36,17 +34,14 @@ class Order extends Model
     protected function casts(): array
     {
         return [
-            'subtotal'              => 'decimal:2',
-            'fees'                  => 'decimal:2',
-            'discount'              => 'decimal:2',
-            'total'                 => 'decimal:2',
-            'status'                => OrderStatus::class,
-            'payment_status'        => PaymentStatus::class,
-            'expires_at'            => 'datetime',
-            'paid_at'               => 'datetime',
-            'last_status_query_at'  => 'datetime',
-            'callback_received_at'  => 'datetime',
-            'mpesa_response'        => 'array',
+            'subtotal'       => 'decimal:2',
+            'fees'           => 'decimal:2',
+            'discount'       => 'decimal:2',
+            'total'          => 'decimal:2',
+            'status'         => OrderStatus::class,
+            'payment_status' => PaymentStatus::class,
+            'expires_at'     => 'datetime',
+            'paid_at'        => 'datetime',
         ];
     }
 
@@ -70,6 +65,16 @@ class Order extends Model
         return $this->hasMany(Ticket::class);
     }
 
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function latestPayment(): HasOne
+    {
+        return $this->hasOne(Payment::class)->latestOfMany();
+    }
+
     public function isPending(): bool
     {
         return $this->status === OrderStatus::PENDING;
@@ -90,8 +95,13 @@ class Order extends Model
         return (float) ($this->subtotal + $this->fees - $this->discount);
     }
 
-    public function markFailed(string $reason): void
+    public function markFailed(string $reason, ?Payment $payment = null): void
     {
+        $payment?->update([
+            'status'         => PaymentStatus::FAILED,
+            'failure_reason' => $reason,
+        ]);
+
         $this->update([
             'status'         => OrderStatus::CANCELLED,
             'payment_status' => PaymentStatus::FAILED,
@@ -99,17 +109,22 @@ class Order extends Model
         ]);
     }
 
-    public function markPaid(string $paymentReference, ?string $mpesaReceipt = null, ?array $callbackPayload = null): void
+    public function markPaid(string $paymentReference, ?string $mpesaReceipt = null, ?array $callbackPayload = null, ?Payment $payment = null): void
     {
-        $this->update(array_filter([
-            'payment_status'       => PaymentStatus::PAID,
-            'status'               => OrderStatus::COMPLETED,
-            'paid_at'              => now(),
-            'callback_received_at' => now(),
-            'payment_reference'    => $paymentReference,
-            'mpesa_receipt_number' => $mpesaReceipt,
-            'mpesa_response'       => $callbackPayload,
+        $payment?->update(array_filter([
+            'status'              => PaymentStatus::PAID,
+            'reference'           => $paymentReference,
+            'receipt_number'      => $mpesaReceipt,
+            'response'            => $callbackPayload,
+            'completed_at'        => now(),
+            'callback_received_at' => $callbackPayload ? now() : null,
         ], fn ($v) => $v !== null));
+
+        $this->update([
+            'payment_status' => PaymentStatus::PAID,
+            'status'         => OrderStatus::COMPLETED,
+            'paid_at'        => now(),
+        ]);
 
         // sold only increments on confirmed payment, never at reservation time
         $this->loadMissing('items.ticketType');

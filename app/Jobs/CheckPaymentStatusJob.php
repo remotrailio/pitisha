@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Enums\PaymentStatus;
-use App\Models\Order;
+use App\Models\Payment;
 use App\Services\MpesaService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
@@ -23,46 +23,43 @@ class CheckPaymentStatusJob implements ShouldQueue
     private const MAX_ATTEMPTS = 5;
 
     public function __construct(
-        public readonly int $orderId,
+        public readonly int $paymentId,
         public readonly int $attempt = 1,
     ) {}
 
     public function handle(MpesaService $mpesa): void
     {
-        $order = Order::find($this->orderId);
+        $payment = Payment::with('order')->find($this->paymentId);
 
-        if (! $order) {
-            Log::warning('CheckPaymentStatusJob: order not found', ['order_id' => $this->orderId]);
+        if (! $payment) {
+            Log::warning('CheckPaymentStatusJob: payment not found', ['payment_id' => $this->paymentId]);
             return;
         }
+
+        $order = $payment->order;
 
         // Already resolved — stop the chain
-        if ($order->isPaid() || $order->payment_status === PaymentStatus::FAILED) {
-            Log::info('CheckPaymentStatusJob: order already resolved, stopping', [
-                'order'  => $order->order_number,
-                'status' => $order->payment_status->value,
+        if (in_array($payment->status, [PaymentStatus::PAID, PaymentStatus::FAILED])) {
+            Log::info('CheckPaymentStatusJob: payment already resolved, stopping', [
+                'order'   => $order->order_number,
+                'payment' => $payment->id,
+                'status'  => $payment->status->value,
             ]);
             return;
         }
 
-        if (! $order->mpesa_checkout_request_id) {
-            Log::warning('CheckPaymentStatusJob: no checkout_request_id, skipping', [
-                'order' => $order->order_number,
-            ]);
-            return;
-        }
-
-        $order->update([
+        $payment->update([
             'status_query_attempts' => $this->attempt,
             'last_status_query_at'  => now(),
         ]);
 
         Log::info('CheckPaymentStatusJob: querying M-Pesa', [
             'order'   => $order->order_number,
+            'payment' => $payment->id,
             'attempt' => $this->attempt . '/' . self::MAX_ATTEMPTS,
         ]);
 
-        $result = $mpesa->queryStatus($order);
+        $result = $mpesa->queryStatus($payment);
 
         Log::info('CheckPaymentStatusJob: query result', [
             'order'       => $order->order_number,
@@ -79,6 +76,7 @@ class CheckPaymentStatusJob implements ShouldQueue
             $order->markPaid(
                 paymentReference: $receipt ?? 'RECONCILED-' . $order->order_number,
                 mpesaReceipt: $receipt,
+                payment: $payment,
             );
 
             Log::info('CheckPaymentStatusJob: payment confirmed via status query', [
@@ -87,7 +85,7 @@ class CheckPaymentStatusJob implements ShouldQueue
                 'attempt' => $this->attempt,
             ]);
 
-            GenerateTicketsJob::dispatch($this->orderId);
+            GenerateTicketsJob::dispatch($order->id);
             return;
         }
 
@@ -95,7 +93,7 @@ class CheckPaymentStatusJob implements ShouldQueue
         if ($result['resolved'] && ! $result['paid']) {
             $reason = $result['result_desc'] ?? 'Payment declined (code ' . $result['result_code'] . ')';
 
-            $order->markFailed($reason);
+            $order->markFailed($reason, payment: $payment);
 
             Log::info('CheckPaymentStatusJob: payment definitively failed', [
                 'order'       => $order->order_number,
@@ -116,13 +114,14 @@ class CheckPaymentStatusJob implements ShouldQueue
                 'next_delay' => $delay . 's',
             ]);
 
-            self::dispatch($this->orderId, $this->attempt + 1)
+            self::dispatch($this->paymentId, $this->attempt + 1)
                 ->delay(now()->addSeconds($delay));
 
             return;
         }
 
         // ── Exhausted ──────────────────────────────────────────────────────────
+        $payment->update(['status' => PaymentStatus::UNKNOWN]);
         $order->update([
             'payment_status' => PaymentStatus::UNKNOWN,
             'failure_reason' => 'Reconciliation exhausted after ' . self::MAX_ATTEMPTS . ' attempts — manual review required',
@@ -130,6 +129,7 @@ class CheckPaymentStatusJob implements ShouldQueue
 
         Log::error('CheckPaymentStatusJob: reconciliation exhausted', [
             'order'    => $order->order_number,
+            'payment'  => $payment->id,
             'attempts' => $this->attempt,
         ]);
     }
@@ -137,9 +137,9 @@ class CheckPaymentStatusJob implements ShouldQueue
     public function failed(Throwable $e): void
     {
         Log::error('CheckPaymentStatusJob: job exception', [
-            'order_id' => $this->orderId,
-            'attempt'  => $this->attempt,
-            'error'    => $e->getMessage(),
+            'payment_id' => $this->paymentId,
+            'attempt'    => $this->attempt,
+            'error'      => $e->getMessage(),
         ]);
     }
 }
