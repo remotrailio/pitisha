@@ -1,22 +1,28 @@
 @if ($featured->isEmpty())
-    <section class="relative py-24 md:py-32" style="background-image: linear-gradient(rgba(0,0,0,0.50), rgba(0,0,0,0.50)), url('https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=1600'); background-size: cover; background-position: center;">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section class="relative flex items-center
+        aspect-4/3
+        min-[480px]:aspect-3/2
+        sm:aspect-video
+        xl:aspect-11/4
+        min-[1920px]:aspect-4/1"
+        style="background-image: linear-gradient(rgba(0,0,0,0.50), rgba(0,0,0,0.50)), url('https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=1600'); background-size: cover; background-position: center;">
+        <div class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="mx-auto max-w-3xl text-center text-white">
-                <h1 class="mb-6 font-heading text-4xl font-bold tracking-tight md:text-6xl">
+                <h1 class="mb-3 md:mb-6 font-heading text-2xl font-bold tracking-tight sm:text-3xl md:text-5xl lg:text-6xl">
                     Discover Amazing Events &amp; Experiences in Kenya
                 </h1>
 
-                <p class="mb-8 text-xl text-white/90 md:text-2xl">
+                <p class="mb-4 md:mb-8 text-base text-white/90 sm:text-lg md:text-2xl">
                     From safaris to music festivals, explore the best events and create unforgettable memories
                 </p>
 
-                <div class="relative mx-auto mb-6">
+                <div class="relative mx-auto mb-3 md:mb-6">
                     <x-search-input placeholder="Search events, experiences, safaris..."
                         inputClass="bg-white shadow-sm py-3 text-base rounded-xl border-gray-200 focus:border-brand-500" />
                 </div>
 
                 @if ($heroCategories->isNotEmpty())
-                    <div class="flex flex-wrap items-center justify-center gap-2">
+                    <div class="hidden md:flex flex-wrap items-center justify-center gap-2">
                         @foreach ($heroCategories as $cat)
                             <a href="{{ route('events.index', ['selectedCategories[]' => $cat->slug]) }}"
                                 class="inline-flex items-center justify-center rounded-full border border-white/30 bg-white/20 h-10 px-5 text-sm font-semibold text-white text-nowrap backdrop-blur-sm transition-[color,background] duration-200 hover:bg-white/30 focus-visible:outline focus-visible:outline-offset-1">
@@ -40,110 +46,86 @@
                     class="flex items-center" :style="`transform: translateX(${trackOffset}px); gap: ${gap}px`">
 
                     <template x-for="(event, i) in displayEvents" :key="`${event.id}-${i}`">
-                        <div class="shrink-0 flex flex-col md:flex-row overflow-hidden bg-gray-50 border border-gray-200 cursor-pointer"
-                            :class="i === displayActive || events.length === 1 ? 'shadow-2xl shadow-gray-200' :
-                                'cursor-pointer'"
+                        <div class="shrink-0 flex flex-col md:flex-row overflow-hidden bg-white border border-gray-200 cursor-pointer"
+                            :class="i === displayActive || events.length === 1 ? 'shadow-2xl shadow-gray-200' : ''"
                             :style="`width: ${cardWidth}px; height: ${(events.length === 1 || i === displayActive) ? activeHeight : inactiveHeight}px; transition: ${(events.length === 1 || noCardTransition) ? 'none' : `all ${i !== displayActive ? '400ms' : '500ms'} ease-in-out ${i !== displayActive ? '100ms' : '0ms'}`}`"
                             @click="(i === displayActive || events.length === 1) ? window.location.href = '/events/' + event.slug : (i > 0 && i <= events.length && goTo(i - 1))">
 
-                            <!-- Image (top on mobile, left on lg) -->
-                            <div class="w-full h-1/2 md:w-1/2 md:h-full shrink-0 relative overflow-hidden">
+                            <!-- Image — full-width square on mobile, left half on md+ -->
+                            <div class="w-full shrink-0 relative overflow-hidden md:w-1/2 md:h-full"
+                                :style="`height: ${isLg ? '100%' : imageHeight + 'px'}`">
                                 <img :src="event.banner_url ??
                                     'https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=900&q=90'"
                                     :alt="event.title" class="w-full h-full object-cover">
-                                <div
-                                    class="absolute inset-0 bg-linear-to-r from-transparent to-gray-50/20 pointer-events-none">
-                                </div>
+                                <div class="hidden md:block absolute inset-0 bg-linear-to-r from-transparent to-gray-50/20 pointer-events-none"></div>
                             </div>
 
-                            <!-- Content (bottom on mobile, right on lg) -->
-                            <div class="w-full md:w-1/2 flex-1 flex flex-col justify-between p-4 md:p-8 overflow-hidden"
-                                :style="`${isLg ? 'height:' + activeHeight + 'px;' : ''} transform: scale(${(events.length === 1 || i === displayActive) ? 1 : inactiveHeight / activeHeight}); transform-origin: top left; transition: ${(events.length === 1 || noCardTransition) ? 'none' : `transform ${i !== displayActive ? '500ms' : '500ms'} ease-in-out ${i !== displayActive ? '100ms' : '0ms'}`}`">
+                            <!-- Content — below image on mobile, right panel on md+ -->
+                            <div class="w-full flex flex-col justify-between p-4 md:w-1/2 md:p-8 md:overflow-hidden bg-white"
+                                :style="`${isLg ? 'height:' + activeHeight + 'px;' : ''} transform: scale(${(events.length === 1 || i === displayActive) ? 1 : inactiveHeight / activeHeight}); transform-origin: top left; transition: ${(events.length === 1 || noCardTransition) ? 'none' : `transform 500ms ease-in-out`}`">
 
                                 <div class="flex flex-col gap-2 md:gap-3 min-h-0 overflow-hidden">
                                     <!-- Badges -->
                                     <div class="flex items-center gap-2 flex-wrap">
-                                        <span
-                                            class="hidden md:inline-flex items-center gap-1 bg-accent-600 text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full shadow-sm shadow-accent-600/30">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-2.5 w-2.5"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <path
-                                                    d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
-                                                <path d="M13 5v2" />
-                                                <path d="M13 17v2" />
-                                                <path d="M13 11v2" />
+                                        <span class="hidden md:inline-flex items-center gap-1 bg-accent-600 text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full shadow-sm shadow-accent-600/30">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-2.5 w-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
+                                                <path d="M13 5v2" /><path d="M13 17v2" /><path d="M13 11v2" />
                                             </svg>
                                             Featured Event
                                         </span>
-                                        <span
-                                            class="inline-flex w-fit text-[10px] font-semibold px-2.5 py-1 rounded-full bg-gray-200 text-gray-700"
-                                            x-text="event.categories?.[0]?.name ?? ''"></span>
+                                        <template x-for="cat in (event.categories ?? [])" :key="cat.id">
+                                            <span class="inline-flex w-fit text-[10px] font-semibold px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 md:bg-gray-200 md:text-gray-700"
+                                                x-text="cat.name"></span>
+                                        </template>
                                     </div>
 
                                     <!-- Title -->
-                                    <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-gray-900 leading-tight line-clamp-2"
+                                    <h2 class="text-base font-extrabold text-gray-900 leading-tight line-clamp-2 md:text-2xl lg:text-3xl"
                                         x-text="event.title"></h2>
 
-                                    <!-- Excerpt -->
-                                    <p class="text-gray-500 text-sm leading-relaxed line-clamp-2 hidden sm:block"
+                                    <!-- Compact date + price row — mobile -->
+                                    <div class="flex items-center gap-3 text-xs text-gray-500 md:hidden">
+                                        <span x-text="new Date(event.start_at).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})"></span>
+                                        <span class="font-semibold text-gray-800"
+                                            x-text="event.ticket_types?.length ? 'From KES ' + Math.min(...event.ticket_types.map(t => +t.price)).toLocaleString('en-KE') : 'Free'"></span>
+                                    </div>
+
+                                    <!-- Excerpt — desktop only -->
+                                    <p class="text-gray-500 text-sm leading-relaxed line-clamp-2 hidden md:block"
                                         x-text="event.excerpt"></p>
 
-                                    <!-- Details -->
-                                    <ul class="flex flex-col gap-1.5 mt-1">
+                                    <!-- Full details — desktop only -->
+                                    <ul class="hidden md:flex flex-col gap-1.5 mt-1">
                                         <li class="flex items-center gap-2 text-sm text-gray-600">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="h-4 w-4 text-gray-400 shrink-0" viewBox="0 0 24 24"
-                                                fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M8 2v4" />
-                                                <path d="M16 2v4" />
-                                                <rect width="18" height="18" x="3" y="4" rx="2" />
-                                                <path d="M3 10h18" />
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M8 2v4" /><path d="M16 2v4" /><rect width="18" height="18" x="3" y="4" rx="2" /><path d="M3 10h18" />
                                             </svg>
-                                            <span
-                                                x-text="new Date(event.start_at).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})"></span>
+                                            <span x-text="new Date(event.start_at).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})"></span>
                                         </li>
                                         <li class="flex items-center gap-2 text-sm text-gray-600">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="h-4 w-4 text-gray-400 shrink-0" viewBox="0 0 24 24"
-                                                fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round">
-                                                <path
-                                                    d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
-                                                <circle cx="12" cy="10" r="3" />
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" />
                                             </svg>
-                                            <span
-                                                x-text="event.is_online ? 'Online' : ([event.venue_name, event.city].filter(Boolean).join(', ') || 'Kenya')"></span>
+                                            <span x-text="event.is_online ? 'Online' : ([event.venue_name, event.city].filter(Boolean).join(', ') || 'Kenya')"></span>
                                         </li>
                                         <li class="flex items-center gap-2 text-sm text-gray-600">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="h-4 w-4 text-gray-400 shrink-0" viewBox="0 0 24 24"
-                                                fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round">
-                                                <path
-                                                    d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
-                                                <path d="M13 5v2" />
-                                                <path d="M13 17v2" />
-                                                <path d="M13 11v2" />
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" /><path d="M13 5v2" /><path d="M13 17v2" /><path d="M13 11v2" />
                                             </svg>
-                                            <span class="text-gray-600">Starting from <span
-                                                    class="font-bold text-gray-900"
-                                                    x-text="event.ticket_types?.length ? 'KES ' + Math.min(...event.ticket_types.map(t => +t.price)).toLocaleString('en-KE') : 'Free'"></span></span>
+                                            <span>Starting from <span class="font-bold text-gray-900"
+                                                x-text="event.ticket_types?.length ? 'KES ' + Math.min(...event.ticket_types.map(t => +t.price)).toLocaleString('en-KE') : 'Free'"></span></span>
                                         </li>
                                     </ul>
                                 </div>
 
-                                <!-- CTA -->
+                                <!-- CTA — desktop only -->
                                 <div class="hidden md:block">
                                     <a :href="'/events/' + event.slug"
                                         class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-accent-600 h-10 px-5 text-sm font-semibold text-white text-nowrap hover:bg-accent-700 transition-[color,background] duration-200 focus-visible:outline focus-visible:outline-offset-1">
                                         Get Tickets
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24"
-                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <path d="M5 12h14" />
-                                            <path d="m12 5 7 7-7 7" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
                                         </svg>
                                     </a>
                                 </div>
@@ -203,6 +185,7 @@
                 cardWidth: 0,
                 activeHeight: 0,
                 inactiveHeight: 0,
+                imageHeight: 0,
                 isLg: false,
                 gap: 20,
                 trackOffset: 0,
@@ -250,7 +233,15 @@
                     const pct = w < 768 ? 1 : w < 1024 ? 0.78 : 0.72;
                     this.gap = w < 640 ? 12 : 20;
                     this.cardWidth = this.events.length === 1 ? container.offsetWidth : container.offsetWidth * pct;
-                    this.activeHeight = w < 640 ? 450 : w < 1024 ? 440 : 420;
+
+                    if (!this.isLg) {
+                        // Mobile: square image + content panel below
+                        this.imageHeight = Math.round(this.cardWidth);
+                        this.activeHeight = this.imageHeight + 130;
+                    } else {
+                        this.imageHeight = 0; // unused — md+ uses h-full
+                        this.activeHeight = w < 1024 ? 440 : 420;
+                    }
                     this.inactiveHeight = Math.round(this.activeHeight * 0.75);
                     this.updateOffset();
                 },

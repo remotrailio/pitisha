@@ -1,25 +1,31 @@
 <div>
     {{-- Hero --}}
-    <section class="relative py-6 overflow-hidden" style="background: #0f766e;">
+    <section class="relative flex items-center overflow-hidden
+        aspect-4/3
+        min-[480px]:aspect-3/2
+        sm:aspect-video
+        xl:aspect-11/4
+        min-[1920px]:aspect-4/1"
+        style="background: #0f766e;">
         {{-- Bottom fade into white --}}
         <div class="absolute bottom-0 inset-x-0 h-24 bg-linear-to-t from-white to-transparent pointer-events-none"></div>
 
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col lg:flex-row items-center gap-10">
+        <div class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center gap-6 lg:gap-10">
 
                 {{-- Left: copy + CTA --}}
                 <div class="lg:w-5/12 shrink-0">
                     <span
-                        class="inline-flex items-center gap-2 rounded-full bg-white/20 border border-white/30 px-3 py-1 text-xs font-semibold text-white mb-6">
+                        class="inline-flex items-center gap-2 rounded-full bg-white/20 border border-white/30 px-3 py-1 text-xs font-semibold text-white mb-3 md:mb-6">
                         <span class="h-1.5 w-1.5 rounded-full bg-white"></span>
                         Fast no fuss
                     </span>
                     <h1
-                        class="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight mb-6">
+                        class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight mb-3 md:mb-6">
                         <span class="block whitespace-nowrap">Turn Your Events Into</span>
                         <span class="block text-white/80 whitespace-nowrap">Success Stories</span>
                     </h1>
-                    <p class="text-lg text-white/80 mb-8 leading-relaxed">
+                    <p class="text-base text-white/80 mb-4 md:mb-8 leading-relaxed hidden sm:block">
                         Join Kenya's leading event platform and reach thousands of eager attendees. Sell tickets, manage
                         check-ins, and grow your audience — all in one place.
                     </p>
