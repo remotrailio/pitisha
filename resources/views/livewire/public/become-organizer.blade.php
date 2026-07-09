@@ -13,11 +13,6 @@
 
                 {{-- Left: copy + CTA --}}
                 <div class="lg:w-5/12 shrink-0">
-                    <span
-                        class="inline-flex items-center gap-2 rounded-full bg-white/20 border border-white/30 px-3 py-1 text-xs font-semibold text-white mb-3 md:mb-6">
-                        <span class="h-1.5 w-1.5 rounded-full bg-white"></span>
-                        Fast no fuss
-                    </span>
                     <h1
                         class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight mb-3 md:mb-6">
                         <span class="block whitespace-nowrap">Turn Your Events Into</span>
