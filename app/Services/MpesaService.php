@@ -53,7 +53,7 @@ class MpesaService
             'PhoneNumber'       => $phone,
             'CallBackURL'       => config('mpesa.callback_url'),
             'AccountReference'  => $order->order_number,
-            'TransactionDesc'   => 'Ticket Payment - ' . preg_replace('/[^\x20-\x7E]/', '', $order->event->title),
+            'TransactionDesc'   => 'Ticket Payment - ' . $this->sanitizeForMpesa($order->event->title),
         ];
 
         Log::info('M-Pesa STK push request', [
@@ -187,6 +187,14 @@ class MpesaService
             'receipt'     => null,
             'raw'         => $data,
         ];
+    }
+
+    private function sanitizeForMpesa(string $text): string
+    {
+        // Strip non-ASCII first (em dashes, curly quotes, etc.)
+        $text = preg_replace('/[^\x20-\x7E]/', '', $text);
+        // Replace XML special chars that break Safaricom's XSL pipeline
+        return str_replace(['&', '<', '>', '"', "'"], ['and', '', '', '', ''], $text);
     }
 
     public static function normalizePhone(string $phone): string
