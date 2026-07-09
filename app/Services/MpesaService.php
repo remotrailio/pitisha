@@ -191,10 +191,12 @@ class MpesaService
 
     private function sanitizeForMpesa(string $text): string
     {
-        // Strip non-ASCII first (em dashes, curly quotes, etc.)
+        // Strip non-ASCII (em dashes, curly quotes, etc.)
         $text = preg_replace('/[^\x20-\x7E]/', '', $text);
-        // Replace XML special chars that break Safaricom's XSL pipeline
-        return str_replace(['&', '<', '>', '"', "'"], ['and', '', '', '', ''], $text);
+        // XML-encode special chars — Safaricom embeds JSON values into XML internally;
+        // a bare & breaks their XSL parser. Encoding to &amp; lets their pipeline decode
+        // it correctly so the user sees the original character on their phone.
+        return htmlspecialchars($text, ENT_XML1 | ENT_QUOTES, 'UTF-8');
     }
 
     public static function normalizePhone(string $phone): string
