@@ -1,9 +1,7 @@
 <div>
     {{-- Hero --}}
-    <section class="relative flex items-center overflow-hidden
-        aspect-4/3
-        min-[480px]:aspect-3/2
-        sm:aspect-video
+    <section class="relative flex items-center overflow-hidden py-12 sm:py-16 lg:py-0
+        lg:aspect-video
         xl:aspect-11/4
         min-[1920px]:aspect-4/1"
         style="background: #0f766e;">
@@ -11,7 +9,7 @@
         <div class="absolute bottom-0 inset-x-0 h-24 bg-linear-to-t from-white to-transparent pointer-events-none"></div>
 
         <div class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col lg:flex-row items-center gap-6 lg:gap-10">
+            <div class="flex flex-col lg:flex-row items-start lg:items-center gap-6 lg:gap-10">
 
                 {{-- Left: copy + CTA --}}
                 <div class="lg:w-5/12 shrink-0">
