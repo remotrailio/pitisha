@@ -157,7 +157,7 @@ class CheckoutStart extends Component
 
         $response = app(MpesaService::class)->initiateStkPush($order, $normalizedPhone);
 
-        if (! isset($response['CheckoutRequestID'])) {
+        if (!isset($response['CheckoutRequestID'])) {
             $reason = $response['errorMessage'] ?? $response['ResultDesc'] ?? 'M-Pesa did not accept the request. Please try again.';
             $order->markFailed($reason);
             $this->errorMessage = $reason;

@@ -63,6 +63,17 @@ class OrderStatus extends Component
             return;
         }
 
+        // Don't send a new push while one is still active — M-Pesa rejects it as "system busy"
+        $latestPayment = $this->order->payments()->latest()->first();
+        if (
+            $latestPayment
+            && $latestPayment->status === PaymentStatus::PROCESSING
+            && $latestPayment->initiated_at?->diffInSeconds(now()) < 60
+        ) {
+            $this->addError('phone', 'A payment prompt was already sent to your phone. Please check your M-Pesa or wait a moment before retrying.');
+            return;
+        }
+
         $normalizedPhone = MpesaService::normalizePhone($this->phone);
 
         try {

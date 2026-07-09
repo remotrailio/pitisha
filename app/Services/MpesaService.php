@@ -53,7 +53,7 @@ class MpesaService
             'PhoneNumber'       => $phone,
             'CallBackURL'       => config('mpesa.callback_url'),
             'AccountReference'  => $order->order_number,
-            'TransactionDesc'   => 'Ticket Payment – ' . $order->event->title,
+            'TransactionDesc'   => 'Ticket Payment - ' . preg_replace('/[^\x20-\x7E]/', '', $order->event->title),
         ];
 
         Log::info('M-Pesa STK push request', [
