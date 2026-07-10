@@ -4,7 +4,7 @@
         lg:aspect-video
         xl:aspect-11/4
         min-[1920px]:aspect-4/1"
-        style="background: #0f766e;">
+        style="background: #086c6e;">
         {{-- Bottom fade into white --}}
         <div class="absolute bottom-0 inset-x-0 h-24 bg-linear-to-t from-white to-transparent pointer-events-none"></div>
 
@@ -54,8 +54,8 @@
                 {{-- Right: hero visual --}}
                 <div class="lg:w-7/12 w-full">
                     <video autoplay muted loop playsinline class="w-full h-auto rounded-2xl">
-                        <source src="{{ asset('hero-vedio.webm') }}" type="video/webm">
-                        <source src="{{ asset('hero-vedio.mp4') }}" type="video/mp4">
+                        {{-- <source src="{{ asset('hero-vedio.webm') }}" type="video/webm"> --}}
+                        <source src="{{ asset('hero.mp4') }}" type="video/mp4">
                     </video>
                 </div>
 
@@ -880,7 +880,7 @@
                 </h2>
             </div>
             <video autoplay muted loop playsinline class="w-full h-auto shadow-lg">
-                <source src="{{ asset('customer-story.webm') }}" type="video/webm">
+                <source src="{{ asset('customer-story.mp4') }}" type="video/webm">
             </video>
         </div>
     </section>
