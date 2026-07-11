@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\CheckerInviteController;
 use App\Http\Controllers\DownloadTicketsPdfController;
 use App\Http\Controllers\OrganizerOnboardingController;
 use App\Http\Controllers\TicketVerificationController;
+use App\Http\Controllers\TicketViewController;
 use App\Livewire\My\MyOrders;
 use App\Livewire\My\MyProfile;
 use App\Livewire\My\MyTickets;
@@ -50,7 +52,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('organizer.onboard.store');
 });
 
-// Check-in: no auth required — ticket_code is a random 12-char alphanumeric secret
+// Checker invitation accept — token is the secret; redirects to login if unauthenticated
+Route::get('/checker-invites/{token}/accept', [CheckerInviteController::class, 'accept'])
+    ->name('checker-invites.accept');
+
+// Ticket view — public; check-in button only appears for authenticated checkers
+Route::get('/tickets/{ticket_code}', [TicketViewController::class, 'show'])
+    ->name('tickets.show');
+Route::post('/tickets/{ticket_code}/check-in', [TicketViewController::class, 'checkIn'])
+    ->middleware('auth')
+    ->name('tickets.check-in');
+
+// Legacy QR code URL — redirect to the new view page (backward compat for printed PDFs)
 Route::get('/check-in/{ticket_code}', TicketVerificationController::class)
     ->name('tickets.verify');
 

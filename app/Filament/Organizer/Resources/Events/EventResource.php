@@ -57,6 +57,8 @@ class EventResource extends Resource
     {
         return [
             RelationManagers\PromoCodesRelationManager::class,
+            RelationManagers\CheckersRelationManager::class,
+            RelationManagers\CheckerInvitationsRelationManager::class,
         ];
     }
 

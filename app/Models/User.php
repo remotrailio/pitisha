@@ -10,6 +10,7 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -65,6 +66,20 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
     public function referralRewards(): HasMany
     {
         return $this->hasMany(EventReferralReward::class);
+    }
+
+    public function checkerEvents(): BelongsToMany
+    {
+        return $this->belongsToMany(Event::class, 'event_checkers')->withTimestamps();
+    }
+
+    public function canCheckInEvent(Event $event): bool
+    {
+        if ($this->isOrganizer() && $this->organizer?->id === $event->organizer_id) {
+            return true;
+        }
+
+        return $this->checkerEvents()->where('event_id', $event->id)->exists();
     }
 
     protected static function booted(): void

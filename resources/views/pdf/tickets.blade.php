@@ -213,14 +213,9 @@
         $event    = $order->event;
         $typeName = $ticket->orderItem?->ticketType?->name ?? 'General Admission';
 
-        // QR encodes a signed URL — tamper-proof, expires when the event ends (+ 1 day grace).
-        // Never encode raw IDs; ticket_code is the only external identifier.
-        $qrExpiry   = $event->end_at?->addDay() ?? now()->addDays(30);
-        $qrUrl      = \Illuminate\Support\Facades\URL::temporarySignedRoute(
-            'tickets.verify',
-            $qrExpiry,
-            ['ticket_code' => $ticket->ticket_code]
-        );
+        // QR encodes the ticket view URL — ticket_code is a random 12-char secret so
+        // the URL itself is tamper-proof without needing a signature.
+        $qrUrl = route('tickets.show', ['ticket_code' => $ticket->ticket_code]);
         $qr = base64_encode(\SimpleSoftwareIO\QrCode\Facades\QrCode::format('png')->size(400)->margin(3)->errorCorrection('M')->generate($qrUrl));
     @endphp
 

@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Models\EventCheckerInvitation;
+use App\Models\User;
 
 #[Fillable([
     'organizer_id', 'title', 'slug', 'excerpt', 'description',
@@ -162,5 +164,15 @@ class Event extends Model
     public function tickets(): HasManyThrough
     {
         return $this->hasManyThrough(Ticket::class, Order::class);
+    }
+
+    public function checkers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'event_checkers')->withTimestamps();
+    }
+
+    public function checkerInvitations(): HasMany
+    {
+        return $this->hasMany(EventCheckerInvitation::class);
     }
 }
